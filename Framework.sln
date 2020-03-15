@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven", "src\Riven\Riven.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Domain", "src\Riven.Domain\Riven.Domain.csproj", "{04EA43B9-9BEC-4F39-BE0F-6886324BECAF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Localization", "src\Riven.Localization\Riven.Localization.csproj", "{A9E78704-037F-4DC5-88C1-E0D4B157B61F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{04EA43B9-9BEC-4F39-BE0F-6886324BECAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04EA43B9-9BEC-4F39-BE0F-6886324BECAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04EA43B9-9BEC-4F39-BE0F-6886324BECAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E78704-037F-4DC5-88C1-E0D4B157B61F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E78704-037F-4DC5-88C1-E0D4B157B61F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E78704-037F-4DC5-88C1-E0D4B157B61F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E78704-037F-4DC5-88C1-E0D4B157B61F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +53,7 @@ Global
 		{695A18EA-1D28-45D7-A8B4-99F971EAC627} = {55E51874-28F8-43CF-BFBE-338C9F4124DB}
 		{56425D4A-E7E0-491F-82A0-2C078796149A} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{04EA43B9-9BEC-4F39-BE0F-6886324BECAF} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
+		{A9E78704-037F-4DC5-88C1-E0D4B157B61F} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}
