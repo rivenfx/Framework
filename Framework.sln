@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nupkg", "nupkg", "{695A18EA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven", "src\Riven\Riven.csproj", "{56425D4A-E7E0-491F-82A0-2C078796149A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Domain", "src\Riven.Domain\Riven.Domain.csproj", "{04EA43B9-9BEC-4F39-BE0F-6886324BECAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{56425D4A-E7E0-491F-82A0-2C078796149A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56425D4A-E7E0-491F-82A0-2C078796149A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56425D4A-E7E0-491F-82A0-2C078796149A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04EA43B9-9BEC-4F39-BE0F-6886324BECAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04EA43B9-9BEC-4F39-BE0F-6886324BECAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04EA43B9-9BEC-4F39-BE0F-6886324BECAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04EA43B9-9BEC-4F39-BE0F-6886324BECAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,6 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{695A18EA-1D28-45D7-A8B4-99F971EAC627} = {55E51874-28F8-43CF-BFBE-338C9F4124DB}
 		{56425D4A-E7E0-491F-82A0-2C078796149A} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
+		{04EA43B9-9BEC-4F39-BE0F-6886324BECAF} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}
