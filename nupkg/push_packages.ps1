@@ -3,7 +3,7 @@
 $apiKey = $args[0]
 
 # 获取版本
-[xml]$commonPropsXml = Get-Content (Join-Path $rootFolder "common.props")
+[xml]$commonPropsXml = Get-Content (Join-Path $rootFolder "version.props")
 $version = $commonPropsXml.Project.PropertyGroup.Version
 $versionStr = $version[0].Trim()
 
