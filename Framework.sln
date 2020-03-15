@@ -16,9 +16,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5359754A-33EC-4FE5-B958-8EBE13CDA68F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nupkg", "nupkg", "{695A18EA-1D28-45D7-A8B4-99F971EAC627}"
+	ProjectSection(SolutionItems) = preProject
+		nupkg\pack.ps1 = nupkg\pack.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{695A18EA-1D28-45D7-A8B4-99F971EAC627} = {55E51874-28F8-43CF-BFBE-338C9F4124DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}
