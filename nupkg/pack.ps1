@@ -6,13 +6,14 @@ $slnPath = Join-Path $packFolder "../"
 $srcPath = Join-Path $slnPath "src"
 
 # 创建文件夹
-if(!(Test-Path $packFolderModule)){
-    mkdir $packFolderModule
-}
+ rm -Force -Recurse  $packFolderModule
+ mkdir $packFolderModule
+
 
 # 所有的项目名称
 $projects = (
-    # "Riven"
+    "Riven",
+    "Riven.Domain"
 )
 
 # 重新生成项目
