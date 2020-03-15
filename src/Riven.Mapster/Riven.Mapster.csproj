@@ -5,6 +5,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2</TargetFramework>
     <RootNamespace>Riven</RootNamespace>
+
+
+    <PackageId>Riven.Mapster</PackageId>
+    <Description>Riven.Mapster</Description>
+    <AssemblyName>Riven.Mapster</AssemblyName>
+
+    <PackageTags>riven;framework;application framework;domain driven design;object mapper;mapster;</PackageTags>
+    
   </PropertyGroup>
 
   <ItemGroup>

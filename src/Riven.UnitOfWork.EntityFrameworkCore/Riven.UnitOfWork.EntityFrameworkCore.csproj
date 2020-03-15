@@ -5,6 +5,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Riven</RootNamespace>
+
+
+
+    <PackageId>Riven.UnitOfWork.EntityFrameworkCore</PackageId>
+    <Description>Riven.UnitOfWork.EntityFrameworkCore</Description>
+    <AssemblyName>Riven.UnitOfWork.EntityFrameworkCore</AssemblyName>
+
+    <PackageTags>riven;framework;application framework;domain driven design;unitofwork;entityframework core;ef core;</PackageTags>
+    
   </PropertyGroup>
 
   <ItemGroup>

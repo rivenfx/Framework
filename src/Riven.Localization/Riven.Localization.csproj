@@ -5,6 +5,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Riven</RootNamespace>
+
+
+    <PackageId>Riven.Localization</PackageId>
+    <Description>Riven.Localization</Description>
+    <AssemblyName>Riven.Localization</AssemblyName>
+
+    <PackageTags>riven;framework;application framework;domain driven design;localization;</PackageTags>
+    
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,6 +5,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Riven</RootNamespace>
+
+    <PackageId>Riven.AspectCore</PackageId>
+    <Description>Riven.AspectCore</Description>
+    <AssemblyName>Riven.AspectCore</AssemblyName>
+
+    <PackageTags>riven;framework;application framework;domain driven design;aspectcore;aop;</PackageTags>
+
   </PropertyGroup>
 
   <ItemGroup>
