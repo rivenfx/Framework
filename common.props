@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Version>0.1.0</Version>
+    <Version>0.0.1</Version>
     <NoWarn>$(NoWarn);CS1570;CS1572;CS1573;CS1587;CS1591;CS1701;CS1702;</NoWarn>
     <PackageIconUrl>https://riven.staneee.com/images/riven_nupkg.png</PackageIconUrl>
     <PackageProjectUrl>https://riven.staneee.com/</PackageProjectUrl>

@@ -1,22 +1,16 @@
-# 相关路径
-$packFolder = (Get-Item -Path "./" -Verbose).FullName
+# 执行公用脚本
+. ".\common.ps1"
 
-$packFolderModule = Join-Path $packFolder "framework"
+# 解决方案路径
 $slnPath = Join-Path $packFolder "../"
 $srcPath = Join-Path $slnPath "src"
 
 # 创建文件夹
- rm -Force -Recurse  $packFolderModule
- mkdir $packFolderModule
+if(!(Test-Path $packOutputFolder)){
+    mkdir $packOutputFolder
+}
 
-
-# 所有的项目名称
-$projects = (
-    "Riven",
-    "Riven.Domain"
-)
-
-# 重新生成项目
+# 解决方案还原依赖
 Set-Location $slnPath
 & dotnet restore
 
@@ -34,7 +28,7 @@ foreach($project in $projects) {
 
     # 复制 nuget 包
     $projectPackPath = Join-Path $projectFolder ("/bin/Release/" + $project + ".*.nupkg")
-    Move-Item $projectPackPath $packFolderModule
+    Move-Item $projectPackPath $packOutputFolder
 
 }
 
