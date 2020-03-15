@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2</TargetFramework>
+    <RootNamespace>Riven</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="5.0.0" />
+    <PackageReference Include="Mapster.Async" Version="1.0.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
