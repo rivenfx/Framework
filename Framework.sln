@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.UnitOfWork", "src\Riv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.UnitOfWork.EntityFrameworkCore", "src\Riven.UnitOfWork.EntityFrameworkCore\Riven.UnitOfWork.EntityFrameworkCore.csproj", "{54471BF1-2ECB-4BB9-BEBD-92B5846A370D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspectCore", "src\Riven.AspectCore\Riven.AspectCore.csproj", "{F64DCC34-FEE7-452E-8D3D-800E2C73EAFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{54471BF1-2ECB-4BB9-BEBD-92B5846A370D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54471BF1-2ECB-4BB9-BEBD-92B5846A370D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54471BF1-2ECB-4BB9-BEBD-92B5846A370D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F64DCC34-FEE7-452E-8D3D-800E2C73EAFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F64DCC34-FEE7-452E-8D3D-800E2C73EAFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F64DCC34-FEE7-452E-8D3D-800E2C73EAFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F64DCC34-FEE7-452E-8D3D-800E2C73EAFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +81,7 @@ Global
 		{DA940A8B-E949-442A-8A26-C5010DE7E670} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{F3C3C36B-D6F0-4CA2-A6EE-1662FC301E06} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{54471BF1-2ECB-4BB9-BEBD-92B5846A370D} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
+		{F64DCC34-FEE7-452E-8D3D-800E2C73EAFE} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}

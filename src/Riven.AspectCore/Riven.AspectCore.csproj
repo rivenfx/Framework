@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+  
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Riven</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspectCore.Abstractions" Version="2.0.0" />
+    <PackageReference Include="AspectCore.Core" Version="2.0.0" />
+    <PackageReference Include="AspectCore.Extensions.AspectScope" Version="2.0.0" />
+    <PackageReference Include="AspectCore.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="AspectCore.Extensions.DataAnnotations" Version="2.0.0" />
+    <PackageReference Include="AspectCore.Extensions.DataValidation" Version="2.0.0" />
+    <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="AspectCore.Extensions.Hosting" Version="2.0.0" />
+    <PackageReference Include="AspectCore.Extensions.Reflection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riven\Riven.csproj" />
+  </ItemGroup>
+
+</Project>
