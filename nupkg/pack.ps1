@@ -1,7 +1,7 @@
 # 相关路径
 $packFolder = (Get-Item -Path "./" -Verbose).FullName
 
-$packFolderModule = Join-Path $packFolder "src"
+$packFolderModule = Join-Path $packFolder "framework"
 $slnPath = Join-Path $packFolder "../"
 $srcPath = Join-Path $slnPath "src"
 
