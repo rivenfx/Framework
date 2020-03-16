@@ -1,4 +1,9 @@
 <Project>
+
+  <PropertyGroup>
+    <Authors>RivenFx</Authors>
+  </PropertyGroup>
+  
   <PropertyGroup>
     <NoWarn>$(NoWarn);CS1570;CS1572;CS1573;CS1587;CS1591;CS1701;CS1702;</NoWarn>
     <PackageIconUrl>https://riven.staneee.com/images/riven_nupkg.png</PackageIconUrl>
