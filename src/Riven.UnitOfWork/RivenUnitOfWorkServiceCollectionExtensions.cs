@@ -18,6 +18,7 @@ namespace Riven
             services.TryAddTransient<IActiveTransactionProvider, NullActiveTransactionProvider>();
 
             services.TryAddTransient<IConnectionStringResolver, DefaultConnectionStringResolver>();
+            services.TryAddSingleton<IConnectionStringStore, DefaultConnectionStringStore>();
 
             return services;
         }
