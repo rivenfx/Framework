@@ -10,6 +10,7 @@ $projects = (
     "Riven",
     "Riven.AspectCore",
     "Riven.AspNetCore",
+    "Riven.AspNetCore.Identity",
     "Riven.AspNetCore.Swashbuckle",
     "Riven.AspNetCore.Uow",
     "Riven.Domain",
