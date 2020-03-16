@@ -66,7 +66,6 @@ namespace Riven.Repositories
 
         /// <summary>
         /// Used to run a query over entire entities.
-        /// <see cref="UnitOfWorkAttribute"/> attribute is not always necessary (as opposite to <see cref="GetAll"/>)
         /// if <paramref name="queryMethod"/> finishes IQueryable with ToList, FirstOrDefault etc..
         /// </summary>
         /// <typeparam name="T">Type of return value of this method</typeparam>
