@@ -20,6 +20,10 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.1" PrivateAssets="All" />
   </ItemGroup>
