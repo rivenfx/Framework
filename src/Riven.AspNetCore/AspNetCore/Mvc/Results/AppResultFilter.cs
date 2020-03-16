@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Filters;
+using Riven.AspNetCore.FilterHandlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,24 +9,31 @@ namespace Riven.AspNetCore.Mvc.Results
 {
     public class AppResultFilter : IResultFilter, IAsyncPageFilter
     {
+        protected readonly IAspNetCoreResultHandler _aspNetCoreResultHandler;
+
+        public AppResultFilter(IAspNetCoreResultHandler aspNetCoreResultHandler)
+        {
+            _aspNetCoreResultHandler = aspNetCoreResultHandler;
+        }
+
         public Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
-            throw new NotImplementedException();
+            return _aspNetCoreResultHandler.OnPageHandlerExecutionAsync(context, next);
         }
 
         public Task OnPageHandlerSelectionAsync(PageHandlerSelectedContext context)
         {
-            throw new NotImplementedException();
+            return _aspNetCoreResultHandler.OnPageHandlerSelectionAsync(context);
         }
 
         public void OnResultExecuted(ResultExecutedContext context)
         {
-            throw new NotImplementedException();
+            _aspNetCoreResultHandler.OnResultExecuted(context);
         }
 
         public void OnResultExecuting(ResultExecutingContext context)
         {
-            throw new NotImplementedException();
+            _aspNetCoreResultHandler.OnResultExecuting(context);
         }
     }
 }

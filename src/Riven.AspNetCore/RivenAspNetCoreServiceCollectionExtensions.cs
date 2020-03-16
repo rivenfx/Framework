@@ -29,7 +29,7 @@ namespace Riven
                 options.Filters.AddService<AppAuthorizationFilter>();
                 options.Filters.AddService<AppAuditActionFilter>();
 
-                options.Filters.AddService(typeof(AppValidationActionFilter));
+                options.Filters.AddService<AppValidationActionFilter>();
 
                 options.Filters.AddService<AppUowFilter>();
                 options.Filters.AddService<AppExceptionFilter>();
