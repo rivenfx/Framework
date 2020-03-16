@@ -28,9 +28,6 @@ foreach($project in $projects) {
 
     # 复制 nuget 包
     $projectPackPath = Join-Path $projectFolder ("/bin/Release/" + $project + ".*.nupkg")
-    if(Test-Path $projectPackPath){
-     rm -Forch $projectPackPath -Recurse
-	}
     Move-Item $projectPackPath $packOutputFolder
 
 }
