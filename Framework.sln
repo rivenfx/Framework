@@ -21,6 +21,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nupkg", "nupkg", "{695A18EA-1D28-45D7-A8B4-99F971EAC627}"
 	ProjectSection(SolutionItems) = preProject
 		nupkg\common.ps1 = nupkg\common.ps1
+		dev_push_packages.ps1 = dev_push_packages.ps1
 		nupkg\pack.ps1 = nupkg\pack.ps1
 		nupkg\push_packages.ps1 = nupkg\push_packages.ps1
 	EndProjectSection
@@ -43,9 +44,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore", "src\Riv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Uow", "src\Riven.AspNetCore.Uow\Riven.AspNetCore.Uow.csproj", "{4AC54D5A-8745-449B-A9FF-512C8A5CBFB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Swashbuckle", "src\Riven.AspNetCore.Swashbuckle\Riven.AspNetCore.Swashbuckle.csproj", "{751B97A4-40EB-4D3C-A1C1-C42131053664}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Swashbuckle", "src\Riven.AspNetCore.Swashbuckle\Riven.AspNetCore.Swashbuckle.csproj", "{751B97A4-40EB-4D3C-A1C1-C42131053664}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Identity", "src\Riven.AspNetCore.Identity\Riven.AspNetCore.Identity.csproj", "{6C3A25A1-9837-42A0-B993-DB567696F93D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Identity", "src\Riven.AspNetCore.Identity\Riven.AspNetCore.Identity.csproj", "{6C3A25A1-9837-42A0-B993-DB567696F93D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
