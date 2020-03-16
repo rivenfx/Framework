@@ -14,7 +14,7 @@ foreach($project in $projects) {
 
     $packageFullPath
 
-    & dotnet nuget push $packageFullPath -s https://api.nuget.org/v3/index.json --api-key "$apiKey"
+    & dotnet nuget push $packageFullPath -s https://api.nuget.org/v3/index.json --api-key "$apiKey" --skip-duplicate
 }
 
 # 返回脚本执行目录
