@@ -51,12 +51,12 @@ namespace Riven
             services.TryAddTransient<AppResultFilter>();
 
 
-            services.TryAddTransient<IAspNetCoreAuthorizationHandler, AspNetCoreAuthorizationHandler>();
-            services.TryAddTransient<IAspNetCoreAuditHandler, AspNetCoreAuditHandler>();
-            services.TryAddTransient<IAspNetCoreValidationHandler, AspNetCoreValidationHandler>();
-            services.TryAddTransient<IAspNetCoreUnitOfWorkHandler, AspNetCoreUnitOfWorkHandler>();
-            services.TryAddTransient<IAspNetCoreExceptionHandeler, AspNetCoreExceptionHandeler>();
-            services.TryAddTransient<IAspNetCoreResultHandler, AspNetCoreResultHandler>();
+            services.TryAddTransient<IAspNetCoreAuthorizationHandler, NullAspNetCoreAuthorizationHandler>();
+            services.TryAddTransient<IAspNetCoreAuditHandler, NullAspNetCoreAuditHandler>();
+            services.TryAddTransient<IAspNetCoreValidationHandler, NullAspNetCoreValidationHandler>();
+            services.TryAddTransient<IAspNetCoreUnitOfWorkHandler, NullAspNetCoreUnitOfWorkHandler>();
+            services.TryAddTransient<IAspNetCoreExceptionHandeler, NullAspNetCoreExceptionHandeler>();
+            services.TryAddTransient<IAspNetCoreResultHandler, NullAspNetCoreResultHandler>();
 
             return services;
         }

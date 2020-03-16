@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Riven.AspNetCore.FilterHandlers
 {
-    public class AspNetCoreUnitOfWorkHandler : IAspNetCoreUnitOfWorkHandler
+    public class NullAspNetCoreUnitOfWorkHandler : IAspNetCoreUnitOfWorkHandler
     {
         public virtual Task UowActionFilterAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {

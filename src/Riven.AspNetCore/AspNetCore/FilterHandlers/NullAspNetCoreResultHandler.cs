@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading.Tasks;
 
 namespace Riven.AspNetCore.FilterHandlers
 {
-    public class AspNetCoreResultHandler : IAspNetCoreResultHandler
+    public class NullAspNetCoreResultHandler : IAspNetCoreResultHandler
     {
         public virtual Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {

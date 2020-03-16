@@ -6,6 +6,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Library</OutputType>
+    
     <RootNamespace>Riven</RootNamespace>
 
     <PackageId>Riven.AspNetCore</PackageId>
@@ -13,17 +15,6 @@
     <AssemblyName>Riven.AspNetCore</AssemblyName>
 
     <PackageTags>riven;framework;application framework;domain driven design;aspnet core;</PackageTags>
-
-    <ApplicationIcon />
-
-    <OutputType>Library</OutputType>
-
-    <StartupObject />
-
+  
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-
 </Project>

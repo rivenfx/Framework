@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Riven.AspNetCore.FilterHandlers
 {
-    public class AspNetCoreExceptionHandeler : IAspNetCoreExceptionHandeler
+    public class NullAspNetCoreExceptionHandeler : IAspNetCoreExceptionHandeler
     {
         public virtual void OnException(ExceptionContext context)
         {

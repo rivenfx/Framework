@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Riven.AspNetCore.FilterHandlers
 {
-    public class AspNetCoreAuthorizationHandler : IAspNetCoreAuthorizationHandler
+    public class NullAspNetCoreAuthorizationHandler : IAspNetCoreAuthorizationHandler
     {
 
         public virtual Task OnAuthorizationAsync(AuthorizationFilterContext context)

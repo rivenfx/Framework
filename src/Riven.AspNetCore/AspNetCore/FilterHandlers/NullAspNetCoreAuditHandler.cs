@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Riven.AspNetCore.FilterHandlers
 {
-    public class AspNetCoreAuditHandler : IAspNetCoreAuditHandler
+    public class NullAspNetCoreAuditHandler : IAspNetCoreAuditHandler
     {
         public virtual Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
