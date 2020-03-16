@@ -15,7 +15,11 @@
     <AssemblyName>Riven.AspNetCore</AssemblyName>
 
     <PackageTags>riven;framework;application framework;domain driven design;aspnet core;</PackageTags>
-  
+
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
