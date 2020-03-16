@@ -17,4 +17,8 @@
     <PackageTags>riven;framework;application framework;domain driven design;aspnet core;</PackageTags>
   
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riven\Riven.csproj" />
+  </ItemGroup>
 </Project>
