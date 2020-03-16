@@ -3,9 +3,9 @@
 $apiKey = $args[0]
 
 # 获取版本
-[xml]$commonPropsXml = Get-Content (Join-Path $rootFolder "version.props")
-$version = $commonPropsXml.Project.PropertyGroup.Version
-$versionStr = $version[0].Trim()
+[xml]$versionPropsXml = Get-Content (Join-Path $rootFolder "version.props")
+$version = $versionPropsXml.Project.PropertyGroup.Version
+$versionStr = $version.Trim()
 
 # 发布所有包
 foreach($project in $projects) {
