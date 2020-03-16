@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+  <Import Project="..\..\version.props" />
+  <Import Project="..\..\repository_info.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Riven</RootNamespace>
+
+    <PackageId>Riven.AspNetCore.Swashbuckle</PackageId>
+    <Description>Riven.AspNetCore.Swashbuckle</Description>
+    <AssemblyName>Riven.AspNetCore.Swashbuckle</AssemblyName>
+
+    <PackageTags>riven;framework;application framework;domain driven design;aspectcore;swashbuckle;panda dynamic webapi;Panda.DynamicWebApi;panda;</PackageTags>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Panda.DynamicWebApi" Version="1.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riven.AspNetCore\Riven.AspNetCore.csproj" />
+  </ItemGroup>
+
+</Project>
