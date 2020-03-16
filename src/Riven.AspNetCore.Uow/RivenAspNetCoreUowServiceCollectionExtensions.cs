@@ -12,6 +12,7 @@ using Riven.AspNetCore.Mvc.Authorization;
 using Riven.AspNetCore.Mvc.Auditing;
 using Riven.AspNetCore.Mvc.Results;
 using Riven.AspNetCore.Mvc.Validation;
+using Riven.Uow;
 
 namespace Riven
 {
@@ -22,9 +23,21 @@ namespace Riven
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRivenAspNetCoreUow(this IServiceCollection services)
+        public static IServiceCollection AddRivenAspNetCoreUow(this IServiceCollection services, Action<UnitOfWorkAttribute> configurationDefaultUowAttr = null)
         {
             services.AddTransient<IAspNetCoreUnitOfWorkHandler, AspNetCoreUowHandler>();
+
+            if (configurationDefaultUowAttr != null)
+            {
+                var unitOfWorkAttribute = new UnitOfWorkAttribute();
+                configurationDefaultUowAttr.Invoke(unitOfWorkAttribute);
+                services.AddSingleton<UnitOfWorkAttribute>(unitOfWorkAttribute);
+            }
+            else
+            {
+                services.AddSingleton<UnitOfWorkAttribute>();
+            }
+
 
             return services;
         }

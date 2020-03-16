@@ -30,7 +30,31 @@ namespace Riven.AspNetCore.Mvc.Uow
                 return;
             }
 
+            var unitOfWorkAttr = context.ActionDescriptor.GetUnitOfWorkAttributeOrNull();
 
+            if (unitOfWorkAttr == null)
+            {
+                // Default UnitOfWorkAttribute
+                unitOfWorkAttr = _serviceProvider.GetService<UnitOfWorkAttribute>();
+            }
+
+            if (unitOfWorkAttr.IsDisabled)
+            {
+                await next();
+                return;
+            }
+
+
+            var unitOfWorkOptions = unitOfWorkAttr.CreateOptions();
+
+            using (var uow = _unitOfWorkManager.Begin(unitOfWorkOptions))
+            {
+                var result = await next();
+                if (result.Exception == null || result.ExceptionHandled)
+                {
+                    await uow.CompleteAsync();
+                }
+            }
         }
 
         public async Task UowOnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
