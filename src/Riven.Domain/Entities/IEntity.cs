@@ -14,6 +14,19 @@ namespace Riven.Entities
         /// Id
         /// </summary>
         TKey Id { get; set; }
+
+        /// <summary>
+        /// 是否为临时对象
+        /// </summary>
+        /// <returns></returns>
+        bool IsTransient();
+
+        /// <summary>
+        /// 实体比较
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        bool EntityEquals(object obj);
     }
 
     /// <summary>
