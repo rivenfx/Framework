@@ -22,7 +22,7 @@ namespace Riven.AspNetCore.Mvc.Uow
             _unitOfWorkManager = unitOfWorkManager;
         }
 
-        public async Task UowActionFilterAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public async Task ActionFilterAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             if (!context.ActionDescriptor.IsControllerAction())
             {
@@ -57,7 +57,7 @@ namespace Riven.AspNetCore.Mvc.Uow
             }
         }
 
-        public async Task UowOnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
+        public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
             if (context.HandlerMethod == null)
             {
