@@ -48,6 +48,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Swashbuckl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Identity", "src\Riven.AspNetCore.Identity\Riven.AspNetCore.Identity.csproj", "{6C3A25A1-9837-42A0-B993-DB567696F93D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Modular", "src\Riven.AspNetCore.Modular\Riven.AspNetCore.Modular.csproj", "{11AB8A7C-7850-4C5F-A878-C85F7277D4DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,10 @@ Global
 		{6C3A25A1-9837-42A0-B993-DB567696F93D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C3A25A1-9837-42A0-B993-DB567696F93D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C3A25A1-9837-42A0-B993-DB567696F93D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11AB8A7C-7850-4C5F-A878-C85F7277D4DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11AB8A7C-7850-4C5F-A878-C85F7277D4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11AB8A7C-7850-4C5F-A878-C85F7277D4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11AB8A7C-7850-4C5F-A878-C85F7277D4DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +121,7 @@ Global
 		{4AC54D5A-8745-449B-A9FF-512C8A5CBFB0} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{751B97A4-40EB-4D3C-A1C1-C42131053664} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{6C3A25A1-9837-42A0-B993-DB567696F93D} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
+		{11AB8A7C-7850-4C5F-A878-C85F7277D4DD} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}
