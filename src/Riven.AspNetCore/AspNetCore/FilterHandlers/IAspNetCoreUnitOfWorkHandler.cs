@@ -18,7 +18,7 @@ namespace Riven.AspNetCore.FilterHandlers
         /// <param name="context"></param>
         /// <param name="next"></param>
         /// <returns></returns>
-        Task UowActionFilterAsync(ActionExecutingContext context, ActionExecutionDelegate next);
+        Task ActionFilterAsync(ActionExecutingContext context, ActionExecutionDelegate next);
 
         /// <summary>
         /// mvc工作单元filter
@@ -26,6 +26,6 @@ namespace Riven.AspNetCore.FilterHandlers
         /// <param name="context"></param>
         /// <param name="next"></param>
         /// <returns></returns>
-        Task UowOnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next);
+        Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next);
     }
 }

@@ -8,12 +8,12 @@ namespace Riven.AspNetCore.FilterHandlers
 {
     public class NullAspNetCoreUnitOfWorkHandler : IAspNetCoreUnitOfWorkHandler
     {
-        public virtual Task UowActionFilterAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public virtual Task ActionFilterAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             return next();
         }
 
-        public virtual Task UowOnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
+        public virtual Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
             return next();
         }

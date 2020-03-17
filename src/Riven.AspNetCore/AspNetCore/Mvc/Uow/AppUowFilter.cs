@@ -25,12 +25,12 @@ namespace Riven.AspNetCore.Mvc.Uow
 
         public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            return this._aspNetCoreUnitOfWorkHandler.UowActionFilterAsync(context, next);
+            return this._aspNetCoreUnitOfWorkHandler.ActionFilterAsync(context, next);
         }
 
         public Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
-            return _aspNetCoreUnitOfWorkHandler.UowOnPageHandlerExecutionAsync(context, next);
+            return _aspNetCoreUnitOfWorkHandler.OnPageHandlerExecutionAsync(context, next);
         }
     }
 }
