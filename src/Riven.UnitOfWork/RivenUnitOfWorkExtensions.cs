@@ -9,8 +9,13 @@ using System.Linq;
 
 namespace Riven
 {
-    public static class RivenUnitOfWorkServiceCollectionExtensions
+    public static class RivenUnitOfWorkExtensions
     {
+        /// <summary>
+        /// 添加Riven UnitOfWork 服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddRivenUnitOfWork(this IServiceCollection services)
         {
             services.TryAddTransient<IUnitOfWorkManager, DefaultUnitOfWorkManager>();
@@ -58,6 +63,29 @@ namespace Riven
             services.AddSingleton<IConnectionStringProvider>(connectionStringProvider);
 
             return services;
+        }
+
+
+
+        /// <summary>
+        /// 添加数据库连接字符串
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="name">连接字符串名称</param>
+        /// <param name="connectionString">数据库连接字符串</param>
+        /// <returns></returns>
+        public static IServiceProvider AddConnectionString(this IServiceProvider serviceProvider, string name, string connectionString)
+        {
+            Check.NotNullOrEmpty(name, nameof(name));
+            Check.NotNullOrEmpty(connectionString, nameof(connectionString));
+
+            var connectionStringStore = serviceProvider.GetService<IConnectionStringStore>();
+
+            var connectionStringProvider = new ConnectionStringProvider(name, connectionString);
+            connectionStringStore.CreateOrUpdate(connectionStringProvider);
+
+
+            return serviceProvider;
         }
     }
 }
