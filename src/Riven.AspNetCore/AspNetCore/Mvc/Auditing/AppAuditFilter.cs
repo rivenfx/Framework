@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Riven.AspNetCore.Mvc.Auditing
 {
-    public class AppAuditActionFilter : IAsyncActionFilter, IAsyncPageFilter
+    public class AppAuditFilter : IAsyncActionFilter, IAsyncPageFilter
     {
         protected readonly IAspNetCoreAuditHandler _aspNetCoreAuditHandler;
 
-        public AppAuditActionFilter(IAspNetCoreAuditHandler aspNetCoreAuditHandler)
+        public AppAuditFilter(IAspNetCoreAuditHandler aspNetCoreAuditHandler)
         {
             _aspNetCoreAuditHandler = aspNetCoreAuditHandler;
         }

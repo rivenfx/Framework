@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Riven.AspNetCore.Mvc.Validation
 {
-    public class AppValidationActionFilter : IAsyncActionFilter
+    public class AppValidationFilter : IAsyncActionFilter
     {
         protected readonly IAspNetCoreValidationHandler _aspNetCoreValidationHandler;
 
-        public AppValidationActionFilter(IAspNetCoreValidationHandler aspNetCoreValidationHandler)
+        public AppValidationFilter(IAspNetCoreValidationHandler aspNetCoreValidationHandler)
         {
             _aspNetCoreValidationHandler = aspNetCoreValidationHandler;
         }
