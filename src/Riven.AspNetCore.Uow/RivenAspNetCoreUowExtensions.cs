@@ -16,7 +16,7 @@ using Riven.Uow;
 
 namespace Riven
 {
-    public static class RivenAspNetCoreUowServiceCollectionExtensions
+    public static class RivenAspNetCoreUowExtensions
     {
         /// <summary>
         /// 添加AspNet Core UnitOfWork
