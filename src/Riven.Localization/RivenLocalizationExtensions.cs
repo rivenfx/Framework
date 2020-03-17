@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Riven
 {
-    public static class RivenLocalizationServiceCollectionExtensions
+    public static class RivenLocalizationExtensions
     {
         /// <summary>
         /// 添加Riven的Localization库
