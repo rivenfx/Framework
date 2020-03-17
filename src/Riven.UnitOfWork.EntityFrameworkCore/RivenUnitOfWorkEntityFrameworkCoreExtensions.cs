@@ -11,7 +11,7 @@ using Riven.Uow.Providers;
 
 namespace Riven
 {
-    public static class RivenUnitOfWorkEntityFrameworkCoreServiceCollectionExtensions
+    public static class RivenUnitOfWorkEntityFrameworkCoreExtensions
     {
         /// <summary>
         /// 添加EFCore实现的UnitOfWork
