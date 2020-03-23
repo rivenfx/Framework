@@ -14,7 +14,7 @@ namespace Riven
     public static class RivenUnitOfWorkDapperExtensions
     {
         /// <summary>
-        /// 添加EFCore实现的UnitOfWork
+        /// 添加 Dapper 实现的 UnitOfWork
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
