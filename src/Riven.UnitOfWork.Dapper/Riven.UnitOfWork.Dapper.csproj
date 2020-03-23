@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+  <Import Project="..\..\version.props" />
+  <Import Project="..\..\repository_info.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Riven</RootNamespace>
+
+
+    <PackageId>Riven.UnitOfWork.Dapper</PackageId>
+    <Description>Riven.UnitOfWork.Dapper</Description>
+    <AssemblyName>Riven.UnitOfWork.Dapper</AssemblyName>
+
+    <PackageTags>riven;framework;application framework;domain driven design;unitofwork;dapper;</PackageTags>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riven.UnitOfWork\Riven.UnitOfWork.csproj" />
+  </ItemGroup>
+</Project>
