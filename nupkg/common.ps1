@@ -18,5 +18,6 @@ $projects = (
     "Riven.Localization",
     "Riven.Mapster",
     "Riven.UnitOfWork",
+    "Riven.UnitOfWork.Dapper",
     "Riven.UnitOfWork.EntityFrameworkCore"
 )
