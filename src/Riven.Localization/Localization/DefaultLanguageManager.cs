@@ -8,16 +8,11 @@ namespace Riven.Localization
 {
     public class DefaultLanguageManager : ILanguageManager
     {
-        protected static Dictionary<string, LanguageInfo> Data;
+        private LanguageInfo _defaultLanguage;
 
-        public DefaultLanguageManager()
-        {
-            if (Data == null)
-            {
-                Data = new Dictionary<string, LanguageInfo>();
-            }
+        protected static Dictionary<string, LanguageInfo> Data = new Dictionary<string, LanguageInfo>();
 
-        }
+        public LanguageInfo DefaultLanguage => _defaultLanguage ?? this.GetEnabledLanguages().FirstOrDefault();
 
         public void Add([NotNull]LanguageInfo language)
         {
@@ -27,6 +22,11 @@ namespace Riven.Localization
         public void AddRange([NotNull]List<LanguageInfo> languages)
         {
             languages.AddRange(languages);
+        }
+
+        public void ChangeDefaultLanguage(string languageName)
+        {
+            throw new NotImplementedException();
         }
 
         public void Clear()
