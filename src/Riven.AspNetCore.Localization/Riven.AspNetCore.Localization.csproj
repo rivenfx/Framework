@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+  <Import Project="..\..\version.props" />
+  <Import Project="..\..\repository_info.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Library</OutputType>
+
+    <RootNamespace>Riven</RootNamespace>
+
+    <PackageId>Riven.AspNetCore.Localization</PackageId>
+    <Description>Riven.AspNetCore.Localization</Description>
+    <AssemblyName>Riven.AspNetCore.Localization</AssemblyName>
+
+    <PackageTags>riven;framework;application framework;domain driven design;aspnet core;localization;</PackageTags>
+
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riven.AspNetCore\Riven.AspNetCore.csproj" />
+    <ProjectReference Include="..\Riven.Localization\Riven.Localization.csproj" />
+  </ItemGroup>
+
+</Project>
