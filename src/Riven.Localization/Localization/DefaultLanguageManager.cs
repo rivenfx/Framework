@@ -4,7 +4,7 @@ using System.Text;
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace Riven
+namespace Riven.Localization
 {
     public class DefaultLanguageManager : ILanguageManager
     {

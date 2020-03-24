@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Riven
+namespace Riven.Localization
 {
     /// <summary>
     /// 语言管理器
