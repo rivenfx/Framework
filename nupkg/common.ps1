@@ -11,6 +11,7 @@ $projects = (
     "Riven.AspectCore",
     "Riven.AspNetCore",
     "Riven.AspNetCore.Identity",
+    "Riven.AspNetCore.Localization",
     "Riven.AspNetCore.Modular",
     "Riven.AspNetCore.Swashbuckle",
     "Riven.AspNetCore.Uow",
