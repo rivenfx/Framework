@@ -150,7 +150,7 @@ namespace Riven.Localization
         {
             var languageManager = httpContext.RequestServices.GetService<ILanguageManager>();
             var defaultLanguage = await languageManager.GetDefaultLanguageAsync();
-            var culture = defaultLanguage.Name;
+            var culture = defaultLanguage.Culture;
 
 
             if (culture.IsNullOrWhiteSpace())
@@ -158,7 +158,7 @@ namespace Riven.Localization
                 return null;
             }
 
-            return new ProviderCultureResult(defaultLanguage.Name, defaultLanguage.Name);
+            return new ProviderCultureResult(defaultLanguage.Culture, defaultLanguage.Culture);
         }
 
 

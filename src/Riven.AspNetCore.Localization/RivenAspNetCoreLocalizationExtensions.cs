@@ -22,8 +22,9 @@ namespace Riven
         public static IServiceCollection AddRiveRequestLocalization(this IServiceCollection services)
         {
             services.TryAddTransient<ICultureAccessor, DefaultCultureAccessor>();
+            services.TryAddTransient<ICurrentLanguage, AspNetCoreCurrentLanguage>();
 
-
+            services.AddRivenLocalization();
             return services;
         }
 
@@ -41,7 +42,7 @@ namespace Riven
             var supportedCultures = languageManager.GetEnabledLanguages()
                 .Select(o =>
                 {
-                    return CultureInfo.GetCultureInfo(o.Name);
+                    return CultureInfo.GetCultureInfo(o.Culture);
                 }).ToArray();
 
             var options = new RequestLocalizationOptions
