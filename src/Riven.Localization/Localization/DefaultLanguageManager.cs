@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using JetBrains.Annotations;
+using System.Threading.Tasks;
 
 namespace Riven.Localization
 {
     public class DefaultLanguageManager : ILanguageManager
     {
+        protected static Dictionary<string, LanguageInfo> _data = new Dictionary<string, LanguageInfo>();
+
+
+
         private LanguageInfo _defaultLanguage;
 
-        protected static Dictionary<string, LanguageInfo> Data = new Dictionary<string, LanguageInfo>();
-
         public LanguageInfo DefaultLanguage => _defaultLanguage ?? this.GetEnabledLanguages().FirstOrDefault();
+
+        protected Dictionary<string, LanguageInfo> Data => _data;
 
         public void Add([NotNull]LanguageInfo language)
         {
@@ -39,6 +44,16 @@ namespace Riven.Localization
             return Data.Values
                     .ToList()
                     .AsReadOnly();
+        }
+
+        public LanguageInfo GetDefaultLanguage()
+        {
+            return this._defaultLanguage ?? this.GetEnabledLanguages().FirstOrDefault();
+        }
+
+        public Task<LanguageInfo> GetDefaultLanguageAsync()
+        {
+            return Task.FromResult(this.GetDefaultLanguage());
         }
 
         public IReadOnlyList<LanguageInfo> GetEnabledLanguages()

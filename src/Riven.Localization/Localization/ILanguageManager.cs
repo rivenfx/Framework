@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Riven.Localization
 {
@@ -10,9 +11,16 @@ namespace Riven.Localization
     public interface ILanguageManager
     {
         /// <summary>
-        /// 默认语言
+        /// 获取默认语言
         /// </summary>
-        LanguageInfo DefaultLanguage { get; }
+        /// <returns></returns>
+        Task<LanguageInfo> GetDefaultLanguageAsync();
+
+        /// <summary>
+        /// 获取默认语言
+        /// </summary>
+        /// <returns></returns>
+        LanguageInfo GetDefaultLanguage();
 
         /// <summary>
         /// 获取所有语言信息

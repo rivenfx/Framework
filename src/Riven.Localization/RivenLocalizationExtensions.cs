@@ -16,8 +16,8 @@ namespace Riven
         /// <returns></returns>
         public static IServiceCollection AddRivenLocalization(this IServiceCollection services)
         {
-            services.TryAddSingleton<ILanguageManager, DefaultLanguageManager>();
-            services.TryAddSingleton<ILocalizationManager, DefaultLocalizationManager>();
+            services.TryAddTransient<ILanguageManager, DefaultLanguageManager>();
+            services.TryAddTransient<ILocalizationManager, DefaultLocalizationManager>();
             services.TryAddTransient<ICurrentLanguage, NullCurrentLanguage>();
 
             return services;
