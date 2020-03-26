@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,6 +22,37 @@ namespace Riven
             services.TryAddTransient<ICurrentLanguage, NullCurrentLanguage>();
 
             return services;
+        }
+
+        /// <summary>
+        /// 添加语言
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="languages"></param>
+        /// <returns></returns>
+        public static IServiceProvider AddOrUpdateLanguages(this IServiceProvider serviceProvider, params LanguageInfo[] languages)
+        {
+            return serviceProvider.AddOrUpdateLanguages(languages?.ToList());
+        }
+
+        /// <summary>
+        /// 添加语言
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="languages"></param>
+        /// <returns></returns>
+        public static IServiceProvider AddOrUpdateLanguages(this IServiceProvider serviceProvider, IList<LanguageInfo> languages)
+        {
+            if (languages == null || languages.Count == 0)
+            {
+                return serviceProvider;
+            }
+
+            var languageManager = serviceProvider.GetService<ILanguageManager>();
+
+            languageManager.AddOrUpdateRange(languages.ToList());
+
+            return serviceProvider;
         }
     }
 }

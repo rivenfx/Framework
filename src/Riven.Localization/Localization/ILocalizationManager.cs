@@ -22,11 +22,11 @@ namespace Riven.Localization
         /// <summary>
         /// 使用指定语言进行本地化
         /// </summary>
-        /// <param name="languageName">语言名称</param>
+        /// <param name="culture">Culture</param>
         /// <param name="languageKey">文本键值</param>
         /// <param name="args">参数</param>
         /// <returns>本地化结果</returns>
-        string L(string languageName, string languageKey, params object[] args);
+        string L(string culture, string languageKey, params object[] args);
 
         /// <summary>
         /// 使用当前语言进行本地化

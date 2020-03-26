@@ -35,28 +35,28 @@ namespace Riven.Localization
         IReadOnlyList<LanguageInfo> GetEnabledLanguages();
 
         /// <summary>
-        /// 添加一个语言
+        /// 添加或更新一个语言
         /// </summary>
         /// <param name="language"></param>
-        void Add(LanguageInfo language);
+        void AddOrUpdate(LanguageInfo language);
 
         /// <summary>
-        /// 添加一个集合的语言
+        /// 添加或更新一个集合的语言
         /// </summary>
         /// <param name="languages">语言数据集合</param>
-        void AddRange(List<LanguageInfo> languages);
+        void AddOrUpdateRange(List<LanguageInfo> languages);
 
         /// <summary>
         /// 根据Key删除语言
         /// </summary>
-        /// <param name="languageName">语言名称</param>
-        void Remove(string languageName);
+        /// <param name="culture">culture</param>
+        void Remove(string culture);
 
         /// <summary>
         /// 设置默认语言
         /// </summary>
-        /// <param name="languageName">语言名称</param>
-        void ChangeDefaultLanguage(string languageName);
+        /// <param name="culture">culture</param>
+        void ChangeDefaultLanguage(string culture);
 
         /// <summary>
         /// 清空所有语言

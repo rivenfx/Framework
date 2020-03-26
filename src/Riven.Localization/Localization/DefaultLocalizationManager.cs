@@ -19,7 +19,7 @@ namespace Riven.Localization
             }
         }
 
-        public string CurrentLanguage => _currentLanguage.Name;
+        public string CurrentLanguage => _currentLanguage.Culture;
 
         public ILanguageManager LanguageManager => _languageManager;
 
@@ -32,22 +32,22 @@ namespace Riven.Localization
 
         public string L([NotNull]string languageName, [NotNull]string languageKey, params object[] args)
         {
-            var languageInfo = Languages.FirstOrDefault(o => o.Name == languageName);
+            var languageInfo = Languages.FirstOrDefault(o => o.Culture == languageName);
             if (languageInfo == null)
             {
                 throw new Exception($"未注册此语言: {languageName}");
             }
-            if (!languageInfo.Data.TryGetValue(languageKey, out string languageValue))
+            if (!languageInfo.Texts.TryGetValue(languageKey, out string languageText))
             {
                 return languageKey;
             }
 
-            return string.Format(languageValue, args);
+            return string.Format(languageText, args);
         }
 
         public string L([NotNull]string languageKey, params object[] args)
         {
-            return this.L(_currentLanguage.Name, languageKey, args);
+            return this.L(_currentLanguage.Culture, languageKey, args);
         }
     }
 }

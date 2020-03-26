@@ -19,12 +19,12 @@ namespace Riven.Localization
 
         protected Dictionary<string, LanguageInfo> Data => _data;
 
-        public void Add([NotNull]LanguageInfo language)
+        public void AddOrUpdate([NotNull]LanguageInfo language)
         {
-            Data[language.Name] = language;
+            Data[language.Culture] = language;
         }
 
-        public void AddRange([NotNull]List<LanguageInfo> languages)
+        public void AddOrUpdateRange([NotNull]List<LanguageInfo> languages)
         {
             languages.AddRange(languages);
         }

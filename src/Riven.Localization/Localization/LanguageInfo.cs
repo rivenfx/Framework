@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Riven.Localization
 {
@@ -10,10 +11,12 @@ namespace Riven.Localization
     /// </summary>
     public class LanguageInfo
     {
+        private Dictionary<string, string> _texts;
+
         /// <summary>
-        /// 名称
+        /// Culture
         /// </summary>
-        public string Name { get; set; }
+        public string Culture { get; set; }
 
         /// <summary>
         /// 语言显示名称
@@ -38,30 +41,27 @@ namespace Riven.Localization
         /// <summary>
         /// 本地化的数据
         /// </summary>
-        public Dictionary<string, string> Data { get; protected set; }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="name">语言名称</param>
-        /// <param name="displayName">语言显示名称</param>
-        /// <param name="icon">显示图标</param>
-        /// <param name="enabled">是否启用,默认为true</param>
-        /// <param name="extra">扩展信息</param>
-        public LanguageInfo(
-            [NotNull]string name,
-            [NotNull]string displayName,
-            string icon = null,
-            bool enabled = true,
-            string extra = null)
+        public Dictionary<string, string> Texts
         {
-            this.Name = name;
-            this.DisplayName = displayName;
-            this.Icon = icon;
-            this.Enabled = enabled;
-            this.Extra = extra;
-
-            this.Data = new Dictionary<string, string>();
+            get => this._texts;
+            set
+            {
+                if (value == null)
+                {
+                    this._texts.Clear();
+                }
+                else if (this._texts == null)
+                {
+                    this._texts = value;
+                }
+                else
+                {
+                    foreach (var item in value)
+                    {
+                        this._texts[item.Key] = item.Value;
+                    }
+                }
+            }
         }
     }
 }
