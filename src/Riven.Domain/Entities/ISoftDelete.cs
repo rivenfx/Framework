@@ -14,4 +14,6 @@ namespace Riven.Entities
         /// </summary>
         bool IsDeleted { get; set; }
     }
+
+
 }
