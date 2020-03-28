@@ -112,4 +112,5 @@ namespace Riven.Entities.Auditing
             entity.LastModifier = user;
         }
     }
+
 }
