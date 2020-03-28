@@ -52,7 +52,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Modular", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.UnitOfWork.Dapper", "src\Riven.UnitOfWork.Dapper\Riven.UnitOfWork.Dapper.csproj", "{0E3E681E-9BF7-4FEB-B51D-F55AD4CA3CFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Localization", "src\Riven.AspNetCore.Localization\Riven.AspNetCore.Localization.csproj", "{4FA2681E-02E1-4D1D-B1BF-BAA18A3455DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Localization", "src\Riven.AspNetCore.Localization\Riven.AspNetCore.Localization.csproj", "{4FA2681E-02E1-4D1D-B1BF-BAA18A3455DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Caching", "src\Riven.Caching\Riven.Caching.csproj", "{60092BF7-C2B9-4923-86B9-27221184FD2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -116,6 +118,10 @@ Global
 		{4FA2681E-02E1-4D1D-B1BF-BAA18A3455DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FA2681E-02E1-4D1D-B1BF-BAA18A3455DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FA2681E-02E1-4D1D-B1BF-BAA18A3455DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60092BF7-C2B9-4923-86B9-27221184FD2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60092BF7-C2B9-4923-86B9-27221184FD2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60092BF7-C2B9-4923-86B9-27221184FD2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60092BF7-C2B9-4923-86B9-27221184FD2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,6 +142,7 @@ Global
 		{11AB8A7C-7850-4C5F-A878-C85F7277D4DD} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{0E3E681E-9BF7-4FEB-B51D-F55AD4CA3CFB} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{4FA2681E-02E1-4D1D-B1BF-BAA18A3455DD} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
+		{60092BF7-C2B9-4923-86B9-27221184FD2A} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}
