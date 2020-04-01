@@ -17,12 +17,19 @@ namespace Riven.Localization
 
         public void AddOrUpdate([NotNull]LanguageInfo language)
         {
+            Check.NotNull(language, nameof(language));
+
             Data[language.Culture] = language;
         }
 
         public void AddOrUpdateRange([NotNull]List<LanguageInfo> languages)
         {
-            languages.AddRange(languages);
+            Check.NotNullOrEmpty(languages, nameof(languages));
+
+            languages.ForEach(o =>
+            {
+                this.AddOrUpdate(o);
+            });
         }
 
         public void ChangeDefaultLanguage(string languageName)
@@ -30,7 +37,7 @@ namespace Riven.Localization
             Check.NotNullOrWhiteSpace(languageName, nameof(languageName));
 
             var language = this.GetEnabledLanguages().FirstOrDefault(o => o.Culture == languageName);
-            if (language==null)
+            if (language == null)
             {
                 throw new ArgumentException($"Language '{languageName}' was not found!");
             }
@@ -70,6 +77,8 @@ namespace Riven.Localization
 
         public void Remove([NotNull]string languageName)
         {
+            Check.NotNullOrWhiteSpace(languageName, nameof(languageName));
+
             if (Data.Any(o => o.Key == languageName))
             {
                 Data.Remove(languageName);
