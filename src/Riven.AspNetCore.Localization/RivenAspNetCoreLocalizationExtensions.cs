@@ -19,7 +19,7 @@ namespace Riven
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRiveRequestLocalization(this IServiceCollection services)
+        public static IServiceCollection AddRivenRequestLocalization(this IServiceCollection services)
         {
             services.TryAddTransient<ICultureAccessor, DefaultCultureAccessor>();
             services.TryAddTransient<ICurrentLanguage, AspNetCoreCurrentLanguage>();
