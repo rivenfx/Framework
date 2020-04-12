@@ -240,7 +240,7 @@ namespace Riven.Uow
                 IsTransactional = IsTransactional,
                 IsolationLevel = IsolationLevel,
                 Timeout = Timeout,
-                Scope = Scope,
+                Scope = Scope ?? TransactionScopeOption.Required,
                 ConnectionStringName = this.ConnectionStringName.IsNullOrWhiteSpace() ? RivenUnitOfWorkConsts.DefaultConnectionStringName : this.ConnectionStringName
             };
         }
