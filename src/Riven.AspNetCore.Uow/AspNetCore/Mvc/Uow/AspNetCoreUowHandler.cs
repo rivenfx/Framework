@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Mvc.Filters;
-using Riven.AspNetCore.FilterHandlers;
-using Riven.AspNetCore.Mvc.Extensions;
-using Riven.Uow;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+
+using Riven.AspNetCore.FilterHandlers;
+using Riven.AspNetCore.Mvc.Extensions;
+using Riven.Uow;
+using Riven.Uow.Extensions;
 
 namespace Riven.AspNetCore.Mvc.Uow
 {
