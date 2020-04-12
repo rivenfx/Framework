@@ -37,7 +37,15 @@ namespace Riven.Interceptors
                 try
                 {
                     await next(context);
-                    await uow.CompleteAsync(context.GetHttpContext().RequestAborted);
+
+                    var httpContext = context.GetHttpContext();
+                    if (httpContext != null)
+                    {
+                        await uow.CompleteAsync(httpContext.RequestAborted);
+                        return;
+                    }
+
+                    await uow.CompleteAsync();
                 }
                 catch (Exception e)
                 {
