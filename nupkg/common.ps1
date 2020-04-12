@@ -9,6 +9,7 @@ $packOutputFolder = Join-Path $packFolder "framework"   # 输出nuget package �
 $projects = (
     "Riven",
     "Riven.AspectCore",
+    "Riven.AspectCore.Uow",
     "Riven.AspNetCore",
     "Riven.AspNetCore.Identity",
     "Riven.AspNetCore.Localization",
