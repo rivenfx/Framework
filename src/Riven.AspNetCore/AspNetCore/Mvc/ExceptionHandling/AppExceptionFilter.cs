@@ -9,11 +9,11 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
 {
     public class AppExceptionFilter : IExceptionFilter, IAsyncPageFilter
     {
-        protected readonly IAspNetCoreExceptionHandeler _aspNetCoreUnitOfWorkHandler;
+        protected readonly IAspNetCoreExceptionHandeler _aspNetCoreExceptionHandeler;
 
         public AppExceptionFilter(IAspNetCoreExceptionHandeler aspNetCoreUnitOfWorkHandler)
         {
-            _aspNetCoreUnitOfWorkHandler = aspNetCoreUnitOfWorkHandler;
+            _aspNetCoreExceptionHandeler = aspNetCoreUnitOfWorkHandler;
         }
 
 
@@ -25,16 +25,14 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
 
         public void OnException(ExceptionContext context)
         {
-            this._aspNetCoreUnitOfWorkHandler.OnException(context);
+            this._aspNetCoreExceptionHandeler.OnException(context);
         }
 
 
         public Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
-            return _aspNetCoreUnitOfWorkHandler.OnExceptionPageHandlerExecutionAsync(context, next);
+            return _aspNetCoreExceptionHandeler.OnExceptionPageHandlerExecutionAsync(context, next);
         }
-
-
 
     }
 }
