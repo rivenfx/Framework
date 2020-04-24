@@ -56,6 +56,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Localizati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Caching", "src\Riven.Caching\Riven.Caching.csproj", "{60092BF7-C2B9-4923-86B9-27221184FD2A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{F55E25AD-0A8D-419E-803C-2818BAF27130}"
+	ProjectSection(SolutionItems) = preProject
+		docs\main.md = docs\main.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{ADC12579-EA4F-4527-B8A4-B0D874C1ABC2}"
+	ProjectSection(SolutionItems) = preProject
+		docs\images\logo.png = docs\images\logo.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +153,7 @@ Global
 		{0E3E681E-9BF7-4FEB-B51D-F55AD4CA3CFB} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{4FA2681E-02E1-4D1D-B1BF-BAA18A3455DD} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{60092BF7-C2B9-4923-86B9-27221184FD2A} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
+		{ADC12579-EA4F-4527-B8A4-B0D874C1ABC2} = {F55E25AD-0A8D-419E-803C-2818BAF27130}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}
