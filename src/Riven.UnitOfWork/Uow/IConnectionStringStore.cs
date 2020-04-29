@@ -34,7 +34,7 @@ namespace Riven.Uow
         /// 删除
         /// </summary>
         /// <param name="connectionStringProviderName"></param>
-        void Remove(string connectionStringProviderName);
+        IConnectionStringProvider Remove(string connectionStringProviderName);
     }
 
     public class DefaultConnectionStringStore : IConnectionStringStore
@@ -68,11 +68,16 @@ namespace Riven.Uow
             return _data.Select(o => o.Value).AsQueryable();
         }
 
-        public void Remove(string connectionStringProviderName)
+        public IConnectionStringProvider Remove(string connectionStringProviderName)
         {
             Check.NotNullOrWhiteSpace(connectionStringProviderName, nameof(connectionStringProviderName));
 
-            _data.TryRemove(connectionStringProviderName, out IConnectionStringProvider connectionStringProvider);
+            if (_data.TryRemove(connectionStringProviderName, out IConnectionStringProvider connectionStringProvider))
+            {
+                return connectionStringProvider;
+            }
+
+            return null;
         }
     }
 }
