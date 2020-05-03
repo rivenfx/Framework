@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Riven.Configuration;
+using Riven.AspNetCore.Models;
+using Riven.Reflection;
+using Riven.Extensions;
 
 namespace Riven.AspNetCore.Mvc.Request
 {
@@ -16,9 +19,13 @@ namespace Riven.AspNetCore.Mvc.Request
     {
         public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            var actionMethodInfo = context.ActionDescriptor.GetMethodInfo();
+
             context.HttpContext.SetRequestActionInfo(new RequestActionInfo()
             {
-                IsObjectResult = ActionResultHelper.IsObjectResult(context.ActionDescriptor.GetMethodInfo().ReturnType)
+                IsObjectResult = ActionResultHelper.IsObjectResult(actionMethodInfo.ReturnType),
+                WrapResultAttribute = ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<WrapResultAttribute>(actionMethodInfo),
+                IsAjax = context.HttpContext.IsAjax()
             });
 
             return next();

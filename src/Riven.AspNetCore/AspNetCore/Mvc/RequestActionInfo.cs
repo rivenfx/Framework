@@ -11,5 +11,7 @@ namespace Riven.AspNetCore.Mvc
         public bool IsObjectResult { get; set; }
 
         public WrapResultAttribute WrapResultAttribute { get; set; }
+
+        public bool IsAjax { get; set; }
     }
 }
