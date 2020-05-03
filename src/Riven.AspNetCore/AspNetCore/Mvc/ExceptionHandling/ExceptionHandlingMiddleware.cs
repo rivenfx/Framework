@@ -13,6 +13,7 @@ using Riven.Configuration;
 using Microsoft.Extensions.Options;
 using Riven.AspNetCore.Mvc.Extensions;
 using Microsoft.Net.Http.Headers;
+using Riven.Extensions;
 
 namespace Riven.AspNetCore.Mvc.ExceptionHandling
 {
@@ -45,10 +46,11 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
 
                 var requestActionInfo = context.GetRequestActionInfo();
 
-                var wrapResultAttribute = requestActionInfo.WrapResultAttribute ?? aspNetCoreOptions.DefaultWrapResultAttribute;
+                var wrapResultAttribute = requestActionInfo?.WrapResultAttribute ?? aspNetCoreOptions.DefaultWrapResultAttribute;
 
                 if (wrapResultAttribute.WrapOnError
                     && requestActionInfo != null
+                    && requestActionInfo.IsAjax
                     && requestActionInfo.IsObjectResult
                     )
                 {
