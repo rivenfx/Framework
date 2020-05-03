@@ -23,14 +23,14 @@ namespace Riven.Configuration
         }
 
         /// <summary>
-        /// 启用认证Filter,默认为false,不启用
+        /// 启用认证,默认为false,不启用
         /// </summary>
-        public virtual bool AuthorizationFilterEnable { get; set; }
+        public virtual bool AuthorizationEnable { get; set; }
 
         /// <summary>
-        /// 启用审计Filter,默认为false,不启用
+        /// 启用审计,默认为false,不启用
         /// </summary>
-        public virtual bool AuditFilterEnable { get; set; }
+        public virtual bool AuditEnable { get; set; }
 
         /// <summary>
         /// 启用校验Filter,默认为false,不启用
