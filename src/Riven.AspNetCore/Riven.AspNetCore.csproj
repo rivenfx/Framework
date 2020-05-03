@@ -25,8 +25,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Riven\Riven.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="AspNetCore\Results\" />
-  </ItemGroup>
 </Project>

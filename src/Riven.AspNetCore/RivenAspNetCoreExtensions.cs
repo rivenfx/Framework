@@ -12,6 +12,7 @@ using Riven.AspNetCore.Mvc.Validation;
 using Riven.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Riven.AspNetCore.Mvc.Request;
+using Riven.AspNetCore.Mvc.Results.Wrapping;
 
 namespace Riven
 {
@@ -26,8 +27,10 @@ namespace Riven
         public static IServiceCollection AddRivenAspNetCore(this IServiceCollection services, Action<RivenAspNetCoreOptions> configurationAction = null)
         {
             services.AddOptions<RivenAspNetCoreOptions>();
+            
             services.Configure(configurationAction);
 
+            services.TryAddSingleton<IRequestActionResultWrapperFactory, DefaultRequestActionResultWrapperFactory>();
 
             return services;
         }
@@ -45,66 +48,12 @@ namespace Riven
                 options.Filters.AddService<RequestActionFilter>();
             });
 
-            //if (rivenAspNetCoreOptions.AuthorizationFilterEnable)
-            //{
-            //    services.TryAddTransient<AppAuthorizationFilter>();
-            //    services.TryAddTransient<IAspNetCoreAuthorizationHandler, NullAspNetCoreAuthorizationHandler>();
-            //    services.Configure<MvcOptions>((options) =>
-            //    {
-            //        options.Filters.AddService<AppAuthorizationFilter>();
-            //    });
-            //}
+            services.Configure<MvcOptions>((options) =>
+            {
+                options.Filters.AddService<AppResultFilter>();
+            });
 
-            //if (rivenAspNetCoreOptions.AuditFilterEnable)
-            //{
-            //    services.TryAddTransient<AppAuditFilter>();
-            //    services.TryAddTransient<IAspNetCoreAuditHandler, NullAspNetCoreAuditHandler>();
-            //    services.Configure<MvcOptions>((options) =>
-            //    {
-            //        options.Filters.AddService<AppAuditFilter>();
-            //    });
-            //}
-
-            //if (rivenAspNetCoreOptions.ValidationFilterEnable)
-            //{
-            //    services.TryAddTransient<AppValidationFilter>();
-            //    services.TryAddTransient<IAspNetCoreValidationHandler, NullAspNetCoreValidationHandler>();
-            //    services.Configure<MvcOptions>((options) =>
-            //    {
-            //        options.Filters.AddService<AppValidationFilter>();
-            //    });
-            //}
-
-            //if (rivenAspNetCoreOptions.UnitOfWorkFilterEnable)
-            //{
-            //    services.TryAddTransient<AppUowFilter>();
-            //    services.TryAddTransient<IAspNetCoreUnitOfWorkHandler, NullAspNetCoreUnitOfWorkHandler>();
-            //    services.Configure<MvcOptions>((options) =>
-            //    {
-            //        options.Filters.AddService<AppUowFilter>();
-            //    });
-            //}
-
-            //if (rivenAspNetCoreOptions.ExceptionFilterEnable)
-            //{
-            //    services.TryAddTransient<AppExceptionFilter>();
-            //    services.TryAddTransient<IAspNetCoreExceptionHandeler, NullAspNetCoreExceptionHandeler>();
-            //    services.Configure<MvcOptions>((options) =>
-            //    {
-            //        options.Filters.AddService<AppExceptionFilter>();
-            //    });
-            //}
-
-            //if (rivenAspNetCoreOptions.ResultFilterEnable)
-            //{
-            //    services.TryAddTransient<AppResultFilter>();
-            //    services.TryAddTransient<IAspNetCoreResultHandler, NullAspNetCoreResultHandler>();
-            //    services.Configure<MvcOptions>((options) =>
-            //    {
-            //        options.Filters.AddService<AppResultFilter>();
-            //    });
-            //}
-
+            
             return services;
         }
 

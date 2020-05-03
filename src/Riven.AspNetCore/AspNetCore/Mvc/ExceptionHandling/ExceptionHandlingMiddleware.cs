@@ -32,11 +32,9 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                     throw ex;
                 }
 
-
-                
             }
 
-            
+
 
             if (IsAuthorizationExceptionStatusCode(context))
             {
@@ -50,7 +48,12 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
 
                 await context.Response.WriteAsync(
                     JsonConvert.SerializeObject(
-                        new AjaxResponse(errorInfo, true)
+                        new AjaxResponse<ErrorInfo>()
+                        {
+                            Success = false,
+                            UnAuthorizedRequest = true,
+                            Result = errorInfo
+                        }
                     )
                 );
 

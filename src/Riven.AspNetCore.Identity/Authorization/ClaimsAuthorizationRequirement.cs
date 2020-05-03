@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Riven.Extensions;
 using Riven.Authorization;
+using Riven.Configuration;
 
 namespace Riven.Identity.Authorization
 {
@@ -58,6 +59,14 @@ namespace Riven.Identity.Authorization
                     return;
                 }
 
+                var aspNetCoreOptions = serviceProvider.GetRequiredService<IOptions<RivenAspNetCoreOptions>>().Value;
+                if (!aspNetCoreOptions.AuthorizationEnable)
+                {
+                    context.Succeed(requirement);
+                    return;
+                }
+
+
                 var identityOptions = serviceProvider.GetRequiredService<IOptions<IdentityOptions>>().Value;
                 var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
 
@@ -70,18 +79,20 @@ namespace Riven.Identity.Authorization
                     throw new AuthorizationException("CurrentUserDidNotLoginToTheApplication");
                 }
 
-                var claimsChecker = serviceProvider.GetService<IClaimsChecker>();
+                var claimsChecker = serviceProvider.GetRequiredService<IClaimsChecker>();
 
                 foreach (var claimsAttribute in claimsAttributes)
                 {
                     await claimsChecker.AuthorizeAsync(userId, claimsAttribute.RequireAll, claimsAttribute.Claims);
                 }
+
+                context.Succeed(requirement);
             }
             catch (Exception ex)
             {
                 context.Fail();
 
-                var logger = serviceProvider.GetService<ILogger<ClaimsAuthorizationRequirement>>();
+                var logger = serviceProvider.GetRequiredService<ILogger<ClaimsAuthorizationRequirement>>();
                 logger.LogError(ex, ex.Message);
             }
             finally
