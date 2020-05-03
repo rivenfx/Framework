@@ -14,10 +14,16 @@ namespace Riven.AspNetCore.Mvc.Uow
     {
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            if (context.Request.RouteValues.Count == 0)
+            {
+                await next(context);
+                return;
+            }
+
             var serviceProvider = context.RequestServices;
 
             var endpoint = context.GetEndpoint();
-            var unitOfWorkAttribute = endpoint.Metadata.GetMetadata<UnitOfWorkAttribute>();
+            var unitOfWorkAttribute = endpoint?.Metadata?.GetMetadata<UnitOfWorkAttribute>();
 
             // 为空的话获取默认的
             if (unitOfWorkAttribute == null)

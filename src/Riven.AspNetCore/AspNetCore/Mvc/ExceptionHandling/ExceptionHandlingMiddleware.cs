@@ -18,6 +18,12 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
     {
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            if (context.Request.RouteValues.Count == 0)
+            {
+                await next(context);
+                return;
+            }
+
             var serviceProvider = context.RequestServices;
             var aspNetCoreOptions = serviceProvider.GetRequiredService<IOptions<RivenAspNetCoreOptions>>().Value;
 

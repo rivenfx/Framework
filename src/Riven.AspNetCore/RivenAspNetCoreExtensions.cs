@@ -32,6 +32,8 @@ namespace Riven
 
             services.TryAddSingleton<IRequestActionResultWrapperFactory, DefaultRequestActionResultWrapperFactory>();
 
+            services.TryAddTransient<ExceptionHandlingMiddleware>();
+
             return services;
         }
 

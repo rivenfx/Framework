@@ -35,6 +35,8 @@ namespace Riven
                 services.AddSingleton<UnitOfWorkAttribute>();
             }
 
+            services.TryAddTransient<AspNetCoreUowMiddleware>();
+
 
             return services;
         }
