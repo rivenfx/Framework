@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Riven.Uow;
+using System.Net;
 
 namespace Riven.AspNetCore.Mvc.Uow
 {
@@ -39,7 +40,11 @@ namespace Riven.AspNetCore.Mvc.Uow
             using (var uow = unitOfWorkManager.Begin(unitOfWorkOptions))
             {
                 await next(context);
-                await uow.CompleteAsync(context.RequestAborted);
+
+                if (context.Response.StatusCode == (int)HttpStatusCode.OK)
+                {
+                    await uow.CompleteAsync(context.RequestAborted);
+                }
             }
         }
     }
