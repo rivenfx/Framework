@@ -84,7 +84,7 @@ namespace Riven.Identity.Authorization
                 catch (Exception ex)
                 {
                     logger.LogError(ex, ex.Message);
-                    httpContextAccessor.HttpContext.AddAuthorizationException(ex);
+                    httpContextAccessor.HttpContext.SetAuthorizationException(ex);
                     context.Fail();
 
                     throw ex;

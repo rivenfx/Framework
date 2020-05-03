@@ -16,7 +16,7 @@ namespace Riven.AspNetCore.Mvc.Request
     {
         public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            context.HttpContext.AddRequestActionInfo(new RequestActionInfo()
+            context.HttpContext.SetRequestActionInfo(new RequestActionInfo()
             {
                 IsObjectResult = ActionResultHelper.IsObjectResult(context.ActionDescriptor.GetMethodInfo().ReturnType)
             });

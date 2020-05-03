@@ -23,7 +23,7 @@ namespace Riven.AspNetCore.Mvc.Extensions
         /// </summary>
         /// <param name="httpContext"></param>
         /// <param name="input"></param>
-        public static void AddAuthorizationException(this HttpContext httpContext, Exception input)
+        public static void SetAuthorizationException(this HttpContext httpContext, Exception input)
         {
             httpContext?.Items?.Add(AUTHORIZATION_ITEM_NAME, input);
         }
@@ -48,7 +48,7 @@ namespace Riven.AspNetCore.Mvc.Extensions
         /// </summary>
         /// <param name="httpContext"></param>
         /// <param name="input"></param>
-        public static void AddRequestActionInfo(this HttpContext httpContext, RequestActionInfo input)
+        public static void SetRequestActionInfo(this HttpContext httpContext, RequestActionInfo input)
         {
             httpContext?.Items?.Add(REQUEST_ACTION_INFO_ITEM_NAME, input);
         }
