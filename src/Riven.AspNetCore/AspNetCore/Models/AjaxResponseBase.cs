@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Riven.AspNetCore.Models
@@ -25,8 +26,8 @@ namespace Riven.AspNetCore.Models
         public bool UnAuthorizedRequest { get; set; }
 
         /// <summary>
-        /// Http response status code
+        /// Http response status code, default value: 200.
         /// </summary>
-        public int Code { get; set; }
+        public int Code { get; set; } = (int)HttpStatusCode.OK;
     }
 }
