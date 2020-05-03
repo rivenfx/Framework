@@ -24,6 +24,8 @@ namespace Riven
                 ServiceLifetime.Transient)
                 );
 
+            services.TryAddTransient<IClaimsChecker, DefaultClaimsChecker>();
+
             return services;
         }
 
