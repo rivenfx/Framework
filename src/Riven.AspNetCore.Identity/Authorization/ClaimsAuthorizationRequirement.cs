@@ -15,6 +15,10 @@ using Microsoft.AspNetCore.Http;
 using Riven.Extensions;
 using Riven.Authorization;
 using Riven.Configuration;
+using Riven.AspNetCore.Models;
+using Newtonsoft.Json;
+using System.Net;
+using Riven.AspNetCore.Mvc.Extensions;
 
 namespace Riven.Identity.Authorization
 {
@@ -42,56 +46,51 @@ namespace Riven.Identity.Authorization
 
 
             var claimsAttributes = routeEndpoint?.Metadata?.GetOrderedMetadata<ClaimsAuthorizeAttribute>()?.ToList();
-            if (claimsAttributes == null || claimsAttributes.Count == 0)
+            if (claimsAttributes == null || !claimsAttributes.Any())
             {
                 context.Succeed(requirement);
                 return;
             }
 
-            var scope = _serviceProvider.CreateScope();
-            var serviceProvider = scope.ServiceProvider;
-
-            try
+            using (var scope = _serviceProvider.CreateScope())
             {
-
-                if (!claimsAttributes.Any())
-                {
-                    return;
-                }
-
-                var identityOptions = serviceProvider.GetRequiredService<IOptions<IdentityOptions>>().Value;
-                var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
-
-
-                var user = httpContextAccessor.HttpContext.User;
-                var userId = user.GetUserId(identityOptions);
-
-                if (user == null || userId.IsNullOrWhiteSpace())
-                {
-                    throw new AuthorizationException("CurrentUserDidNotLoginToTheApplication");
-                }
-
-                var claimsChecker = serviceProvider.GetRequiredService<IClaimsChecker>();
-
-                foreach (var claimsAttribute in claimsAttributes)
-                {
-                    await claimsChecker.AuthorizeAsync(userId, claimsAttribute.RequireAll, claimsAttribute.Claims);
-                }
-
-                context.Succeed(requirement);
-            }
-            catch (Exception ex)
-            {
-                context.Fail();
+                var serviceProvider = scope.ServiceProvider;
 
                 var logger = serviceProvider.GetRequiredService<ILogger<ClaimsAuthorizationRequirement>>();
-                logger.LogError(ex, ex.Message);
-            }
-            finally
-            {
-                scope.Dispose();
-            }
+                var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
 
+                try
+                {
+                    var identityOptions = serviceProvider.GetRequiredService<IOptions<IdentityOptions>>().Value;
+
+                    var user = httpContextAccessor.HttpContext.User;
+                    var userId = user.GetUserId(identityOptions);
+
+                    if (user == null || userId.IsNullOrWhiteSpace())
+                    {
+                        context.Fail();
+                        return;
+                    }
+
+                    var claimsChecker = serviceProvider.GetRequiredService<IClaimsChecker>();
+
+                    foreach (var claimsAttribute in claimsAttributes)
+                    {
+                        await claimsChecker.AuthorizeAsync(userId, claimsAttribute.RequireAll, claimsAttribute.Claims);
+                    }
+
+                    context.Succeed(requirement);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, ex.Message);
+                    httpContextAccessor.HttpContext.AddAuthorizationException(ex);
+                    context.Fail();
+
+                    throw ex;
+                }
+
+            }
         }
     }
 }

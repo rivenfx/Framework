@@ -16,12 +16,10 @@ namespace Riven.AspNetCore.Mvc.Request
     {
         public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var aspNetCoreOptions = context.HttpContext.RequestServices.GetRequiredService<IOptions<RivenAspNetCoreOptions>>().Value;
-
-            context.HttpContext.Items[aspNetCoreOptions.RequestActionInfoName] = new RequestActionInfo()
+            context.HttpContext.AddRequestActionInfo(new RequestActionInfo()
             {
                 IsObjectResult = ActionResultHelper.IsObjectResult(context.ActionDescriptor.GetMethodInfo().ReturnType)
-            };
+            });
 
             return next();
         }

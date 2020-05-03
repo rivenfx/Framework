@@ -15,34 +15,18 @@ namespace Riven.Extensions
                 return;
             }
 
-            //var localizedPermissionNames = LocalizePermissionNames(permissionChecker, permissionNames);
-
-            //if (requireAll)
-            //{
-            //    throw new AbpAuthorizationException(
-            //        string.Format(
-            //            L(
-            //                permissionChecker,
-            //                "AllOfThesePermissionsMustBeGranted",
-            //                "Required permissions are not granted. All of these permissions must be granted: {0}"
-            //            ),
-            //            string.Join(", ", localizedPermissionNames)
-            //        )
-            //    );
-            //}
-            //else
-            //{
-            //    throw new AbpAuthorizationException(
-            //        string.Format(
-            //            L(
-            //                permissionChecker,
-            //                "AtLeastOneOfThesePermissionsMustBeGranted",
-            //                "Required permissions are not granted. At least one of these permissions must be granted: {0}"
-            //            ),
-            //            string.Join(", ", localizedPermissionNames)
-            //        )
-            //    );
-            //}
+            if (requireAll)
+            {
+                throw new AuthorizationException(
+                    string.Format($"requireAll {string.Join(", ", claims)} 中的某些权限不存在")
+                );
+            }
+            else
+            {
+                throw new AuthorizationException(
+                   string.Format($"not requireAll {string.Join(", ", claims)} 中的任何权限")
+               );
+            }
         }
     }
 }

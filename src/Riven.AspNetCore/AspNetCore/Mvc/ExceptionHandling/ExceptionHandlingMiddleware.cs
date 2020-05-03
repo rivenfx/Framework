@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using Riven.AspNetCore.Models;
 using Riven.Configuration;
 using Microsoft.Extensions.Options;
+using Riven.AspNetCore.Mvc.Extensions;
+using Microsoft.Net.Http.Headers;
 
 namespace Riven.AspNetCore.Mvc.ExceptionHandling
 {
@@ -24,8 +26,9 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                 return;
             }
 
-            var serviceProvider = context.RequestServices;
-            var aspNetCoreOptions = serviceProvider.GetRequiredService<IOptions<RivenAspNetCoreOptions>>().Value;
+            var logger = context.RequestServices.GetRequiredService<ILogger<ExceptionHandlingMiddleware>>();
+            var aspNetCoreOptions = context.RequestServices.GetRequiredService<IOptions<RivenAspNetCoreOptions>>().Value;
+
 
             try
             {
@@ -33,49 +36,67 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
             }
             catch (Exception ex)
             {
-               
+                // 发生异常,但是已经响应了
+                if (context.Response.HasStarted)
+                {
+                    logger.LogWarning("An exception occurred, but response has already started!");
+                    throw;
+                }
+
+                var requestActionInfo = context.GetRequestActionInfo();
+
+                if (requestActionInfo != null)
+                {
+                    if (requestActionInfo.IsObjectResult)
+                    {
+                        await HandleAndWrapException(context, ex);
+                        aspNetCoreOptions.TriggerHandledException(this, ex);
+                        return;
+                    }
+                }
+
+                throw;
             }
 
+        }
+
+        protected virtual async Task HandleAndWrapException(HttpContext httpContext, Exception exception)
+        {
+            var oldStatusCode = httpContext.Response.StatusCode;
 
 
-            if (IsAuthorizationExceptionStatusCode(context))
-            {
-                var logger = context.RequestServices.GetRequiredService<ILogger<ExceptionHandlingMiddleware>>();
+            httpContext.Response.Clear();
+            httpContext.Response.StatusCode = httpContext.GetAuthorizationException() == null ? oldStatusCode : (int)HttpStatusCode.Unauthorized;
+            httpContext.Response.OnStarting(ProcessCacheHeaders, httpContext.Response);
 
-                var exception = new Exception(GetAuthorizationExceptionMessage(context));
-
-                logger.LogError(exception.Message);
-
-                var errorInfo = new ErrorInfo(context.Response.StatusCode, exception.Message, exception.ToString());
-
-                await context.Response.WriteAsync(
-                    JsonConvert.SerializeObject(
-                        new AjaxResponse<ErrorInfo>()
-                        {
-                            Success = false,
-                            UnAuthorizedRequest = true,
-                            Result = errorInfo
-                        }
-                    )
+            var errorInfo = new ErrorInfo(httpContext.Response.StatusCode, exception.Message, exception.ToString());
+            await httpContext.Response.WriteAsync(
+                JsonConvert.SerializeObject(
+                            new AjaxResponse<ErrorInfo>()
+                            {
+                                Success = false,
+                                UnAuthorizedRequest = true,
+                                Result = errorInfo
+                            }
+                        )
                 );
-
-                aspNetCoreOptions.TriggerHandledException(this, exception);
-            }
         }
 
-        protected virtual string GetAuthorizationExceptionMessage(HttpContext context)
+        /// <summary>
+        /// 处理请求头中缓存相关的键值
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        protected virtual Task ProcessCacheHeaders(object state)
         {
-            if (context.Response.StatusCode == (int)HttpStatusCode.Forbidden)
-            {
-                return "DefaultError403";
-            }
-            return "DefaultError401";
-        }
+            var response = (HttpResponse)state;
 
-        protected virtual bool IsAuthorizationExceptionStatusCode(HttpContext context)
-        {
-            return context.Response.StatusCode == (int)HttpStatusCode.Forbidden
-                   || context.Response.StatusCode == (int)HttpStatusCode.Unauthorized;
+            response.Headers[HeaderNames.CacheControl] = "no-cache";
+            response.Headers[HeaderNames.Pragma] = "no-cache";
+            response.Headers[HeaderNames.Expires] = "-1";
+            response.Headers.Remove(HeaderNames.ETag);
+
+            return Task.CompletedTask;
         }
     }
 }

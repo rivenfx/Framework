@@ -11,17 +11,6 @@ namespace Riven.Configuration
     /// </summary>
     public class RivenAspNetCoreOptions
     {
-        private string _requestActionInfoName = nameof(RequestActionInfo);
-
-        /// <summary>
-        /// 用于存储本次请求的 Action 信息的键值名称,默认值为 'RequestActionInfo'（存储在 HttpContext.Items 中)
-        /// </summary>
-        public virtual string RequestActionInfoName
-        {
-            get => this._requestActionInfoName;
-            set => this._requestActionInfoName = value;
-        }
-      
         /// <summary>
         /// 启用响应结果包装,默认为false,不启用
         /// </summary>

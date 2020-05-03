@@ -30,6 +30,18 @@ namespace Riven.AspNetCore.Models
         }
 
         /// <summary>
+        /// Creates an <see cref="AjaxResponse"/> object with <see cref="Result"/> specified.
+        /// <see cref="AjaxResponseBase.Success"/> is set as true.
+        /// </summary>
+        /// <param name="result">The actual result object of AJAX request</param>
+        /// <param name="success">Indicates success status of the result</param>
+        public AjaxResponse(TResult result, bool success = true)
+        {
+            Result = result;
+            Success = success;
+        }
+
+        /// <summary>
         /// Creates an <see cref="AjaxResponse"/> object.
         /// <see cref="AjaxResponseBase.Success"/> is set as true.
         /// </summary>
@@ -47,6 +59,6 @@ namespace Riven.AspNetCore.Models
             Success = success;
         }
 
-   
+
     }
 }
