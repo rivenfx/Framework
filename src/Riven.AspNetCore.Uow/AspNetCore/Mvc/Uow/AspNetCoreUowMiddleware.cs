@@ -47,6 +47,7 @@ namespace Riven.AspNetCore.Mvc.Uow
             {
                 await next(context);
 
+                // 只有响应码为200的时候才提交更改
                 if (context.Response.StatusCode == (int)HttpStatusCode.OK)
                 {
                     await uow.CompleteAsync(context.RequestAborted);
