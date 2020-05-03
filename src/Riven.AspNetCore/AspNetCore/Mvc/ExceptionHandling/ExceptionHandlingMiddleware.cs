@@ -39,20 +39,27 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                 // 发生异常,但是已经响应了
                 if (context.Response.HasStarted)
                 {
-                    logger.LogWarning("An exception occurred, but response has already started!");
+                    logger.LogWarning("The application has an exception, but is already responding!");
                     throw;
                 }
 
                 var requestActionInfo = context.GetRequestActionInfo();
 
-                if (requestActionInfo != null)
+                var wrapResultAttribute = requestActionInfo.WrapResultAttribute ?? aspNetCoreOptions.DefaultWrapResultAttribute;
+
+                if (wrapResultAttribute.WrapOnError
+                    && requestActionInfo != null
+                    && requestActionInfo.IsObjectResult
+                    )
                 {
-                    if (requestActionInfo.IsObjectResult)
+                    await HandleAndWrapException(context, ex);
+                    aspNetCoreOptions.TriggerHandledException(this, ex);
+
+                    if (wrapResultAttribute.LogError)
                     {
-                        await HandleAndWrapException(context, ex);
-                        aspNetCoreOptions.TriggerHandledException(this, ex);
-                        return;
+                        logger.LogError(ex, ex.Message);
                     }
+                    return;
                 }
 
                 throw;

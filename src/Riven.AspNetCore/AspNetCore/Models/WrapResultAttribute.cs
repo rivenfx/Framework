@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Riven.AspNetCore.Models
 {
     /// <summary>
-    /// Used to determine how ABP should wrap response on the web layer.
+    /// Used to determine how Riven should wrap response on the web layer.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method)]
     public class WrapResultAttribute : Attribute
