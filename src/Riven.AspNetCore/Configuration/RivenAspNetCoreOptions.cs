@@ -27,15 +27,15 @@ namespace Riven.Configuration
         /// </summary>
         public virtual bool AuthorizationEnable { get; set; }
 
-        /// <summary>
-        /// 启用审计,默认为false,不启用
-        /// </summary>
-        public virtual bool AuditEnable { get; set; }
+        ///// <summary>
+        ///// 启用审计,默认为false,不启用
+        ///// </summary>
+        //public virtual bool AuditEnable { get; set; }
 
-        /// <summary>
-        /// 启用校验Filter,默认为false,不启用
-        /// </summary>
-        public virtual bool ValidationFilterEnable { get; set; }
+        ///// <summary>
+        ///// 启用校验Filter,默认为false,不启用
+        ///// </summary>
+        //public virtual bool ValidationFilterEnable { get; set; }
 
         /// <summary>
         /// 启用工作单元,默认为false,不启用
