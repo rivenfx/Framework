@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Riven.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Riven.AspNetCore.Mvc.Extensions
+namespace Riven.Extensions
 {
     public static class HttpContextItemsExtensions
     {
