@@ -20,6 +20,7 @@ using System.Linq;
 using Riven.Identity.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Riven.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace Riven.Authorization
 {
@@ -30,10 +31,10 @@ namespace Riven.Authorization
         readonly IHttpContextAccessor _httpContextAccessor;
         readonly ILogger<ClaimsAuthorizationHandler> _logger;
 
-        public ClaimsAuthorizationHandler(IServiceProvider serviceProvider, IdentityOptions identityOptions, IHttpContextAccessor httpContextAccessor, ILogger<ClaimsAuthorizationHandler> logger)
+        public ClaimsAuthorizationHandler(IServiceProvider serviceProvider, IOptions<IdentityOptions> identityOptionsWrap, IHttpContextAccessor httpContextAccessor, ILogger<ClaimsAuthorizationHandler> logger)
         {
             _serviceProvider = serviceProvider;
-            _identityOptions = identityOptions;
+            _identityOptions = identityOptionsWrap.Value;
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
