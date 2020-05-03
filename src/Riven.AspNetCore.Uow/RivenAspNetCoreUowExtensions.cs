@@ -22,21 +22,15 @@ namespace Riven
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRivenAspNetCoreUow(this IServiceCollection services, Action<UnitOfWorkAttribute> optionAction = null)
+        public static IServiceCollection AddRivenAspNetCoreUow(this IServiceCollection services, Action<UnitOfWorkAttribute> optionsAction = null)
         {
-            if (optionAction != null)
+            services.AddOptions<UnitOfWorkAttribute>();
+            if (optionsAction != null)
             {
-                var unitOfWorkAttribute = new UnitOfWorkAttribute();
-                optionAction.Invoke(unitOfWorkAttribute);
-                services.AddSingleton<UnitOfWorkAttribute>(unitOfWorkAttribute);
-            }
-            else
-            {
-                services.AddSingleton<UnitOfWorkAttribute>();
+                services.Configure(optionsAction);
             }
 
             services.TryAddTransient<AspNetCoreUowMiddleware>();
-
 
             return services;
         }

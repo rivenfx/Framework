@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Riven.Uow;
 using System.Net;
+using Microsoft.Extensions.Options;
 
 namespace Riven.AspNetCore.Mvc.Uow
 {
@@ -25,10 +26,10 @@ namespace Riven.AspNetCore.Mvc.Uow
             var endpoint = context.GetEndpoint();
             var unitOfWorkAttribute = endpoint?.Metadata?.GetMetadata<UnitOfWorkAttribute>();
 
-            // 为空的话获取默认的
+            // 为空的话获取默认的工作单元配置
             if (unitOfWorkAttribute == null)
             {
-                unitOfWorkAttribute = serviceProvider.GetRequiredService<UnitOfWorkAttribute>();
+                unitOfWorkAttribute = serviceProvider.GetRequiredService<IOptions<UnitOfWorkAttribute>>().Value;
             }
 
             // 如果是禁用
