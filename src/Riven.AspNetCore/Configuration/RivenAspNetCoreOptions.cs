@@ -1,3 +1,4 @@
+using Riven.AspNetCore.Models;
 using Riven.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,27 @@ namespace Riven.Configuration
     /// </summary>
     public class RivenAspNetCoreOptions
     {
+        private WrapResultAttribute _defaultWrapResultAttribute;
+
+        public RivenAspNetCoreOptions()
+        {
+            _defaultWrapResultAttribute = new WrapResultAttribute();
+        }
+
         /// <summary>
-        /// 启用响应结果包装,默认为false,不启用
+        /// 默认的响应包装配置
         /// </summary>
-        public virtual bool ResultWrapEnable { get; set; }
+        public virtual WrapResultAttribute DefaultWrapResultAttribute
+        {
+            get => this._defaultWrapResultAttribute;
+            set
+            {
+                if (value != null)
+                {
+                    _defaultWrapResultAttribute = value;
+                }
+            }
+        }
 
         /// <summary>
         /// 异常处理完成事件

@@ -39,20 +39,22 @@ namespace Riven
 
 
         /// <summary>
-        /// 添加 Riven AspNetCore 相关服务
+        /// 添加 Riven AspNetCore 相关过滤器
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRivenAspNetCoreServices(this IServiceCollection services)
+        public static IServiceCollection AddRivenAspNetCoreFilters(this IServiceCollection services)
         {
+            services.AddTransient<RequestActionFilter>();
             services.Configure<MvcOptions>((options) =>
             {
                 options.Filters.AddService<RequestActionFilter>();
             });
 
+            services.AddTransient<RequestResultFilter>();
             services.Configure<MvcOptions>((options) =>
             {
-                options.Filters.AddService<AppResultFilter>();
+                options.Filters.AddService<RequestResultFilter>();
             });
 
             

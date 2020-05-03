@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Riven.AspNetCore.Mvc.Results.Wrapping;
+using Microsoft.Extensions.Options;
+using Riven.Configuration;
 
 namespace Riven.AspNetCore.Mvc.Results
 {
-    public class AppResultFilter : IResultFilter, IAsyncPageFilter
+    public class RequestResultFilter : IResultFilter, IAsyncPageFilter
     {
 
 
@@ -31,12 +33,21 @@ namespace Riven.AspNetCore.Mvc.Results
             var wrapResultAttribute = ReflectionHelper
                .GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<WrapResultAttribute>(methodInfo);
 
+            if (wrapResultAttribute == null)
+            {
+                wrapResultAttribute = context.HttpContext.RequestServices
+                    .GetRequiredService<IOptions<RivenAspNetCoreOptions>>()
+                    .Value
+                    .DefaultWrapResultAttribute;
+            }
+
             if (!wrapResultAttribute.WrapOnSuccess)
             {
                 return;
             }
 
-            var requestActionResultWrapperFactory = context.HttpContext.RequestServices.GetService<IRequestActionResultWrapperFactory>();
+            var requestActionResultWrapperFactory = context.HttpContext.RequestServices
+                .GetRequiredService<IRequestActionResultWrapperFactory>();
             requestActionResultWrapperFactory.CreateFor(context).Wrap(context);
         }
 
@@ -47,11 +58,11 @@ namespace Riven.AspNetCore.Mvc.Results
 
         #endregion
 
-        
-        
+
+
         #region IAsyncPageFilter
-        
-        
+
+
         public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
             if (context.HandlerMethod == null)
