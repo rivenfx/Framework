@@ -76,11 +76,12 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
             httpContext.Response.StatusCode = httpContext.GetAuthorizationException() == null ? oldStatusCode : (int)HttpStatusCode.Unauthorized;
             httpContext.Response.OnStarting(ProcessCacheHeaders, httpContext.Response);
 
-            var errorInfo = new ErrorInfo(httpContext.Response.StatusCode, exception.Message, exception.ToString());
+            var errorInfo = new ErrorInfo(exception.Message, exception.ToString());
             await httpContext.Response.WriteAsync(
                 JsonConvert.SerializeObject(
                             new AjaxResponse<ErrorInfo>()
                             {
+                                Code = httpContext.Response.StatusCode,
                                 Success = false,
                                 UnAuthorizedRequest = true,
                                 Result = errorInfo
