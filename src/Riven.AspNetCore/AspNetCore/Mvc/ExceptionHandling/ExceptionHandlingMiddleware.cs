@@ -33,11 +33,7 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
             }
             catch (Exception ex)
             {
-                if (!aspNetCoreOptions.ExceptionHandlingEnable)
-                {
-                    throw ex;
-                }
-
+               
             }
 
 

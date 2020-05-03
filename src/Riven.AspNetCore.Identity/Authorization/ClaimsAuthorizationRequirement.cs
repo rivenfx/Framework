@@ -59,14 +59,6 @@ namespace Riven.Identity.Authorization
                     return;
                 }
 
-                var aspNetCoreOptions = serviceProvider.GetRequiredService<IOptions<RivenAspNetCoreOptions>>().Value;
-                if (!aspNetCoreOptions.AuthorizationEnable)
-                {
-                    context.Succeed(requirement);
-                    return;
-                }
-
-
                 var identityOptions = serviceProvider.GetRequiredService<IOptions<IdentityOptions>>().Value;
                 var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
 
