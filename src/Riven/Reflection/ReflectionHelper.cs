@@ -252,7 +252,7 @@ namespace Riven.Reflection
             property.SetValue(obj, value);
         }
 
-        internal static bool IsPropertyGetterSetterMethod(MethodInfo method, Type type)
+        public static bool IsPropertyGetterSetterMethod(MethodInfo method, Type type)
         {
             if (!method.IsSpecialName)
             {
