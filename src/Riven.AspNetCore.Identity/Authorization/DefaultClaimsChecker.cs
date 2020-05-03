@@ -9,12 +9,12 @@ using Riven.Extensions;
 
 namespace Riven.Authorization
 {
-    public class DefaultRoleClaimChecker : IClaimsChecker
+    public class DefaultClaimsChecker : IClaimsChecker
     {
         readonly IUserRoleClaimAccessor _userClaimAccessor;
         readonly IRoleClaimAccessor _roleClaimAccessor;
 
-        public DefaultRoleClaimChecker(IUserRoleClaimAccessor userClaimAccessor, IRoleClaimAccessor roleClaimAccessor)
+        public DefaultClaimsChecker(IUserRoleClaimAccessor userClaimAccessor, IRoleClaimAccessor roleClaimAccessor)
         {
             _userClaimAccessor = userClaimAccessor;
             _roleClaimAccessor = roleClaimAccessor;
