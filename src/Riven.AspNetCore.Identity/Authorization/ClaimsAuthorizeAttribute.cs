@@ -29,7 +29,7 @@ namespace Riven.Identity.Authorization
         {
             Claims = roleClaims;
 
-            Policy = ClaimsAuthorizationPolicyProvider.POLICY_PREFIX;
+            Policy = ClaimsAuthorizationPolicyProvider.POLICY_NAME;
         }
     }
 }

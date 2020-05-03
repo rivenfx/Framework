@@ -9,7 +9,7 @@ namespace Riven.Identity.Authorization
     // services.AddSingleton<IAuthorizationPolicyProvider, ClaimsAuthorizationPolicyProvider>();
     public class ClaimsAuthorizationPolicyProvider : IAuthorizationPolicyProvider
     {
-        public const string POLICY_PREFIX = "Claims";
+        public const string POLICY_NAME = "RivenClaims";
 
         readonly IServiceProvider _serviceProvider;
 

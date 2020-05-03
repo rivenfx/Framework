@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Riven.AspNetCore.FilterHandlers;
 using Riven.Authorization;
+using Riven.Identity.Authorization;
 
 namespace Riven
 {
@@ -18,11 +20,7 @@ namespace Riven
         /// <returns></returns>
         public static IServiceCollection AddRivenAspNetCoreClaimsAuthorization(this IServiceCollection services)
         {
-            services.Replace(new ServiceDescriptor(
-                typeof(IAspNetCoreAuthorizationHandler),
-                typeof(ClaimsAuthorizationHandler),
-                ServiceLifetime.Transient)
-                );
+            services.AddSingleton<IAuthorizationPolicyProvider, ClaimsAuthorizationPolicyProvider>();
 
             services.TryAddTransient<IClaimsChecker, DefaultClaimsChecker>();
 

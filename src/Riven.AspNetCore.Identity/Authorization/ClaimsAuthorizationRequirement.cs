@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using Riven.Extensions;
+using Riven.Authorization;
 
 namespace Riven.Identity.Authorization
 {
@@ -29,8 +32,6 @@ namespace Riven.Identity.Authorization
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
             ClaimsAuthorizationRequirement requirement)
         {
-            await Task.Yield();
-
             if (context.HasSucceeded || context.HasFailed)
             {
                 return;
@@ -38,8 +39,9 @@ namespace Riven.Identity.Authorization
 
             var routeEndpoint = context.Resource as RouteEndpoint;
 
-            var roleClaimAttributes = routeEndpoint?.Metadata?.GetOrderedMetadata<ClaimsAuthorizeAttribute>()?.ToList();
-            if (roleClaimAttributes == null || roleClaimAttributes.Count == 0)
+
+            var claimsAttributes = routeEndpoint?.Metadata?.GetOrderedMetadata<ClaimsAuthorizeAttribute>()?.ToList();
+            if (claimsAttributes == null || claimsAttributes.Count == 0)
             {
                 context.Succeed(requirement);
                 return;
@@ -50,17 +52,30 @@ namespace Riven.Identity.Authorization
 
             try
             {
-                var identityOptions = serviceProvider.GetService<IOptions<IdentityOptions>>().Value;
-                var claimsIdentityUserId = context.User.FindFirst(o => o.Type == identityOptions.ClaimsIdentity.UserIdClaimType);
 
-                Check.NotNull(claimsIdentityUserId, nameof(claimsIdentityUserId));
+                if (!claimsAttributes.Any())
+                {
+                    return;
+                }
 
-                var userId = claimsIdentityUserId.Value;
-
-                Check.NotNullOrWhiteSpace(userId, nameof(userId));
-
+                var identityOptions = serviceProvider.GetRequiredService<IOptions<IdentityOptions>>().Value;
+                var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
 
 
+                var user = httpContextAccessor.HttpContext.User;
+                var userId = user.GetUserId(identityOptions);
+
+                if (user == null || userId.IsNullOrWhiteSpace())
+                {
+                    throw new AuthorizationException("CurrentUserDidNotLoginToTheApplication");
+                }
+
+                var claimsChecker = serviceProvider.GetService<IClaimsChecker>();
+
+                foreach (var claimsAttribute in claimsAttributes)
+                {
+                    await claimsChecker.AuthorizeAsync(userId, claimsAttribute.RequireAll, claimsAttribute.Claims);
+                }
             }
             catch (Exception ex)
             {
