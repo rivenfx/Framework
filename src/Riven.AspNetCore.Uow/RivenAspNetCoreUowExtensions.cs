@@ -25,7 +25,11 @@ namespace Riven
         /// <returns></returns>
         public static IServiceCollection AddRivenAspNetCoreUow(this IServiceCollection services, Action<UnitOfWorkAttribute> configurationDefaultUowAttr = null)
         {
-            services.AddTransient<IAspNetCoreUnitOfWorkHandler, AspNetCoreUowHandler>();
+            services.Replace(new ServiceDescriptor(
+                typeof(IAspNetCoreUnitOfWorkHandler),
+                typeof(AspNetCoreUowHandler),
+                ServiceLifetime.Transient)
+                );
 
             if (configurationDefaultUowAttr != null)
             {
