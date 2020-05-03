@@ -23,5 +23,10 @@ namespace Riven.AspNetCore.Models
         /// This property can be used to indicate that the current user has no privilege to perform this request.
         /// </summary>
         public bool UnAuthorizedRequest { get; set; }
+
+        /// <summary>
+        /// Http response status code
+        /// </summary>
+        public int Code { get; set; }
     }
 }
