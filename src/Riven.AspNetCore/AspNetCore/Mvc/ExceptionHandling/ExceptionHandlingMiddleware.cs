@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using Riven.AspNetCore.Mvc.Extensions;
 using Microsoft.Net.Http.Headers;
 using Riven.Extensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Riven.AspNetCore.Mvc.ExceptionHandling
 {
@@ -71,25 +72,44 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
 
         protected virtual async Task HandleAndWrapException(HttpContext httpContext, Exception exception)
         {
+            var jsonHelper = httpContext.RequestServices.GetRequiredService<IJsonHelper>();
+
             var oldStatusCode = httpContext.Response.StatusCode;
 
-
             httpContext.Response.Clear();
-            httpContext.Response.StatusCode = httpContext.GetAuthorizationException() == null ? oldStatusCode : (int)HttpStatusCode.Unauthorized;
+            httpContext.Response.StatusCode = GetResponseStatusCode(httpContext);
             httpContext.Response.OnStarting(ProcessCacheHeaders, httpContext.Response);
 
             var errorInfo = new ErrorInfo(exception.Message, exception.ToString());
-            await httpContext.Response.WriteAsync(
-                JsonConvert.SerializeObject(
-                            new AjaxResponse<ErrorInfo>()
-                            {
-                                Code = httpContext.Response.StatusCode,
-                                Success = false,
-                                UnAuthorizedRequest = true,
-                                Result = errorInfo
-                            }
-                        )
-                );
+            var htmlContent = jsonHelper.Serialize(new AjaxResponse<ErrorInfo>()
+            {
+                Code = httpContext.Response.StatusCode,
+                Success = false,
+                UnAuthorizedRequest = true,
+                Result = errorInfo
+            });
+
+
+
+
+            await httpContext.Response.WriteAsync(htmlContent.ToString(), httpContext.RequestAborted);
+        }
+
+        /// <summary>
+        /// 获取响应状态码
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        protected virtual int GetResponseStatusCode(HttpContext httpContext)
+        {
+            var oldStatusCode = httpContext.Response.StatusCode;
+            if (httpContext.GetAuthorizationException() != null)
+            {
+                return (int)HttpStatusCode.Unauthorized;
+            }
+
+
+            return (int)HttpStatusCode.InternalServerError;
         }
 
         /// <summary>
