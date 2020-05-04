@@ -35,6 +35,11 @@ namespace Riven.Configuration
         }
 
         /// <summary>
+        /// 发送所有的异常数据到客户端
+        /// </summary>
+        public bool SendAllExceptionToClient { get; set; }
+
+        /// <summary>
         /// 异常处理完成事件
         /// </summary>
         public event EventHandler<Exception> OnHandledException;

@@ -15,6 +15,7 @@ using Riven.AspNetCore.Mvc.Extensions;
 using Microsoft.Net.Http.Headers;
 using Riven.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Riven.Exceptions;
 
 namespace Riven.AspNetCore.Mvc.ExceptionHandling
 {
@@ -55,7 +56,7 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                     && requestActionInfo.IsObjectResult
                     )
                 {
-                    await HandleAndWrapException(context, ex);
+                    await HandleAndWrapException(context, ex, aspNetCoreOptions);
                     aspNetCoreOptions.TriggerHandledException(this, ex);
 
                     if (wrapResultAttribute.LogError)
@@ -70,17 +71,18 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
 
         }
 
-        protected virtual async Task HandleAndWrapException(HttpContext httpContext, Exception exception)
+        protected virtual async Task HandleAndWrapException(HttpContext httpContext, Exception exception, RivenAspNetCoreOptions aspNetCoreOptions)
         {
             var jsonHelper = httpContext.RequestServices.GetRequiredService<IJsonHelper>();
 
             var oldStatusCode = httpContext.Response.StatusCode;
 
             httpContext.Response.Clear();
-            httpContext.Response.StatusCode = GetResponseStatusCode(httpContext);
+            httpContext.Response.StatusCode = GetResponseStatusCode(httpContext, exception);
             httpContext.Response.OnStarting(ProcessCacheHeaders, httpContext.Response);
 
-            var errorInfo = new ErrorInfo(exception.Message, exception.ToString());
+            var errorInfo = CreateErrorInfo(httpContext, exception, aspNetCoreOptions);
+
             var htmlContent = jsonHelper.Serialize(new AjaxResponse<ErrorInfo>()
             {
                 Code = httpContext.Response.StatusCode,
@@ -89,9 +91,6 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                 Result = errorInfo
             });
 
-
-
-
             await httpContext.Response.WriteAsync(htmlContent.ToString(), httpContext.RequestAborted);
         }
 
@@ -99,17 +98,45 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
         /// 获取响应状态码
         /// </summary>
         /// <param name="httpContext"></param>
+        /// <param name="exception"></param>
         /// <returns></returns>
-        protected virtual int GetResponseStatusCode(HttpContext httpContext)
+        protected virtual int GetResponseStatusCode(HttpContext httpContext, Exception exception)
         {
             var oldStatusCode = httpContext.Response.StatusCode;
             if (httpContext.GetAuthorizationException() != null)
             {
                 return (int)HttpStatusCode.Unauthorized;
             }
+            if (exception is UserFriendlyException userFriendlyException)
+            {
+                if (userFriendlyException.Code.HasValue)
+                {
+                    return userFriendlyException.Code.Value;
+                }
+            }
 
 
             return (int)HttpStatusCode.InternalServerError;
+        }
+
+        /// <summary>
+        /// 创建错误信息
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <param name="exception"></param>
+        /// <param name="aspNetCoreOptions"></param>
+        /// <returns></returns>
+        protected virtual ErrorInfo CreateErrorInfo(HttpContext httpContext, Exception exception, RivenAspNetCoreOptions aspNetCoreOptions)
+        {
+            if (exception is UserFriendlyException userFriendlyException)
+            {
+                return new ErrorInfo(userFriendlyException.Message, userFriendlyException.Details);
+            }
+
+            return new ErrorInfo(
+                   exception.Message,
+                   aspNetCoreOptions.SendAllExceptionToClient ? exception.ToString() : nameof(HttpStatusCode.InternalServerError)
+               );
         }
 
         /// <summary>
