@@ -40,6 +40,11 @@ namespace Riven.Identity.Users
         /// 是否已激活
         /// </summary>
         public virtual bool IsActive { get; set; }
+
+        /// <summary>
+        /// 是否为系统级用户
+        /// </summary>
+        public virtual bool IsSystem { get; set; }
     }
 
     /// <summary>
