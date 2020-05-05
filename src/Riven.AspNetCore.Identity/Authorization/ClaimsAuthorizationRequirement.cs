@@ -68,8 +68,13 @@ namespace Riven.Identity.Authorization
 
                     if (user == null || userId.IsNullOrWhiteSpace())
                     {
-                        context.Fail();
-                        return;
+                        if (!httpContextAccessor.HttpContext.IsAjax())
+                        {
+                            context.Fail();
+                            return;
+                        }
+
+                        throw new AuthorizationException("当前账号未登录");
                     }
 
                     var claimsChecker = serviceProvider.GetRequiredService<IClaimsChecker>();
@@ -85,8 +90,6 @@ namespace Riven.Identity.Authorization
                 {
                     logger.LogError(ex, ex.Message);
                     httpContextAccessor.HttpContext.SetAuthorizationException(ex);
-                    context.Fail();
-
                     throw ex;
                 }
 
