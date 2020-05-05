@@ -38,17 +38,8 @@ namespace Riven
             });
 
             // DynamicWebApi 
-            if (dynamicWebApiConfigurationAction != null)
-            {
-                var dynamicWebApiOptions = new DynamicWebApiOptions();
-                dynamicWebApiConfigurationAction.Invoke(dynamicWebApiOptions);
+            services.AddDynamicWebApi(dynamicWebApiConfigurationAction);
 
-                services.AddDynamicWebApi(dynamicWebApiOptions);
-            }
-            else
-            {
-                services.AddDynamicWebApi();
-            }
             return services;
         }
 
