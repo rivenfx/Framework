@@ -27,13 +27,13 @@ namespace Riven.Identity.Roles
         /// 显示名称
         /// </summary>
         [StringLength(DisplayNameMaxLength)]
-        public string DispayName { get; set; }
+        public virtual string DispayName { get; set; }
 
         /// <summary>
         /// 描述
         /// </summary>
         [StringLength(DescriptionMaxLength)]
-        public string Description { get; set; }
+        public virtual string Description { get; set; }
     }
 
     /// <summary>
