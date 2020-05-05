@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace Riven.Extensions
         public const string RequestedWithHeader = "X-Requested-With";
         public const string XmlHttpRequest = "XMLHttpRequest";
 
+        public const string AcceptHeader = "Accept";
+
+        public const string RefererHeader = "Referer";
+        public const string RefererFromSwagger = "swagger";
+
         public static bool IsAjax([NotNull]this HttpContext httpContext)
         {
             Check.NotNull(httpContext, nameof(httpContext));
@@ -20,6 +26,11 @@ namespace Riven.Extensions
             if (httpContext.Request.Headers == null)
             {
                 return false;
+            }
+
+            if (httpContext.Request.Headers.TryGetValue(RefererHeader, out StringValues refererValues))
+            {
+                return refererValues.ToString().Contains(RefererFromSwagger);
             }
 
             return httpContext.Request.Headers[RequestedWithHeader] == XmlHttpRequest;
@@ -31,7 +42,7 @@ namespace Riven.Extensions
             Check.NotNull(httpContext.Request, nameof(httpContext.Request));
             Check.NotNull(contentType, nameof(contentType));
 
-            return httpContext.Request.Headers["Accept"].ToString().Contains(contentType);
+            return httpContext.Request.Headers[AcceptHeader].ToString().Contains(contentType);
         }
     }
 }
