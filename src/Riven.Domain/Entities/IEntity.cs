@@ -8,12 +8,12 @@ namespace Riven.Entities
     /// 实体接口
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
-    public interface IEntity<TKey>
+    public interface IEntity<TPrimaryKey>
     {
         /// <summary>
         /// Id
         /// </summary>
-        TKey Id { get; set; }
+        TPrimaryKey Id { get; set; }
 
         /// <summary>
         /// 是否为临时对象
