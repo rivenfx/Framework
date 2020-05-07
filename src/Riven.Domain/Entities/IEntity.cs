@@ -7,7 +7,7 @@ namespace Riven.Entities
     /// <summary>
     /// 实体接口
     /// </summary>
-    /// <typeparam name="TKey">主键类型</typeparam>
+    /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     public interface IEntity<TPrimaryKey>
     {
         /// <summary>

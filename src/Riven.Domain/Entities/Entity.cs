@@ -8,7 +8,7 @@ namespace Riven.Entities
     /// <summary>
     /// 实体基类
     /// </summary>
-    /// <typeparam name="TKey">主键类型</typeparam>
+    /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     [Serializable]
     public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
     {

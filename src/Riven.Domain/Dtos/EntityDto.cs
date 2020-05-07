@@ -12,8 +12,8 @@ namespace Riven.Dtos
     }
 
     [Serializable]
-    public class EntityDto<TKey> : IEntityDto<TKey>
+    public class EntityDto<TPrimaryKey> : IEntityDto<TPrimaryKey>
     {
-        public virtual TKey Id { get; set; }
+        public virtual TPrimaryKey Id { get; set; }
     }
 }

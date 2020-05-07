@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Riven.Dtos
 {
-    public interface IEntityDto<TKey>
+    public interface IEntityDto<TPrimaryKey>
     {
         /// <summary>
         /// Id
         /// </summary>
-        TKey Id { get; set; }
+        TPrimaryKey Id { get; set; }
     }
 
     public interface IEntityDto: IEntityDto<long>
