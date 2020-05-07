@@ -74,6 +74,7 @@ namespace Riven.Identity.Authorization
                             return;
                         }
 
+                        // TODO: 本地化异常
                         throw new AuthorizationException("当前账号未登录");
                     }
 

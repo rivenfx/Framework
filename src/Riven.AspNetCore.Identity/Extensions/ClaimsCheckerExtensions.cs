@@ -15,6 +15,7 @@ namespace Riven.Extensions
                 return;
             }
 
+            // TODO: 本地化claim名称
             if (requireAll)
             {
                 throw new AuthorizationException(
