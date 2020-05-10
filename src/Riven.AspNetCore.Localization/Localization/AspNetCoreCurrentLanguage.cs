@@ -11,8 +11,6 @@ namespace Riven.Localization
 {
     public class AspNetCoreCurrentLanguage : ICurrentLanguage
     {
-        public virtual string Culture => GetCurrentLanguage()?.Culture;
-
         protected readonly ILanguageManager _languageManager;
         protected readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -22,7 +20,7 @@ namespace Riven.Localization
             _httpContextAccessor = httpContextAccessor;
         }
 
-        protected LanguageInfo GetCurrentLanguage()
+        public virtual LanguageInfo GetCurrentLanguage()
         {
             var languages = _languageManager.GetEnabledLanguages();
             if (languages.Count <= 0)

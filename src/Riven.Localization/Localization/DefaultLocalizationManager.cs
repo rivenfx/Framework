@@ -19,7 +19,7 @@ namespace Riven.Localization
             }
         }
 
-        public string CurrentLanguage => _currentLanguage.Culture;
+        public string CurrentLanguage => _currentLanguage.GetCurrentLanguage().Culture;
 
         public ILanguageManager LanguageManager => _languageManager;
 
@@ -47,7 +47,7 @@ namespace Riven.Localization
 
         public string L([NotNull]string languageKey, params object[] args)
         {
-            return this.L(_currentLanguage.Culture, languageKey, args);
+            return this.L(CurrentLanguage, languageKey, args);
         }
     }
 }
