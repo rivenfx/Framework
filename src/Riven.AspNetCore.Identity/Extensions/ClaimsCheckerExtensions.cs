@@ -1,4 +1,5 @@
-﻿using Riven.Authorization;
+﻿using Microsoft.Extensions.Localization;
+using Riven.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,26 +9,28 @@ namespace Riven.Extensions
 {
     public static class ClaimsCheckerExtensions
     {
-        public static async Task AuthorizeAsync(this IClaimsChecker claimsChecker, string userId, bool requireAll, params string[] claims)
+        public static async Task AuthorizeAsync(this IClaimsChecker claimsChecker, IStringLocalizer stringLocalizer, string userId, bool requireAll, params string[] claims)
         {
             if (await claimsChecker.IsGrantedAsync(userId, requireAll, claims))
             {
                 return;
             }
-
+            var errorMessageStringBuilder = new StringBuilder();
             // TODO: 本地化claim名称
             if (requireAll)
             {
-                throw new AuthorizationException(
-                    string.Format($"requireAll {string.Join(", ", claims)} 中的某些权限不存在")
-                );
+                errorMessageStringBuilder.AppendLine(stringLocalizer["SomeClaimDoNotExist"]);
             }
             else
             {
-                throw new AuthorizationException(
-                   string.Format($"not requireAll {string.Join(", ", claims)} 中的任何权限")
-               );
+                errorMessageStringBuilder.AppendLine(stringLocalizer["WithoutAnyClaim"]);
             }
+
+            foreach (var claim in claims)
+            {
+                errorMessageStringBuilder.AppendLine(stringLocalizer[claim]);
+            }
+            throw new AuthorizationException(errorMessageStringBuilder.ToString());
         }
     }
 }

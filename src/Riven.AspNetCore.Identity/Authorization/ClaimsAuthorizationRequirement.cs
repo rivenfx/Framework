@@ -19,6 +19,7 @@ using Riven.AspNetCore.Models;
 using Newtonsoft.Json;
 using System.Net;
 using Riven.AspNetCore.Mvc.Extensions;
+using Microsoft.Extensions.Localization;
 
 namespace Riven.Identity.Authorization
 {
@@ -59,6 +60,8 @@ namespace Riven.Identity.Authorization
                 var logger = serviceProvider.GetRequiredService<ILogger<ClaimsAuthorizationRequirement>>();
                 var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
 
+                var stringLocalizer = serviceProvider.GetRequiredService<IStringLocalizer>();
+
                 try
                 {
                     var identityOptions = serviceProvider.GetRequiredService<IOptions<IdentityOptions>>().Value;
@@ -75,14 +78,14 @@ namespace Riven.Identity.Authorization
                         }
 
                         // TODO: 本地化异常
-                        throw new AuthorizationException("当前账号未登录");
+                        throw new AuthorizationException(stringLocalizer["NotLoggedIn"]);
                     }
 
                     var claimsChecker = serviceProvider.GetRequiredService<IClaimsChecker>();
 
                     foreach (var claimsAttribute in claimsAttributes)
                     {
-                        await claimsChecker.AuthorizeAsync(userId, claimsAttribute.RequireAll, claimsAttribute.Claims);
+                        await claimsChecker.AuthorizeAsync(stringLocalizer, userId, claimsAttribute.RequireAll, claimsAttribute.Claims);
                     }
 
                     context.Succeed(requirement);
