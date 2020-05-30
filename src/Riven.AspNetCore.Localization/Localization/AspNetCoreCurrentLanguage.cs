@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -28,12 +29,12 @@ namespace Riven.Localization
                 throw new Exception("No language defined in this application.");
             }
             var currentCultureName = string.Empty;
-            //var currentCultureName = CultureInfo.CurrentUICulture.Name;
             if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null)
             {
                 var requestCultureFeature = _httpContextAccessor.HttpContext.Features.Get<IRequestCultureFeature>();
-                var currentCultureName1 = requestCultureFeature.RequestCulture.UICulture.Name;
-                var currentCultureName2 = requestCultureFeature.RequestCulture.Culture.Name;
+                //var currentCultureName1 = requestCultureFeature.RequestCulture.UICulture.Name;
+                //var currentCultureName2 = requestCultureFeature.RequestCulture.Culture.Name;
+                currentCultureName = requestCultureFeature.RequestCulture.UICulture.Name;
             }
             else
             {
