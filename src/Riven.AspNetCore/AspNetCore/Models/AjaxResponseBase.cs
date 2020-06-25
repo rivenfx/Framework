@@ -1,4 +1,5 @@
 ﻿using Riven.AspNetCore.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,5 +30,10 @@ namespace Riven.AspNetCore.Models
         /// Http response status code, default value: 200.
         /// </summary>
         public int Code { get; set; } = (int)HttpStatusCode.OK;
+
+        /// <summary>
+        /// Is the result wrapper class.
+        /// </summary>
+        public bool __wrap { get; set; } = true;
     }
 }
