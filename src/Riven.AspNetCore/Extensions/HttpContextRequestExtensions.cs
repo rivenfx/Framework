@@ -1,6 +1,8 @@
 ﻿using JetBrains.Annotations;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ namespace Riven.Extensions
     public static class HttpContextRequestExtensions
     {
         public const string RequestedWithHeader = "X-Requested-With";
+        public const string RequestedWithHeaderLower = "x-requested-with";
         public const string XmlHttpRequest = "XMLHttpRequest";
 
         public const string AcceptHeader = "Accept";
@@ -18,7 +21,7 @@ namespace Riven.Extensions
         public const string RefererHeader = "Referer";
         public const string RefererFromSwagger = "swagger";
 
-        public static bool IsAjax([NotNull]this HttpContext httpContext)
+        public static bool IsAjax([NotNull] this HttpContext httpContext)
         {
             Check.NotNull(httpContext, nameof(httpContext));
             Check.NotNull(httpContext.Request, nameof(httpContext.Request));
@@ -28,15 +31,19 @@ namespace Riven.Extensions
                 return false;
             }
 
-            if (httpContext.Request.Headers.TryGetValue(RefererHeader, out StringValues refererValues))
+            if (httpContext.Request.Headers.TryGetValue(RefererHeader, out StringValues refererValues)
+                && refererValues.ToString().Contains(RefererFromSwagger))
             {
-                return refererValues.ToString().Contains(RefererFromSwagger);
+                return true;
             }
 
-            return httpContext.Request.Headers[RequestedWithHeader] == XmlHttpRequest;
+            var ajaxHeader = httpContext.Request.Headers
+                .FirstOrDefault(o => o.Key == RequestedWithHeaderLower || o.Key == RequestedWithHeader);
+
+            return ajaxHeader.Value == XmlHttpRequest;
         }
 
-        public static bool CanAccept([NotNull]this HttpContext httpContext, [NotNull] string contentType)
+        public static bool CanAccept([NotNull] this HttpContext httpContext, [NotNull] string contentType)
         {
             Check.NotNull(httpContext, nameof(httpContext));
             Check.NotNull(httpContext.Request, nameof(httpContext.Request));
