@@ -102,18 +102,18 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
         /// <returns></returns>
         protected virtual int GetResponseStatusCode(HttpContext httpContext, Exception exception)
         {
-            if (httpContext.GetAuthorizationException() != null)
+            if (httpContext.GetAuthorizationException() != null
+               || (exception is AuthorizationException authorizationException))
             {
                 return (int)HttpStatusCode.Unauthorized;
             }
-            if (exception is UserFriendlyException userFriendlyException)
+            else if (exception is UserFriendlyException userFriendlyException)
             {
                 if (userFriendlyException.Code.HasValue)
                 {
                     return userFriendlyException.Code.Value;
                 }
             }
-
 
             return (int)HttpStatusCode.InternalServerError;
         }
