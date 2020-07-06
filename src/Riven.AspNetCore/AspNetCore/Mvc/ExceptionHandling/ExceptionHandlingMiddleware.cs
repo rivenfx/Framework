@@ -75,11 +75,11 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
         {
             var jsonHelper = httpContext.RequestServices.GetRequiredService<IJsonHelper>();
 
-            var oldStatusCode = httpContext.Response.StatusCode;
-
             httpContext.Response.Clear();
             httpContext.Response.StatusCode = GetResponseStatusCode(httpContext, exception);
             httpContext.Response.OnStarting(ProcessCacheHeaders, httpContext.Response);
+            // TODO: Use Consts
+            httpContext.Response.Headers[HeaderNames.ContentType] = "application/json";
 
             var errorInfo = CreateErrorInfo(httpContext, exception, aspNetCoreOptions);
 
@@ -102,7 +102,6 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
         /// <returns></returns>
         protected virtual int GetResponseStatusCode(HttpContext httpContext, Exception exception)
         {
-            var oldStatusCode = httpContext.Response.StatusCode;
             if (httpContext.GetAuthorizationException() != null)
             {
                 return (int)HttpStatusCode.Unauthorized;

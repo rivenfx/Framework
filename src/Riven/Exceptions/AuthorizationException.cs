@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Riven.Authorization
+namespace Riven.Exceptions
 {
     [Serializable]
     public class AuthorizationException : Exception

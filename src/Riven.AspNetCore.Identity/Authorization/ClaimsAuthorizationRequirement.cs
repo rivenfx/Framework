@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System.Net;
 using Riven.AspNetCore.Mvc.Extensions;
 using Microsoft.Extensions.Localization;
+using Riven.Exceptions;
 
 namespace Riven.Identity.Authorization
 {
