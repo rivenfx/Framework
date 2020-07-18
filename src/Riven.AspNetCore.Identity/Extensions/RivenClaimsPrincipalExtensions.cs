@@ -10,7 +10,12 @@ namespace Riven.Extensions
     {
         public static string GetUserId(this ClaimsPrincipal claimsPrincipal, IdentityOptions identityOptions)
         {
-            return claimsPrincipal.FindFirstValue(identityOptions.ClaimsIdentity.UserIdClaimType);
+            var userIdString = claimsPrincipal.FindFirstValue(identityOptions.ClaimsIdentity.UserIdClaimType);
+            if (!userIdString.IsNullOrWhiteSpace())
+            {
+                return userIdString;
+            }
+            return claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         public static string GetUserName(this ClaimsPrincipal claimsPrincipal, IdentityOptions identityOptions)
