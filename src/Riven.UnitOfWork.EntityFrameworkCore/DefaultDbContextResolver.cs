@@ -21,9 +21,13 @@ namespace Riven
 
         protected readonly Dictionary<string, IDbContextProvider> _dbContextProviderDict;
 
-        public DefaultDbContextResolver(IServiceProvider service)
+        protected readonly IServiceProvider _serviceProvider;
+
+        public DefaultDbContextResolver(IServiceProvider serviceProvider)
         {
-            _dbContextProviderDict = service.GetServices<IDbContextProvider>()
+            _serviceProvider = serviceProvider;
+
+            _dbContextProviderDict = serviceProvider.GetServices<IDbContextProvider>()
                 .ToDictionary(o => o.Name);
         }
 
@@ -48,7 +52,7 @@ namespace Riven
             // 实例化对象
             var constructor = this.GetDbContextConstructor(dbContextProvider, dbContextConfiguration);
             var obj = constructor.Invoke(new object[] {
-                dbContextConfiguration.DbContextOptions.Options
+                dbContextConfiguration.DbContextOptions.Options, this._serviceProvider
             });
 
 
