@@ -25,7 +25,9 @@ using Riven.MultiTenancy;
 
 namespace Riven
 {
-
+    /// <summary>
+    /// Riven 数据库上下文接口, 包含过滤器和审计
+    /// </summary>
     public interface IRivenDbContext
     {
         /// <summary>
@@ -36,7 +38,7 @@ namespace Riven
         /// <summary>
         /// 审计自动设置租户名称
         /// </summary>
-        bool AuditSuppressAutoSetTenantName => true;
+        bool AuditSuppressAutoSetTenantName { get; }
 
         /// <summary>
         /// 依赖注入容器
@@ -131,6 +133,11 @@ namespace Riven
         void ConfigureGlobalFilters<TEntity>(ModelBuilder modelBuilder)
             where TEntity : class
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             Expression<Func<TEntity, bool>> filterExpression = null;
 
             filterExpression = ModelBuilderFilterExtenstions.CreateSoftDeleteFilterExpression(filterExpression);
@@ -157,6 +164,11 @@ namespace Riven
         /// <param name="changeTracker"></param>
         void ApplyAudit(ChangeTracker changeTracker)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             var userId = GetCurrentUserIdOrNull();
 
             foreach (var entry in changeTracker.Entries().ToList())
@@ -188,6 +200,11 @@ namespace Riven
         /// <param name="userId"></param>
         void ApplyAuditForAddedEntity(EntityEntry entry, string userId)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             CheckAndSetId(entry);
             CheckAndSetMustHaveTenantNameProperty(entry.Entity);
             CheckAndSetMayHaveTenantNameProperty(entry.Entity);
@@ -202,6 +219,11 @@ namespace Riven
         /// <param name="userId"></param>
         void ApplyAuditForModifiedEntity(EntityEntry entry, string userId)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             SetModificationAuditProperties(entry.Entity, userId);
             if (entry.Entity is ISoftDelete && entry.Entity.As<ISoftDelete>().IsDeleted)
             {
@@ -217,6 +239,11 @@ namespace Riven
         /// <param name="userId"></param>
         void ApplyAuditForDeletedEntity(EntityEntry entry, string userId)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             if (IsHardDeleteEntity(entry))
             {
                 return;
@@ -233,6 +260,11 @@ namespace Riven
         /// <param name="entry"></param>
         void CheckAndSetId(EntityEntry entry)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             //Set GUID Ids
             var entity = entry.Entity as IEntity<Guid>;
             if (entity != null && entity.Id == Guid.Empty)
@@ -253,6 +285,11 @@ namespace Riven
         /// <param name="entityAsObj"></param>
         void CheckAndSetMustHaveTenantNameProperty(object entityAsObj)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             // 未启用多租户
             if (!this.GetMultiTenancyEnabled())
             {
@@ -296,6 +333,11 @@ namespace Riven
         /// <param name="entityAsObj"></param>
         void CheckAndSetMayHaveTenantNameProperty(object entityAsObj)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             if (!this.GetMultiTenancyEnabled())
             {
                 return;
@@ -330,6 +372,11 @@ namespace Riven
         /// <param name="userId"></param>
         void SetCreationAuditProperties(object entityAsObj, string userId)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             EntityAuditingHelper.SetCreationAuditProperties(entityAsObj, this.GetCurrentTenantNameOrNull(), userId);
         }
 
@@ -341,6 +388,11 @@ namespace Riven
         /// <param name="userId"></param>
         void SetModificationAuditProperties(object entityAsObj, string userId)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             EntityAuditingHelper.SetModificationAuditProperties(entityAsObj, this.GetCurrentTenantNameOrNull(), userId);
         }
 
@@ -351,6 +403,11 @@ namespace Riven
         /// <param name="entry"></param>
         void CancelDeletionForSoftDelete(EntityEntry entry)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             if (!(entry.Entity is ISoftDelete))
             {
                 return;
@@ -369,6 +426,11 @@ namespace Riven
         /// <param name="userId"></param>
         void SetDeletionAuditProperties(object entityAsObj, string userId)
         {
+            if (ServiceProvider == null)
+            {
+                return;
+            }
+
             var tenantName = this.GetCurrentTenantNameOrNull();
 
             if (entityAsObj is IHasDeletionTime)
