@@ -37,7 +37,7 @@ namespace Riven
                 {
                     DbContextHelper.ConfigureGlobalFiltersMethodInfo
                         .MakeGenericMethod(entityType.ClrType)
-                        .Invoke(rivenDbContext, new object[] { modelBuilder, entityType });
+                        .Invoke(rivenDbContext, new object[] { modelBuilder });
                 }
             }
 
