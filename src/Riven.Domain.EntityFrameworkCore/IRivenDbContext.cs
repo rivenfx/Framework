@@ -30,7 +30,7 @@ namespace Riven
         /// <summary>
         /// 实例本身
         /// </summary>
-        IRivenDbContext Self => this;
+        IRivenDbContext Self { get; }
 
         /// <summary>
         /// 审计自动设置租户名称
