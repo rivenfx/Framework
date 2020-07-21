@@ -21,6 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Data;
 using System.Linq;
+using Riven.MultiTenancy;
 
 namespace Riven
 {
@@ -78,7 +79,10 @@ namespace Riven
         /// 获取当前是否启用了多租户
         /// </summary>
         /// <returns></returns>
-        bool GetMultiTenancyEnabled();
+        bool GetMultiTenancyEnabled()
+        {
+            return MultiTenancyConfig.IsEnabled;
+        }
 
         /// <summary>
         /// 获取服务实例
@@ -165,13 +169,13 @@ namespace Riven
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        ApplyConceptsForAddedEntity(entry, userId);
+                        ApplyAuditForAddedEntity(entry, userId);
                         break;
                     case EntityState.Modified:
-                        ApplyConceptsForModifiedEntity(entry, userId);
+                        ApplyAuditForModifiedEntity(entry, userId);
                         break;
                     case EntityState.Deleted:
-                        ApplyConceptsForDeletedEntity(entry, userId);
+                        ApplyAuditForDeletedEntity(entry, userId);
                         break;
                 }
             }
@@ -182,7 +186,7 @@ namespace Riven
         /// </summary>
         /// <param name="entry"></param>
         /// <param name="userId"></param>
-        void ApplyConceptsForAddedEntity(EntityEntry entry, string userId)
+        void ApplyAuditForAddedEntity(EntityEntry entry, string userId)
         {
             CheckAndSetId(entry);
             CheckAndSetMustHaveTenantNameProperty(entry.Entity);
@@ -196,7 +200,7 @@ namespace Riven
         /// </summary>
         /// <param name="entry"></param>
         /// <param name="userId"></param>
-        void ApplyConceptsForModifiedEntity(EntityEntry entry, string userId)
+        void ApplyAuditForModifiedEntity(EntityEntry entry, string userId)
         {
             SetModificationAuditProperties(entry.Entity, userId);
             if (entry.Entity is ISoftDelete && entry.Entity.As<ISoftDelete>().IsDeleted)
@@ -211,7 +215,7 @@ namespace Riven
         /// </summary>
         /// <param name="entry"></param>
         /// <param name="userId"></param>
-        void ApplyConceptsForDeletedEntity(EntityEntry entry, string userId)
+        void ApplyAuditForDeletedEntity(EntityEntry entry, string userId)
         {
             if (IsHardDeleteEntity(entry))
             {

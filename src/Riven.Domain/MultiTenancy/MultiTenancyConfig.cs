@@ -12,7 +12,7 @@ namespace Riven.MultiTenancy
         private static bool? _isEnabled = null;
 
         /// <summary>
-        /// 是否启用多租户,只有第一次设置值会生效
+        /// 是否启用多租户,默认值为false,只有第一次设置值会生效
         /// (true=启用,false=不启用)
         /// </summary>
         public static bool IsEnabled
