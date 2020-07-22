@@ -39,8 +39,11 @@ namespace Riven.AspNetCore.Mvc.Uow
                 return;
             }
 
+            // 当前连接字符串获取器
+            var currentConnectionStringName = serviceProvider.GetService<ICurrentConnectionStringName>();
+
             // 创建选项
-            var unitOfWorkOptions = unitOfWorkAttribute.CreateOptions();
+            var unitOfWorkOptions = unitOfWorkAttribute.CreateOptions(currentConnectionStringName.Current);
 
             // 启动工作单元
             var unitOfWorkManager = serviceProvider.GetRequiredService<IUnitOfWorkManager>();
