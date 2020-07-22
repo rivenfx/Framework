@@ -6,6 +6,7 @@ using Riven.Uow.Providers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace Riven
 {
@@ -16,15 +17,32 @@ namespace Riven
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRivenUnitOfWork(this IServiceCollection services)
+        public static IServiceCollection AddRivenUnitOfWork([NotNull] this IServiceCollection services)
         {
+            Check.NotNull(services, nameof(services));
+
             services.TryAddTransient<IUnitOfWorkManager, DefaultUnitOfWorkManager>();
             services.TryAddTransient<ICurrentUnitOfWorkProvider, AsyncLocalCurrentUnitOfWorkProvider>();
             services.TryAddTransient<IActiveTransactionProvider, NullActiveTransactionProvider>();
 
             services.TryAddTransient<IConnectionStringResolver, DefaultConnectionStringResolver>();
             services.TryAddSingleton<IConnectionStringStore, DefaultConnectionStringStore>();
-            services.TryAddScoped<ICurrentConnectionStringName, DefaultCurrentConnectionStringName>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// 添加当前连接字符串名称提供者
+        /// </summary>
+        /// <typeparam name="TProvider">提供者实现</typeparam>
+        /// <param name="services">服务类实例</param>
+        /// <returns></returns>
+        public static IServiceCollection AddRivenCurrentConnectionStringNameProvider<TProvider>([NotNull] this IServiceCollection services)
+            where TProvider : class, ICurrentConnectionStringNameProvider
+        {
+            Check.NotNull(services, nameof(services));
+
+            services.TryAddScoped<ICurrentConnectionStringNameProvider, TProvider>();
 
             return services;
         }
@@ -36,8 +54,10 @@ namespace Riven
         /// <param name="services"></param>
         /// <param name="connectionString">数据库连接字符串</param>
         /// <returns></returns>
-        public static IServiceCollection AddDefaultConnectionString(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddDefaultConnectionString([NotNull] this IServiceCollection services, [NotNull] string connectionString)
         {
+            Check.NotNull(services, nameof(services));
+            Check.NotNullOrEmpty(connectionString, nameof(connectionString));
             return services.AddConnectionString(RivenUnitOfWorkConsts.DefaultConnectionStringName, connectionString);
         }
 
@@ -49,8 +69,9 @@ namespace Riven
         /// <param name="name">连接字符串名称</param>
         /// <param name="connectionString">数据库连接字符串</param>
         /// <returns></returns>
-        public static IServiceCollection AddConnectionString(this IServiceCollection services, string name, string connectionString)
+        public static IServiceCollection AddConnectionString([NotNull] this IServiceCollection services, [NotNull] string name, [NotNull] string connectionString)
         {
+            Check.NotNull(services, nameof(services));
             Check.NotNullOrEmpty(name, nameof(name));
             Check.NotNullOrEmpty(connectionString, nameof(connectionString));
 
@@ -76,8 +97,9 @@ namespace Riven
         /// <param name="name">连接字符串名称</param>
         /// <param name="connectionString">数据库连接字符串</param>
         /// <returns></returns>
-        public static IServiceProvider AddConnectionString(this IServiceProvider serviceProvider, string name, string connectionString)
+        public static IServiceProvider AddConnectionString([NotNull] this IServiceProvider serviceProvider, [NotNull] string name, [NotNull] string connectionString)
         {
+            Check.NotNull(serviceProvider, nameof(serviceProvider));
             Check.NotNullOrEmpty(name, nameof(name));
             Check.NotNullOrEmpty(connectionString, nameof(connectionString));
 
