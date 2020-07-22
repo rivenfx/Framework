@@ -9,6 +9,11 @@ namespace Riven.MultiTenancy
     /// </summary>
     public static class MultiTenancyConfig
     {
+        /// <summary>
+        /// 默认存储租户名称键值
+        /// </summary>
+        public const string DEFAULT_TENANT_NAME_KEY = "TenantName";
+
         private static bool? _isEnabled = null;
 
         /// <summary>
@@ -33,6 +38,28 @@ namespace Riven.MultiTenancy
                     return;
                 }
                 _isEnabled = value;
+            }
+        }
+
+        private static string _tenantNameKey = DEFAULT_TENANT_NAME_KEY;
+
+        /// <summary>
+        /// 存储租户名称键值 ,默认值为 <see cref="DEFAULT_TENANT_NAME_KEY"/>, 值不能为空, 第一次设置值会生效
+        /// </summary>
+        public static string TenantNameKey
+        {
+            get
+            {
+                return _tenantNameKey;
+            }
+            set
+            {
+                Check.NotNullOrWhiteSpace(value, nameof(TenantNameKey));
+
+                if (_tenantNameKey == DEFAULT_TENANT_NAME_KEY)
+                {
+                    _tenantNameKey = value;
+                }
             }
         }
     }
