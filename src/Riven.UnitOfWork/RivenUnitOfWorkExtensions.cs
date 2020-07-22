@@ -24,9 +24,11 @@ namespace Riven
 
             services.TryAddTransient<IConnectionStringResolver, DefaultConnectionStringResolver>();
             services.TryAddSingleton<IConnectionStringStore, DefaultConnectionStringStore>();
+            services.TryAddScoped<ICurrentConnectionStringName, DefaultCurrentConnectionStringName>();
 
             return services;
         }
+
 
         /// <summary>
         /// 添加默认连接字符
@@ -38,6 +40,7 @@ namespace Riven
         {
             return services.AddConnectionString(RivenUnitOfWorkConsts.DefaultConnectionStringName, connectionString);
         }
+
 
         /// <summary>
         /// 添加数据库连接字符串
@@ -64,7 +67,6 @@ namespace Riven
 
             return services;
         }
-
 
 
         /// <summary>
