@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Transactions;
+
 using Riven.Extensions;
 
 namespace Riven.Uow
@@ -49,16 +50,11 @@ namespace Riven.Uow
         public bool IsDisabled { get; set; }
 
         /// <summary>
-        /// 连接字符串显示名称。默认值为 Default
-        /// </summary>
-        public string ConnectionStringName { get; set; }
-
-        /// <summary>
         /// Creates a new UnitOfWorkAttribute object.
         /// </summary>
         public UnitOfWorkAttribute()
         {
-            this.ConnectionStringName = RivenUnitOfWorkConsts.DefaultConnectionStringName;
+
         }
 
         /// <summary>
@@ -209,7 +205,7 @@ namespace Riven.Uow
         /// <param name="connectionStringName">数据库连接字符串名称</param>
         public UnitOfWorkAttribute(string connectionStringName)
         {
-            this.ConnectionStringName = connectionStringName.IsNullOrWhiteSpace() ? RivenUnitOfWorkConsts.DefaultConnectionStringName : connectionStringName;
+
         }
 
         /// <summary>
@@ -230,10 +226,9 @@ namespace Riven.Uow
 
             IsTransactional = isTransactional;
             Timeout = TimeSpan.FromMilliseconds(timeout);
-            ConnectionStringName = connectionStringName;
         }
 
-        public virtual UnitOfWorkOptions CreateOptions()
+        public virtual UnitOfWorkOptions CreateOptions(string connectionStringName = null)
         {
             return new UnitOfWorkOptions
             {
@@ -241,7 +236,7 @@ namespace Riven.Uow
                 IsolationLevel = IsolationLevel,
                 Timeout = Timeout,
                 Scope = Scope ?? TransactionScopeOption.Required,
-                ConnectionStringName = this.ConnectionStringName.IsNullOrWhiteSpace() ? RivenUnitOfWorkConsts.DefaultConnectionStringName : this.ConnectionStringName
+                ConnectionStringName = connectionStringName.IsNullOrWhiteSpace() ? RivenUnitOfWorkConsts.DefaultConnectionStringName : connectionStringName
             };
         }
     }
