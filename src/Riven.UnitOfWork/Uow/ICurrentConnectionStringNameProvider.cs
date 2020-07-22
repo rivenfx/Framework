@@ -5,9 +5,9 @@ using System.Text;
 namespace Riven.Uow
 {
     /// <summary>
-    /// 当前连接字符串名称获取器
+    /// 当前连接字符串名称提供者
     /// </summary>
-    public interface ICurrentConnectionStringName
+    public interface ICurrentConnectionStringNameProvider
     {
         /// <summary>
         /// 当前
