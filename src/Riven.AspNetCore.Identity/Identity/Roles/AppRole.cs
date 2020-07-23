@@ -34,6 +34,11 @@ namespace Riven.Identity.Roles
         /// </summary>
         [StringLength(DescriptionMaxLength)]
         public virtual string Description { get; set; }
+
+        /// <summary>
+        /// 是否为系统内置
+        /// </summary>
+        public virtual bool IsStatic { get; set; }
     }
 
     /// <summary>

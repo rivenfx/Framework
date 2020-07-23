@@ -42,9 +42,9 @@ namespace Riven.Identity.Users
         public virtual bool IsActive { get; set; }
 
         /// <summary>
-        /// 是否为系统级用户
+        /// 是否为系统内置
         /// </summary>
-        public virtual bool IsSystem { get; set; }
+        public virtual bool IsStatic { get; set; }
     }
 
     /// <summary>
