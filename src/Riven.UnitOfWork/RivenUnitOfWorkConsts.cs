@@ -12,6 +12,6 @@ namespace Riven
         /// <summary>
         /// 默认连接字符串名称
         /// </summary>
-        public const string DefaultConnectionStringName = "DefaultConnectionString";
+        public const string DefaultConnectionStringName = "SystemDefaultConnectionString";
     }
 }
