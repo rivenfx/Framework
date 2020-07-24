@@ -290,12 +290,6 @@ namespace Riven
                 return;
             }
 
-            // 未启用多租户
-            if (!this.GetMultiTenancyEnabled())
-            {
-                return;
-            }
-
             // 自动设置租户名称
             if (AuditSuppressAutoSetTenantName)
             {
@@ -334,11 +328,6 @@ namespace Riven
         void CheckAndSetMayHaveTenantNameProperty(object entityAsObj)
         {
             if (ServiceProvider == null)
-            {
-                return;
-            }
-
-            if (!this.GetMultiTenancyEnabled())
             {
                 return;
             }
