@@ -36,13 +36,9 @@ namespace Riven.Extensions
         /// <param name="currentTenantName"></param>
         /// <param name="multiTenancyEnabled"></param>
         /// <returns></returns>
-        public static Expression<Func<TEntity, bool>> CreateMultiTenancyFilterExpression<TEntity>(Expression<Func<TEntity, bool>> expression, string currentTenantName, bool multiTenancyEnabled)
+        public static Expression<Func<TEntity, bool>> CreateMultiTenancyFilterExpression<TEntity>(Expression<Func<TEntity, bool>> expression, string currentTenantName)
           where TEntity : class
         {
-            if (!multiTenancyEnabled)
-            {
-                return expression;
-            }
 
             if (EntityHelper.ShouldMayHaveTenancyEntity(typeof(TEntity)))
             {

@@ -143,8 +143,7 @@ namespace Riven
             filterExpression = ModelBuilderFilterExtenstions.CreateSoftDeleteFilterExpression(filterExpression);
             filterExpression = ModelBuilderFilterExtenstions.CreateMultiTenancyFilterExpression(
                 filterExpression,
-                this.GetCurrentTenantNameOrNull(),
-                this.GetMultiTenancyEnabled()
+                this.GetCurrentTenantNameOrNull()
             );
 
             if (filterExpression != null)
