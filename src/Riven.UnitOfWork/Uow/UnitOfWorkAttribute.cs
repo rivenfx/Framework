@@ -194,19 +194,11 @@ namespace Riven.Uow
         /// <param name="isTransactional"/>
         /// <param name="timeout">Transaction  timeout as milliseconds</param>
         public UnitOfWorkAttribute(TransactionScopeOption scope, bool isTransactional, int timeout)
-            : this(scope, null, isTransactional, timeout, RivenUnitOfWorkConsts.DefaultConnectionStringName)
+            : this(scope, null, isTransactional, timeout)
         {
 
         }
 
-        /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
-        /// </summary>
-        /// <param name="connectionStringName">数据库连接字符串名称</param>
-        public UnitOfWorkAttribute(string connectionStringName)
-        {
-
-        }
 
         /// <summary>
         /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
@@ -215,8 +207,7 @@ namespace Riven.Uow
         /// <param name="isolationLevel">Transaction isolation level</param>
         /// <param name="isTransactional"/>
         /// <param name="timeout">Transaction  timeout as milliseconds</param>
-        /// <param name="connectionStringName">数据库连接字符串名称</param>
-        public UnitOfWorkAttribute(TransactionScopeOption scope, IsolationLevel? isolationLevel, bool isTransactional, int timeout, string connectionStringName)
+        public UnitOfWorkAttribute(TransactionScopeOption scope, IsolationLevel? isolationLevel, bool isTransactional, int timeout)
         {
             Scope = scope;
             if (isolationLevel.HasValue)
