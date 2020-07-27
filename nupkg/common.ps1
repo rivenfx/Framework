@@ -16,6 +16,7 @@ $projects = (
     "Riven.AspNetCore.Swashbuckle",
     "Riven.AspNetCore.Uow",
     "Riven.Domain",
+    "Riven.Domain.EntityFrameworkCore",
     "Riven.Localization",
     "Riven.Mapster",
     "Riven.UnitOfWork",
