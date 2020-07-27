@@ -1,7 +1,7 @@
-﻿using Shouldly;
+using Shouldly;
 using Xunit;
 
-namespace Riven.Tests
+namespace Riven
 {
     public class DisposeAction_Test
     {
