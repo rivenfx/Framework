@@ -27,7 +27,7 @@ namespace Riven.Identity.Roles
         /// 显示名称
         /// </summary>
         [StringLength(DisplayNameMaxLength)]
-        public virtual string DispayName { get; set; }
+        public virtual string DisplayName { get; set; }
 
         /// <summary>
         /// 描述
