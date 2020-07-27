@@ -44,7 +44,7 @@ namespace Riven
                         classes.AssignableTo<ITransientDependency>();
                     })
                     .AsSelf()
-                    .AsMatchingInterface()
+                    .AsImplementedInterfaces()
                     .WithTransientLifetime()
 
                      // 单例
@@ -53,7 +53,7 @@ namespace Riven
                          classes.AssignableTo<ISingletonDependency>();
                      })
                      .AsSelf()
-                     .AsMatchingInterface()
+                     .AsImplementedInterfaces()
                      .WithSingletonLifetime()
 
                       // 范围
@@ -62,7 +62,7 @@ namespace Riven
                           classes.AssignableTo<IScopeDependency>();
                       })
                      .AsSelf()
-                     .AsMatchingInterface()
+                     .AsImplementedInterfaces()
                      .WithScopedLifetime();
             });
 

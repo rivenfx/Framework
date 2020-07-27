@@ -5,7 +5,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <NoWarn>$(NoWarn);CS1570;CS1572;CS1573;CS1587;CS1591;CS1701;CS1702;</NoWarn>
+    <NoWarn>$(NoWarn);CS1570;CS1572;CS1573;CS1587;CS1591;CS1701;CS1702;CS1574;</NoWarn>
     <PackageIconUrl>https://riven.staneee.com/images/riven_nupkg.png</PackageIconUrl>
     <PackageProjectUrl>https://riven.staneee.com/</PackageProjectUrl>
   </PropertyGroup>

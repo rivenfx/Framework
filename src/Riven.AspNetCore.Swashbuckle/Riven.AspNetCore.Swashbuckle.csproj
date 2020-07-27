@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Panda.DynamicWebApi" Version="1.0.4" />
+    <PackageReference Include="Panda.DynamicWebApi" Version="1.0.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.1.0" />

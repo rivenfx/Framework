@@ -8,12 +8,12 @@ namespace Riven.Entities
     /// <summary>
     /// 实体基类
     /// </summary>
-    /// <typeparam name="TKey">主键类型</typeparam>
+    /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     [Serializable]
-    public abstract class Entity<TKey> : IEntity<TKey>
+    public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
     {
 
-        public virtual TKey Id { get; set; }
+        public virtual TPrimaryKey Id { get; set; }
 
         /// <summary>
         /// 是否为临时对象(不持久化到数据，且没有id)

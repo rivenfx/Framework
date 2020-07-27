@@ -14,15 +14,31 @@ namespace Riven.Identity.Roles
         where TKey : IEquatable<TKey>
     {
         /// <summary>
-        /// 唯一编码最大长度
+        /// 显示名称最大长度
         /// </summary>
-        public const int CodeMaxLength = 512;
+        public const int DisplayNameMaxLength = 512;
 
         /// <summary>
-        /// 唯一编码
+        /// 描述最大长度
         /// </summary>
-        [StringLength(CodeMaxLength)]
-        public string Code { get; set; }
+        public const int DescriptionMaxLength = 1024;
+
+        /// <summary>
+        /// 显示名称
+        /// </summary>
+        [StringLength(DisplayNameMaxLength)]
+        public virtual string DispayName { get; set; }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        [StringLength(DescriptionMaxLength)]
+        public virtual string Description { get; set; }
+
+        /// <summary>
+        /// 是否为系统内置
+        /// </summary>
+        public virtual bool IsStatic { get; set; }
     }
 
     /// <summary>

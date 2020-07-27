@@ -4,99 +4,74 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Linq;
-using Riven.AspNetCore.Mvc.Uow;
 using Riven.AspNetCore.FilterHandlers;
 using Riven.AspNetCore.Mvc.ExceptionHandling;
 using Microsoft.AspNetCore.Mvc;
-using Riven.AspNetCore.Mvc.Authorization;
-using Riven.AspNetCore.Mvc.Auditing;
 using Riven.AspNetCore.Mvc.Results;
 using Riven.AspNetCore.Mvc.Validation;
 using Riven.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Riven.AspNetCore.Mvc.Request;
+using Riven.AspNetCore.Mvc.Results.Wrapping;
 
 namespace Riven
 {
     public static class RivenAspNetCoreExtensions
     {
         /// <summary>
-        /// 添加Riven AspNet Core相关配置
+        /// 添加 Riven AspNet Core 相关配置
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configurationAction"></param>
         /// <returns></returns>
         public static IServiceCollection AddRivenAspNetCore(this IServiceCollection services, Action<RivenAspNetCoreOptions> configurationAction = null)
         {
-            var rivenAspNetCoreOptions = new RivenAspNetCoreOptions();
-            configurationAction?.Invoke(rivenAspNetCoreOptions);
+            services.AddOptions<RivenAspNetCoreOptions>();
+            
+            services.Configure(configurationAction);
 
-            services.AddRivenAspNetCoreServices(rivenAspNetCoreOptions);
+            services.TryAddSingleton<IRequestActionResultWrapperFactory, DefaultRequestActionResultWrapperFactory>();
+
+            services.TryAddTransient<ExceptionHandlingMiddleware>();
 
             return services;
         }
 
-        static IServiceCollection AddRivenAspNetCoreServices(this IServiceCollection services, RivenAspNetCoreOptions rivenAspNetCoreOptions)
+
+        /// <summary>
+        /// 添加 Riven AspNetCore 相关过滤器
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddRivenAspNetCoreFilters(this IServiceCollection services)
         {
-            if (rivenAspNetCoreOptions.AuthorizationFilterEnable)
+            services.AddTransient<RequestActionFilter>();
+            services.Configure<MvcOptions>((options) =>
             {
-                services.TryAddTransient<AppAuthorizationFilter>();
-                services.TryAddTransient<IAspNetCoreAuthorizationHandler, NullAspNetCoreAuthorizationHandler>();
-                services.Configure<MvcOptions>((options) =>
-                {
-                    options.Filters.AddService<AppAuthorizationFilter>();
-                });
-            }
+                options.Filters.AddService<RequestActionFilter>();
+            });
 
-            if (rivenAspNetCoreOptions.AuditFilterEnable)
+            services.AddTransient<RequestResultFilter>();
+            services.Configure<MvcOptions>((options) =>
             {
-                services.TryAddTransient<AppAuditFilter>();
-                services.TryAddTransient<IAspNetCoreAuditHandler, NullAspNetCoreAuditHandler>();
-                services.Configure<MvcOptions>((options) =>
-                {
-                    options.Filters.AddService<AppAuditFilter>();
-                });
-            }
+                options.Filters.AddService<RequestResultFilter>();
+            });
 
-            if (rivenAspNetCoreOptions.ValidationFilterEnable)
-            {
-                services.TryAddTransient<AppValidationFilter>();
-                services.TryAddTransient<IAspNetCoreValidationHandler, NullAspNetCoreValidationHandler>();
-                services.Configure<MvcOptions>((options) =>
-                {
-                    options.Filters.AddService<AppValidationFilter>();
-                });
-            }
-
-            if (rivenAspNetCoreOptions.UnitOfWorkFilterEnable)
-            {
-                services.TryAddTransient<AppUowFilter>();
-                services.TryAddTransient<IAspNetCoreUnitOfWorkHandler, NullAspNetCoreUnitOfWorkHandler>();
-                services.Configure<MvcOptions>((options) =>
-                {
-                    options.Filters.AddService<AppUowFilter>();
-                });
-            }
-
-            if (rivenAspNetCoreOptions.ExceptionFilterEnable)
-            {
-                services.TryAddTransient<AppExceptionFilter>();
-                services.TryAddTransient<IAspNetCoreExceptionHandeler, NullAspNetCoreExceptionHandeler>();
-                services.Configure<MvcOptions>((options) =>
-                {
-                    options.Filters.AddService<AppExceptionFilter>();
-                });
-            }
-
-            if (rivenAspNetCoreOptions.ResultFilterEnable)
-            {
-                services.TryAddTransient<AppResultFilter>();
-                services.TryAddTransient<IAspNetCoreResultHandler, NullAspNetCoreResultHandler>();
-                services.Configure<MvcOptions>((options) =>
-                {
-                    options.Filters.AddService<AppResultFilter>();
-                });
-            }
-
+            
             return services;
+        }
+
+
+        /// <summary>
+        /// 添加riven的异常处理器
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseRivenAspNetCoreExceptionHandling(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+            return app;
         }
     }
 }

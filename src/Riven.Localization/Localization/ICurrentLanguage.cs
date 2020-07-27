@@ -10,8 +10,9 @@ namespace Riven.Localization
     public interface ICurrentLanguage
     {
         /// <summary>
-        /// 当前语言Culture
+        /// 获取当前语言信息
         /// </summary>
-        string Culture { get;  }
+        /// <returns></returns>
+        LanguageInfo GetCurrentLanguage();
     }
 }

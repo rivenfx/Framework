@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Transactions;
+
 using Riven.Extensions;
 
 namespace Riven.Uow
@@ -15,7 +16,7 @@ namespace Riven.Uow
     /// <remarks>
     /// This attribute has no effect if there is already a unit of work before calling this method, if so, it uses the same transaction.
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Interface)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
     public class UnitOfWorkAttribute : Attribute
     {
         /// <summary>
@@ -49,16 +50,11 @@ namespace Riven.Uow
         public bool IsDisabled { get; set; }
 
         /// <summary>
-        /// 连接字符串显示名称。默认值为 Default
-        /// </summary>
-        public string ConnectionStringName { get; set; }
-
-        /// <summary>
         /// Creates a new UnitOfWorkAttribute object.
         /// </summary>
         public UnitOfWorkAttribute()
         {
-            this.ConnectionStringName = RivenUnitOfWorkConsts.DefaultConnectionStringName;
+
         }
 
         /// <summary>
@@ -198,19 +194,11 @@ namespace Riven.Uow
         /// <param name="isTransactional"/>
         /// <param name="timeout">Transaction  timeout as milliseconds</param>
         public UnitOfWorkAttribute(TransactionScopeOption scope, bool isTransactional, int timeout)
-            : this(scope, null, isTransactional, timeout, RivenUnitOfWorkConsts.DefaultConnectionStringName)
+            : this(scope, null, isTransactional, timeout)
         {
 
         }
 
-        /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
-        /// </summary>
-        /// <param name="connectionStringName">数据库连接字符串名称</param>
-        public UnitOfWorkAttribute(string connectionStringName)
-        {
-            this.ConnectionStringName = connectionStringName.IsNullOrWhiteSpace() ? RivenUnitOfWorkConsts.DefaultConnectionStringName : connectionStringName;
-        }
 
         /// <summary>
         /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
@@ -219,8 +207,7 @@ namespace Riven.Uow
         /// <param name="isolationLevel">Transaction isolation level</param>
         /// <param name="isTransactional"/>
         /// <param name="timeout">Transaction  timeout as milliseconds</param>
-        /// <param name="connectionStringName">数据库连接字符串名称</param>
-        public UnitOfWorkAttribute(TransactionScopeOption scope, IsolationLevel? isolationLevel, bool isTransactional, int timeout, string connectionStringName)
+        public UnitOfWorkAttribute(TransactionScopeOption scope, IsolationLevel? isolationLevel, bool isTransactional, int timeout)
         {
             Scope = scope;
             if (isolationLevel.HasValue)
@@ -230,18 +217,17 @@ namespace Riven.Uow
 
             IsTransactional = isTransactional;
             Timeout = TimeSpan.FromMilliseconds(timeout);
-            ConnectionStringName = connectionStringName;
         }
 
-        public virtual UnitOfWorkOptions CreateOptions()
+        public virtual UnitOfWorkOptions CreateOptions(string connectionStringName = null)
         {
             return new UnitOfWorkOptions
             {
                 IsTransactional = IsTransactional,
                 IsolationLevel = IsolationLevel,
                 Timeout = Timeout,
-                Scope = Scope,
-                ConnectionStringName = this.ConnectionStringName.IsNullOrWhiteSpace() ? RivenUnitOfWorkConsts.DefaultConnectionStringName : this.ConnectionStringName
+                Scope = Scope ?? TransactionScopeOption.Required,
+                ConnectionStringName = connectionStringName.IsNullOrWhiteSpace() ? RivenUnitOfWorkConsts.DefaultConnectionStringName : connectionStringName
             };
         }
     }

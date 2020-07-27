@@ -18,17 +18,33 @@ namespace Riven.Identity.Users
         /// </summary>
         public const int CodeMaxLength = 512;
 
+        /// <summary>
+        /// 昵称最大长度
+        /// </summary>
+        public const int NicknameMaxLength = 512;
 
         /// <summary>
         /// 唯一编码
         /// </summary>
         [StringLength(CodeMaxLength)]
-        public string Code { get; set; }
+        public virtual string Code { get; set; }
+
+        /// <summary>
+        /// 昵称,不能为空
+        /// </summary>
+        [StringLength(NicknameMaxLength)]
+        [Required]
+        public virtual string Nickname { get; set; }
 
         /// <summary>
         /// 是否已激活
         /// </summary>
-        public bool IsActive { get; set; }
+        public virtual bool IsActive { get; set; }
+
+        /// <summary>
+        /// 是否为系统内置
+        /// </summary>
+        public virtual bool IsStatic { get; set; }
     }
 
     /// <summary>

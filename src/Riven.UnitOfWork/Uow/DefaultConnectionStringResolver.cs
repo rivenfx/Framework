@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +38,21 @@ namespace Riven.Uow
                 return connectionStringProvider.ConnectionString;
             }
 
+            name = RivenUnitOfWorkConsts.DefaultConnectionStringName;
 
-            throw new ArgumentException($"The connection string with the name {name} does not exist");
+            connectionStringProvider = _connectionStringStore.Get(name);
+            if (connectionStringProvider != null)
+            {
+                return connectionStringProvider.ConnectionString;
+            }
+
+            if (this._connectionStringProviderDict.TryGetValue(name, out connectionStringProvider))
+            {
+                return connectionStringProvider.ConnectionString;
+            }
+
+
+            throw new ArgumentException($"The connection string with the default name does not exist");
         }
     }
 }

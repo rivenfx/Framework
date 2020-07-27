@@ -9,6 +9,7 @@ using System.Text;
 
 using Riven.Localization;
 using System.Globalization;
+using Microsoft.Extensions.Localization;
 
 namespace Riven
 {
@@ -19,10 +20,11 @@ namespace Riven
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRiveRequestLocalization(this IServiceCollection services)
+        public static IServiceCollection AddRivenRequestLocalization(this IServiceCollection services)
         {
             services.TryAddTransient<ICultureAccessor, DefaultCultureAccessor>();
             services.TryAddTransient<ICurrentLanguage, AspNetCoreCurrentLanguage>();
+            services.TryAddTransient<IStringLocalizer, AspNetCoreStringLocalizer>();
 
             services.AddRivenLocalization();
             return services;

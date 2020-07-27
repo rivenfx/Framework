@@ -166,7 +166,7 @@ namespace Riven.Reflection
         /// <param name="objectType">Type of given object</param>
         /// <param name="propertyPath">Full path of property</param>
         /// <returns></returns>
-        internal static object GetPropertyByPath(object obj, Type objectType, string propertyPath)
+        public static object GetPropertyByPath(object obj, Type objectType, string propertyPath)
         {
             var property = obj;
             var currentType = objectType;
@@ -193,7 +193,7 @@ namespace Riven.Reflection
         /// <param name="objectType">Type of given object</param>
         /// <param name="propertyPath">Full path of property</param>
         /// <returns></returns>
-        internal static object GetValueByPath(object obj, Type objectType, string propertyPath)
+        public static object GetValueByPath(object obj, Type objectType, string propertyPath)
         {
             var value = obj;
             var currentType = objectType;
@@ -221,7 +221,7 @@ namespace Riven.Reflection
         /// <param name="objectType"></param>
         /// <param name="propertyPath"></param>
         /// <param name="value"></param>
-        internal static void SetValueByPath(object obj, Type objectType, string propertyPath, object value)
+        public static void SetValueByPath(object obj, Type objectType, string propertyPath, object value)
         {
             var currentType = objectType;
             PropertyInfo property;
@@ -252,7 +252,7 @@ namespace Riven.Reflection
             property.SetValue(obj, value);
         }
 
-        internal static bool IsPropertyGetterSetterMethod(MethodInfo method, Type type)
+        public static bool IsPropertyGetterSetterMethod(MethodInfo method, Type type)
         {
             if (!method.IsSpecialName)
             {

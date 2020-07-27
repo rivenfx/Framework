@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Riven.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.User.Identity == null || context.User.Identity?.IsAuthenticated == true)
+            if (context.User.Identity == null || context.User.Identity?.IsAuthenticated == false)
             {
                 var result = await context.AuthenticateAsync(this._schema);
                 if (result.Succeeded && result.Principal != null)

@@ -13,18 +13,24 @@ namespace Riven.Identity.Users
 
         public ClaimsIdentity Identity { get; protected set; }
 
-        public LoginResult(LoginResultType result, TUser user, ClaimsIdentity identity)
+        public ClaimsPrincipal ClaimsPrincipal { get; protected set; }
+
+        public LoginResult(LoginResultType result, TUser user, ClaimsPrincipal claimsPrincipal)
         {
             this.Result = result;
             this.User = user;
-            this.Identity = identity;
+            this.ClaimsPrincipal = claimsPrincipal;
+            if (claimsPrincipal != null)
+            {
+                this.Identity = claimsPrincipal.Identity as ClaimsIdentity;
+            }
         }
     }
 
     public class LoginResult : LoginResult<AppUser>
     {
-        public LoginResult(LoginResultType result, AppUser user, ClaimsIdentity identity)
-            : base(result,user, identity)
+        public LoginResult(LoginResultType result, AppUser user, ClaimsPrincipal claimsPrincipal)
+            : base(result, user, claimsPrincipal)
         {
         }
     }

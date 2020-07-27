@@ -4,12 +4,9 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Linq;
-using Riven.AspNetCore.Mvc.Uow;
 using Riven.AspNetCore.FilterHandlers;
 using Riven.AspNetCore.Mvc.ExceptionHandling;
 using Microsoft.AspNetCore.Mvc;
-using Riven.AspNetCore.Mvc.Authorization;
-using Riven.AspNetCore.Mvc.Auditing;
 using Riven.AspNetCore.Mvc.Results;
 using Riven.AspNetCore.Mvc.Validation;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -41,17 +38,8 @@ namespace Riven
             });
 
             // DynamicWebApi 
-            if (dynamicWebApiConfigurationAction != null)
-            {
-                var dynamicWebApiOptions = new DynamicWebApiOptions();
-                dynamicWebApiConfigurationAction.Invoke(dynamicWebApiOptions);
+            services.AddDynamicWebApi(dynamicWebApiConfigurationAction);
 
-                services.AddDynamicWebApi(dynamicWebApiOptions);
-            }
-            else
-            {
-                services.AddDynamicWebApi();
-            }
             return services;
         }
 

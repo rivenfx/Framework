@@ -6,11 +6,9 @@ namespace Riven.Localization
 {
     public class NullCurrentLanguage : ICurrentLanguage
     {
-        public string Culture { get; private set; }
-
-        public NullCurrentLanguage()
+        public LanguageInfo GetCurrentLanguage()
         {
-            Culture = string.Empty;
+            throw new NotImplementedException();
         }
     }
 }

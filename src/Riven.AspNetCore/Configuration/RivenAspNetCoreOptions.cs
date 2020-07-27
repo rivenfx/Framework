@@ -1,3 +1,5 @@
+using Riven.AspNetCore.Models;
+using Riven.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,35 +12,46 @@ namespace Riven.Configuration
     /// </summary>
     public class RivenAspNetCoreOptions
     {
-        /// <summary>
-        /// 启用认证Filter,默认为false,不启用
-        /// </summary>
-        public virtual bool AuthorizationFilterEnable { get; set; }
+        private WrapResultAttribute _defaultWrapResultAttribute;
+
+        public RivenAspNetCoreOptions()
+        {
+            _defaultWrapResultAttribute = new WrapResultAttribute();
+        }
 
         /// <summary>
-        /// 启用审计Filter,默认为false,不启用
+        /// 默认的响应包装配置
         /// </summary>
-        public virtual bool AuditFilterEnable { get; set; }
+        public virtual WrapResultAttribute DefaultWrapResultAttribute
+        {
+            get => this._defaultWrapResultAttribute;
+            set
+            {
+                if (value != null)
+                {
+                    _defaultWrapResultAttribute = value;
+                }
+            }
+        }
 
         /// <summary>
-        /// 启用校验Filter,默认为false,不启用
+        /// 发送所有的异常数据到客户端
         /// </summary>
-        public virtual bool ValidationFilterEnable { get; set; }
+        public bool SendAllExceptionToClient { get; set; }
 
         /// <summary>
-        /// 启用工作单元Filter,默认为false,不启用
+        /// 异常处理完成事件
         /// </summary>
-        public virtual bool UnitOfWorkFilterEnable { get; set; }
+        public event EventHandler<Exception> OnHandledException;
 
         /// <summary>
-        /// 启用异常处理Filter,默认为false,不启用
+        /// 触发异常处理完成事件
         /// </summary>
-        public virtual bool ExceptionFilterEnable { get; set; }
-
-        /// <summary>
-        /// 启用响应结果处理Filter,默认为false,不启用
-        /// </summary>
-        public virtual bool ResultFilterEnable { get; set; }
-
+        /// <param name="sender"></param>
+        /// <param name="ex"></param>
+        public void TriggerHandledException(object sender, Exception ex)
+        {
+            this.OnHandledException?.Invoke(sender, ex);
+        }
     }
 }

@@ -11,27 +11,38 @@ namespace Riven.Localization
     {
         protected static Dictionary<string, LanguageInfo> _data = new Dictionary<string, LanguageInfo>();
 
-
-
-        private LanguageInfo _defaultLanguage;
-
-        public LanguageInfo DefaultLanguage => _defaultLanguage ?? this.GetEnabledLanguages().FirstOrDefault();
+        protected static LanguageInfo _defaultLanguage = null;
 
         protected Dictionary<string, LanguageInfo> Data => _data;
 
         public void AddOrUpdate([NotNull]LanguageInfo language)
         {
+            Check.NotNull(language, nameof(language));
+
             Data[language.Culture] = language;
         }
 
         public void AddOrUpdateRange([NotNull]List<LanguageInfo> languages)
         {
-            languages.AddRange(languages);
+            Check.NotNullOrEmpty(languages, nameof(languages));
+
+            languages.ForEach(o =>
+            {
+                this.AddOrUpdate(o);
+            });
         }
 
         public void ChangeDefaultLanguage(string languageName)
         {
-            throw new NotImplementedException();
+            Check.NotNullOrWhiteSpace(languageName, nameof(languageName));
+
+            var language = this.GetEnabledLanguages().FirstOrDefault(o => o.Culture == languageName);
+            if (language == null)
+            {
+                throw new ArgumentException($"Language '{languageName}' was not found!");
+            }
+
+            _defaultLanguage = language;
         }
 
         public void Clear()
@@ -48,7 +59,7 @@ namespace Riven.Localization
 
         public LanguageInfo GetDefaultLanguage()
         {
-            return this._defaultLanguage ?? this.GetEnabledLanguages().FirstOrDefault();
+            return _defaultLanguage ?? this.GetEnabledLanguages().FirstOrDefault();
         }
 
         public Task<LanguageInfo> GetDefaultLanguageAsync()
@@ -66,6 +77,8 @@ namespace Riven.Localization
 
         public void Remove([NotNull]string languageName)
         {
+            Check.NotNullOrWhiteSpace(languageName, nameof(languageName));
+
             if (Data.Any(o => o.Key == languageName))
             {
                 Data.Remove(languageName);

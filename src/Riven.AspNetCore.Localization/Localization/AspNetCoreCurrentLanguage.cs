@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,24 +12,36 @@ namespace Riven.Localization
 {
     public class AspNetCoreCurrentLanguage : ICurrentLanguage
     {
-        public string Culture => GetCurrentLanguage()?.Culture;
-
         protected readonly ILanguageManager _languageManager;
+        protected readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AspNetCoreCurrentLanguage(ILanguageManager languageManager)
+        public AspNetCoreCurrentLanguage(ILanguageManager languageManager, IHttpContextAccessor httpContextAccessor)
         {
             _languageManager = languageManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        protected LanguageInfo GetCurrentLanguage()
+        public virtual LanguageInfo GetCurrentLanguage()
         {
             var languages = _languageManager.GetEnabledLanguages();
             if (languages.Count <= 0)
             {
                 throw new Exception("No language defined in this application.");
             }
+            var currentCultureName = string.Empty;
+            if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null)
+            {
+                var requestCultureFeature = _httpContextAccessor.HttpContext.Features.Get<IRequestCultureFeature>();
+                //var currentCultureName1 = requestCultureFeature.RequestCulture.UICulture.Name;
+                //var currentCultureName2 = requestCultureFeature.RequestCulture.Culture.Name;
+                currentCultureName = requestCultureFeature.RequestCulture.UICulture.Name;
+            }
+            else
+            {
+                currentCultureName = _languageManager.GetDefaultLanguage().Culture;
+            }
 
-            var currentCultureName = CultureInfo.CurrentUICulture.Name;
+
 
             //Try to find exact match
             var currentLanguage = languages.FirstOrDefault(l => l.Culture == currentCultureName);
