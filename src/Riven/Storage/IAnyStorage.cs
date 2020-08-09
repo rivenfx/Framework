@@ -39,7 +39,7 @@ namespace Riven.Storage
             _dataMap = new ConcurrentDictionary<TKey, TValue>();
         }
 
-        public void AddOrUpdate([NotNull] TKey key, [NotNull] TValue val)
+        public virtual void AddOrUpdate([NotNull] TKey key, [NotNull] TValue val)
         {
             Check.NotNull(key, nameof(key));
             Check.NotNull(val, nameof(val));
@@ -50,12 +50,12 @@ namespace Riven.Storage
             });
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             _dataMap.Clear();
         }
 
-        public TValue Get(TKey key)
+        public virtual TValue Get(TKey key)
         {
             Check.NotNull(key, nameof(key));
 
@@ -67,12 +67,12 @@ namespace Riven.Storage
             return default(TValue);
         }
 
-        public IReadOnlyList<TValue> GetAll()
+        public virtual IReadOnlyList<TValue> GetAll()
         {
             return _dataMap.Values.ToList().AsReadOnly();
         }
 
-        public void Remove(TKey key)
+        public virtual void Remove(TKey key)
         {
             _dataMap.TryRemove(key, out TValue value);
         }
