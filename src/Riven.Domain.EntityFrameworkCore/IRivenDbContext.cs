@@ -163,7 +163,7 @@ namespace Riven
         /// <param name="changeTracker"></param>
         void ApplyAudit(ChangeTracker changeTracker)
         {
-            if (ServiceProvider == null)
+            if (ServiceProvider == null || !changeTracker.HasChanges())
             {
                 return;
             }
