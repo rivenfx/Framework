@@ -67,21 +67,21 @@ namespace Riven.Uow
         public virtual DbContext GetOrCreateDbContext()
         {
             // 获取连接字符串
-            var nameOrConnectionString = _connectionStringResolver.Resolve(this.GetConnectionStringName());
+            var connectionString = _connectionStringResolver.Resolve(this.GetConnectionStringName());
 
             // 缓存键值
-            var dbContextKey = this.GetDbContextKey(nameOrConnectionString);
+            var dbContextKey = this.GetDbContextKey(connectionString);
 
             DbContext dbContext;
             if (!ActiveDbContexts.TryGetValue(dbContextKey, out dbContext))
             {
                 if (Options.IsTransactional == true)
                 {
-                    dbContext = _transactionStrategy.CreateDbContext(nameOrConnectionString, _dbContextResolver, this._dbContextProviderName);
+                    dbContext = _transactionStrategy.CreateDbContext(connectionString, _dbContextResolver, this._dbContextProviderName);
                 }
                 else
                 {
-                    dbContext = _dbContextResolver.Resolve(nameOrConnectionString, null, this.Options, this._dbContextProviderName);
+                    dbContext = _dbContextResolver.Resolve(connectionString, null, this.Options, this._dbContextProviderName);
                 }
 
                 if (Options.Timeout.HasValue &&
