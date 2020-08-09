@@ -19,17 +19,20 @@ namespace Riven
     {
         protected static ConcurrentDictionary<Type, ConstructorInfo> _dbContextConstructorDict = new ConcurrentDictionary<Type, ConstructorInfo>();
 
-        protected readonly Dictionary<string, IDbContextProvider> _dbContextProviderDict;
-
         protected readonly IServiceProvider _serviceProvider;
 
-        public DefaultDbContextResolver(IServiceProvider serviceProvider)
+        protected readonly IDbContextProviderStorage _dbContextProviderStorage;
+
+        protected readonly IEFCoreDbContextModelStorage _contextModelStorage;
+
+        public DefaultDbContextResolver(IServiceProvider serviceProvider, IDbContextProviderStorage dbContextProviderStorage, IEFCoreDbContextModelStorage contextModelStorage)
         {
             _serviceProvider = serviceProvider;
-
-            _dbContextProviderDict = serviceProvider.GetServices<IDbContextProvider>()
-                .ToDictionary(o => o.Name);
+            _dbContextProviderStorage = dbContextProviderStorage;
+            _contextModelStorage = contextModelStorage;
         }
+
+
 
         #region 获取的实现
 
@@ -49,10 +52,19 @@ namespace Riven
             var dbContextConfiguration = new DbContextConfiguration(connectionString, existingConnection, unitOfWorkOptions);
             dbContextProvider.Configuration?.Invoke(dbContextConfiguration);
 
+            // 附加模型
+            var model = _contextModelStorage.Get(connectionString);
+            if (model != null)
+            {
+                dbContextConfiguration.DbContextOptions.UseModel(model);
+            }
+
             // 实例化对象
             var constructor = this.GetDbContextConstructor(dbContextProvider, dbContextConfiguration);
             var obj = constructor.Invoke(new object[] {
-                dbContextConfiguration.DbContextOptions.Options, this._serviceProvider
+                dbContextConfiguration.DbContextOptions.Options,
+                connectionString,
+                this._serviceProvider
             });
 
 
@@ -72,7 +84,9 @@ namespace Riven
         /// <returns></returns>
         private IDbContextProvider GetDbContextProvider(string providerName)
         {
-            if (_dbContextProviderDict.TryGetValue(providerName, out IDbContextProvider dbContextProvider))
+            var dbContextProvider = _dbContextProviderStorage.Get(providerName);
+
+            if (dbContextProvider != null)
             {
                 return dbContextProvider;
             }
