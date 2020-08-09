@@ -20,6 +20,9 @@ namespace Riven
         /// <returns></returns>
         public static IServiceCollection AddUnitOfWorkWithEntityFrameworkCore(this IServiceCollection services)
         {
+            services.TryAddSingleton<IDbContextProviderStorage, DefaultDbContextProviderStorage>();
+            services.TryAddSingleton<IEFCoreDbContextModelStorage, DefaultEFCoreDbContextModelStorage>();
+
             services.TryAddTransient<IDbContextResolver, DefaultDbContextResolver>();
 
             services.TryAddTransient<IUnitOfWorkDbContextProvider, UnitOfWorkDbContextProvider>();
@@ -30,6 +33,7 @@ namespace Riven
 
             services.TryAddTransient<IActiveTransactionProvider, EfCoreActiveTransactionProvider>();
 
+            
             services.AddRivenUnitOfWork();
 
             return services;
