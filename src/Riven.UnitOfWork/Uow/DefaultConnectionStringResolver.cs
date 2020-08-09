@@ -11,9 +11,9 @@ namespace Riven.Uow
     {
         protected readonly Dictionary<string, IConnectionStringProvider> _connectionStringProviderDict;
 
-        protected readonly IConnectionStringStore _connectionStringStore;
+        protected readonly IConnectionStringStorage _connectionStringStore;
 
-        public DefaultConnectionStringResolver(IServiceProvider service, IConnectionStringStore connectionStringStore)
+        public DefaultConnectionStringResolver(IServiceProvider service, IConnectionStringStorage connectionStringStore)
         {
             _connectionStringProviderDict = service.GetServices<IConnectionStringProvider>()
                 .ToDictionary(o => o.Name);
