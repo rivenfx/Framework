@@ -46,6 +46,17 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                     throw;
                 }
 
+                // 认证鉴权异常
+                if (ex is AuthorizationException && context.IsAjax())
+                {
+                    await HandleAndWrapException(context, ex, aspNetCoreOptions);
+                    aspNetCoreOptions.TriggerHandledException(this, ex);
+
+                    logger.LogError(ex, ex.Message);
+                    return;
+                }
+
+
                 var requestActionInfo = context.GetRequestActionInfo();
 
                 var wrapResultAttribute = requestActionInfo?.WrapResultAttribute ?? aspNetCoreOptions.DefaultWrapResultAttribute;
@@ -66,7 +77,7 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                     return;
                 }
 
-                throw;
+                throw ex;
             }
 
         }
