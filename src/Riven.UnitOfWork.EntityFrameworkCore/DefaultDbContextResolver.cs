@@ -63,7 +63,6 @@ namespace Riven
             var constructor = this.GetDbContextConstructor(dbContextProvider, dbContextConfiguration);
             var obj = constructor.Invoke(new object[] {
                 dbContextConfiguration.DbContextOptions.Options,
-                connectionString,
                 this._serviceProvider
             });
 
