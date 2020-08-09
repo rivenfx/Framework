@@ -26,7 +26,7 @@ namespace Riven
             services.TryAddTransient<IActiveTransactionProvider, NullActiveTransactionProvider>();
 
             services.TryAddTransient<IConnectionStringResolver, DefaultConnectionStringResolver>();
-            services.TryAddSingleton<IConnectionStringStore, DefaultConnectionStringStore>();
+            services.TryAddSingleton<IConnectionStringStorage, DefaultConnectionStringStore>();
 
             return services;
         }
@@ -103,10 +103,10 @@ namespace Riven
             Check.NotNullOrEmpty(name, nameof(name));
             Check.NotNullOrEmpty(connectionString, nameof(connectionString));
 
-            var connectionStringStore = serviceProvider.GetService<IConnectionStringStore>();
+            var connectionStringStore = serviceProvider.GetService<IConnectionStringStorage>();
 
             var connectionStringProvider = new ConnectionStringProvider(name, connectionString);
-            connectionStringStore.CreateOrUpdate(connectionStringProvider);
+            connectionStringStore.AddOrUpdate(name, connectionStringProvider);
 
 
             return serviceProvider;
