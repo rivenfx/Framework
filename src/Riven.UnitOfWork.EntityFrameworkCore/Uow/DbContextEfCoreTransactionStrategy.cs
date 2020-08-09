@@ -18,8 +18,12 @@ namespace Riven.Uow
 
         protected IDictionary<string, ActiveTransactionInfo> ActiveTransactions { get; }
 
-        public DbContextEfCoreTransactionStrategy()
+        protected readonly IEFCoreDbContextModelStorage _contextModelStorage;
+
+        public DbContextEfCoreTransactionStrategy(IEFCoreDbContextModelStorage contextModelStorage)
         {
+            _contextModelStorage = contextModelStorage;
+
             ActiveTransactions = new Dictionary<string, ActiveTransactionInfo>();
         }
 
@@ -38,7 +42,7 @@ namespace Riven.Uow
             return dbContext as TDbContext;
         }
 
-        public virtual DbContext CreateDbContext(string connectionString, IDbContextResolver dbContextResolver,string dbContextProviderName)
+        public virtual DbContext CreateDbContext(string connectionString, IDbContextResolver dbContextResolver, string dbContextProviderName)
         {
             DbContext dbContext;
 
@@ -46,6 +50,10 @@ namespace Riven.Uow
             if (activeTransaction == null)
             {
                 dbContext = dbContextResolver.Resolve(connectionString, null, this.Options, dbContextProviderName);
+
+                // 缓存模型
+                _contextModelStorage.AddOrUpdate(connectionString, dbContext.Model);
+
 
                 var dbtransaction = dbContext.Database.BeginTransaction((Options.IsolationLevel ?? IsolationLevel.ReadUncommitted).ToSystemDataIsolationLevel());
                 activeTransaction = new ActiveTransactionInfo(dbtransaction, dbContext);
