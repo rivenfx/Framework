@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		azure-pipelines.yml = azure-pipelines.yml
 		common.props = common.props
 		LICENSE = LICENSE
 		README.md = README.md
@@ -68,7 +69,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Tests", "tests\Riven.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RivenTestsBase", "tests\RivenTestsBase\RivenTestsBase.csproj", "{25518AEC-C914-48D2-BDF7-DD14F82F5280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Domain.EntityFrameworkCore", "src\Riven.Domain.EntityFrameworkCore\Riven.Domain.EntityFrameworkCore.csproj", "{BC4B0287-626C-4325-B202-38C6F0C62A61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Domain.EntityFrameworkCore", "src\Riven.Domain.EntityFrameworkCore\Riven.Domain.EntityFrameworkCore.csproj", "{BC4B0287-626C-4325-B202-38C6F0C62A61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
