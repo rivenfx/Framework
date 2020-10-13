@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
 using System;
@@ -22,8 +23,10 @@ namespace Riven.Uow
 
 
 
-        public string Resolve(string name)
+        public string Resolve([NotNull]string name)
         {
+            Check.NotNullOrWhiteSpace(name, nameof(name));
+
             var connectionStringProvider = _connectionStringStore.Get(name);
             if (connectionStringProvider != null)
             {
