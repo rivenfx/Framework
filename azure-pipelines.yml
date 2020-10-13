@@ -22,6 +22,6 @@ steps:
 - task: PowerShell@2
   inputs:
     filePath: './nupkg/push_packages.ps1'
-    arguments: '$env:nuget_key'
+    arguments: $(nuget_key)
     pwsh: true
     workingDirectory: './nupkg'
