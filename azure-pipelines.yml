@@ -10,9 +10,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  buildConfiguration: 'Release'
-
 steps:
 - task: PowerShell@2
   name: "build_to_nuget_pakcages"
