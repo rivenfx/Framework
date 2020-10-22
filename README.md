@@ -13,7 +13,7 @@ Basic extension library implementation
 
 ## Nuget Packages
 
-[![Build Status](https://dev.azure.com/rivenfx/Framework/_apis/build/status/rivenfx.Framework?branchName=master)](https://dev.azure.com/rivenfx/Framework/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/rivenfx/RivenFx/_apis/build/status/rivenfx.Framework?branchName=master)](https://dev.azure.com/rivenfx/RivenFx/_build/latest?definitionId=3&branchName=master)
 
 |Package|Status|
 |:------|:-----:|
