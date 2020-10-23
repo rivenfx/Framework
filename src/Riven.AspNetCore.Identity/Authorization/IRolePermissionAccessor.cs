@@ -14,14 +14,14 @@ namespace Riven.Authorization
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        Task<IList<Claim>> GetPermissionsByRoleIdAsync([NotNull]string roleId);
+        Task<IEnumerable<string>> GetPermissionsByRoleIdAsync([NotNull]string roleId);
 
         /// <summary>
         /// 根据角色名称获取 permissions
         /// </summary>
         /// <param name="roleName"></param>
         /// <returns></returns>
-        Task<IList<Claim>> GetPermissionsByRoleNameAsync([NotNull]string roleName);
+        Task<IEnumerable<string>> GetPermissionsByRoleNameAsync([NotNull]string roleName);
 
 
         /// <summary>
@@ -29,6 +29,6 @@ namespace Riven.Authorization
         /// </summary>
         /// <param name="roleNames"></param>
         /// <returns></returns>
-        Task<IList<Claim>> GetPermissionsByRoleNamesAsync([NotNull]string[] roleNames);
+        Task<IEnumerable<string>> GetPermissionsByRoleNamesAsync([NotNull]string[] roleNames);
     }
 }

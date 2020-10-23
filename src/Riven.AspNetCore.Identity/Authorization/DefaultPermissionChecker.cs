@@ -77,7 +77,7 @@ namespace Riven.Authorization
             // 不需要匹配所有的 Permission
             if (!requireAllRolePermissions)
             {
-                var userPermissions = (await _userPermissionAccessor.GetPermissionsByUserIdAsync(userId)).Select(o => o.Value);
+                var userPermissions = (await _userPermissionAccessor.GetPermissionsByUserIdAsync(userId));
 
                 if (permissionDistinct.Any(o => userPermissions.Contains(o)))
                 {
@@ -85,7 +85,7 @@ namespace Riven.Authorization
                 }
 
                 var userRoleNames = await _userPermissionAccessor.GetRolesByUserIdAsync(userId);
-                var userRolePermissions = (await _rolePermissionAccessor.GetPermissionsByRoleNamesAsync(userRoleNames.ToArray())).Select(o => o.Value);
+                var userRolePermissions = (await _rolePermissionAccessor.GetPermissionsByRoleNamesAsync(userRoleNames.ToArray()));
 
 
                 if (permissionDistinct.Any(o => userRolePermissions.Contains(o)))
@@ -98,10 +98,10 @@ namespace Riven.Authorization
             }
             else
             {
-                var userPermissions = (await _userPermissionAccessor.GetPermissionsByUserIdAsync(userId)).Select(o => o.Value);
+                var userPermissions = (await _userPermissionAccessor.GetPermissionsByUserIdAsync(userId));
 
                 var userRoleNames = await _userPermissionAccessor.GetRolesByUserIdAsync(userId);
-                var userRolePermissions = (await _rolePermissionAccessor.GetPermissionsByRoleNamesAsync(userRoleNames.ToArray())).Select(o => o.Value);
+                var userRolePermissions = (await _rolePermissionAccessor.GetPermissionsByRoleNamesAsync(userRoleNames.ToArray()));
 
                 // userPermissions 与 rolePermissions 取并集, 再与 校验标记中的 Permissions 取交集, 最后获得交集数量
                 var intersectPermissionsCount = userPermissions.Union(userRolePermissions).Intersect(permissionDistinct).Count();
