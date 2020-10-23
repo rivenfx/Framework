@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
 using Riven.Authorization;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using Riven.Exceptions;
 
 namespace Riven.Extensions
 {
-    public static class ClaimsCheckerExtensions
+    public static class PermissionCheckerExtensions
     {
-        public static async Task AuthorizeAsync(this IClaimsChecker claimsChecker, IStringLocalizer stringLocalizer, string userId, bool requireAll, params string[] claims)
+        public static async Task AuthorizeAsync(this IPermissionChecker claimsChecker, IStringLocalizer stringLocalizer, string userId, bool requireAll, params string[] claims)
         {
             if (await claimsChecker.IsGrantedAsync(userId, requireAll, claims))
             {

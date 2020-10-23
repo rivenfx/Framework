@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
@@ -27,17 +27,17 @@ namespace Riven.Identity.Authorization
     /// <summary>
     /// 基于 Claims 的 AuthorizationHandler
     /// </summary>
-    public class ClaimsAuthorizationRequirement : AuthorizationHandler<ClaimsAuthorizationRequirement>, IAuthorizationRequirement
+    public class PermissionAuthorizationRequirement : AuthorizationHandler<PermissionAuthorizationRequirement>, IAuthorizationRequirement
     {
         readonly IServiceProvider _serviceProvider;
 
-        public ClaimsAuthorizationRequirement(IServiceProvider serviceProvider)
+        public PermissionAuthorizationRequirement(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            ClaimsAuthorizationRequirement requirement)
+            PermissionAuthorizationRequirement requirement)
         {
             if (context.HasSucceeded || context.HasFailed)
             {
@@ -47,7 +47,7 @@ namespace Riven.Identity.Authorization
             var routeEndpoint = context.Resource as RouteEndpoint;
 
 
-            var claimsAttributes = routeEndpoint?.Metadata?.GetOrderedMetadata<ClaimsAuthorizeAttribute>()?.ToList();
+            var claimsAttributes = routeEndpoint?.Metadata?.GetOrderedMetadata<PermissionAuthorizeAttribute>()?.ToList();
             if (claimsAttributes == null || !claimsAttributes.Any())
             {
                 context.Succeed(requirement);
@@ -58,7 +58,7 @@ namespace Riven.Identity.Authorization
             {
                 var serviceProvider = scope.ServiceProvider;
 
-                var logger = serviceProvider.GetRequiredService<ILogger<ClaimsAuthorizationRequirement>>();
+                var logger = serviceProvider.GetRequiredService<ILogger<PermissionAuthorizationRequirement>>();
                 var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
 
                 var stringLocalizer = serviceProvider.GetRequiredService<IStringLocalizer>();
@@ -82,11 +82,11 @@ namespace Riven.Identity.Authorization
                         throw new AuthorizationException(stringLocalizer["NotLoggedIn"]);
                     }
 
-                    var claimsChecker = serviceProvider.GetRequiredService<IClaimsChecker>();
+                    var claimsChecker = serviceProvider.GetRequiredService<IPermissionChecker>();
 
                     foreach (var claimsAttribute in claimsAttributes)
                     {
-                        await claimsChecker.AuthorizeAsync(stringLocalizer, userId, claimsAttribute.RequireAll, claimsAttribute.Claims);
+                        await claimsChecker.AuthorizeAsync(stringLocalizer, userId, claimsAttribute.RequireAll, claimsAttribute.Permissions);
                     }
 
                     context.Succeed(requirement);

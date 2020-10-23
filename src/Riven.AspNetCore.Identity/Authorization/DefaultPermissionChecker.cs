@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,20 +9,20 @@ using Riven.Extensions;
 
 namespace Riven.Authorization
 {
-    public class DefaultClaimsChecker : IClaimsChecker
+    public class DefaultPermissionChecker : IPermissionChecker
     {
         readonly IUserRoleClaimAccessor _userClaimAccessor;
         readonly IRoleClaimAccessor _roleClaimAccessor;
 
-        public DefaultClaimsChecker(IUserRoleClaimAccessor userClaimAccessor, IRoleClaimAccessor roleClaimAccessor)
+        public DefaultPermissionChecker(IUserRoleClaimAccessor userClaimAccessor, IRoleClaimAccessor roleClaimAccessor)
         {
             _userClaimAccessor = userClaimAccessor;
             _roleClaimAccessor = roleClaimAccessor;
         }
 
-        public bool IsGranted([NotNull] string userId, [NotNull] string claim)
+        public bool IsGranted([NotNull] string userId, [NotNull] string permission)
         {
-            if (claim.IsNullOrWhiteSpace())
+            if (permission.IsNullOrWhiteSpace())
             {
                 return true;
             }
@@ -30,25 +30,25 @@ namespace Riven.Authorization
             Check.NotNullOrWhiteSpace(userId, nameof(userId));
 
 
-            return this.IsGranted(userId, false, claim);
+            return this.IsGranted(userId, false, permission);
         }
 
 
-        public async Task<bool> IsGrantedAsync(string userId, string claim)
+        public async Task<bool> IsGrantedAsync(string userId, string permission)
         {
-            if (claim.IsNullOrWhiteSpace())
+            if (permission.IsNullOrWhiteSpace())
             {
                 return true;
             }
             Check.NotNullOrWhiteSpace(userId, nameof(userId));
 
 
-            return await this.IsGrantedAsync(userId, false, claim);
+            return await this.IsGrantedAsync(userId, false, permission);
         }
 
-        public bool IsGranted([NotNull] string userId, bool requireAllRoleClaims, params string[] claims)
+        public bool IsGranted([NotNull] string userId, bool requireAllRoleClaims, params string[] permissions)
         {
-            if (claims.IsNullOrEmpty())
+            if (permissions.IsNullOrEmpty())
             {
                 return true;
             }
@@ -58,13 +58,13 @@ namespace Riven.Authorization
 
             return AsyncHelper.RunSync(() =>
             {
-                return this.IsGrantedAsync(userId, requireAllRoleClaims, claims);
+                return this.IsGrantedAsync(userId, requireAllRoleClaims, permissions);
             });
         }
 
-        public async Task<bool> IsGrantedAsync([NotNull] string userId, bool requireAllRoleClaims, params string[] claims)
+        public async Task<bool> IsGrantedAsync([NotNull] string userId, bool requireAllRoleClaims, params string[] permissions)
         {
-            if (claims.IsNullOrEmpty())
+            if (permissions.IsNullOrEmpty())
             {
                 return true;
             }
@@ -72,7 +72,7 @@ namespace Riven.Authorization
 
 
             // 去重
-            var claimsDistinct = claims.Distinct();
+            var claimsDistinct = permissions.Distinct();
 
             // 不需要匹配所有的 claim
             if (!requireAllRoleClaims)

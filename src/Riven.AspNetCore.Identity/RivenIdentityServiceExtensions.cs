@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
@@ -20,9 +20,9 @@ namespace Riven
         /// <returns></returns>
         public static IServiceCollection AddRivenAspNetCoreClaimsAuthorization(this IServiceCollection services)
         {
-            services.AddSingleton<IAuthorizationPolicyProvider, ClaimsAuthorizationPolicyProvider>();
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
-            services.TryAddTransient<IClaimsChecker, DefaultClaimsChecker>();
+            services.TryAddTransient<IPermissionChecker, DefaultPermissionChecker>();
 
             return services;
         }

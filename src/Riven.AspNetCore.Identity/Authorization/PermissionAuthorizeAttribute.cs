@@ -6,36 +6,36 @@ using System.Text;
 
 namespace Riven.Identity.Authorization
 {
-    public class ClaimsAuthorizeAttribute : AuthorizeAttribute
+    public class PermissionAuthorizeAttribute : AuthorizeAttribute
     {
         public virtual new string Policy { get; set; }
 
         /// <summary>
         /// A list of Claims to authorize.
         /// </summary>
-        public virtual string[] Claims { get; protected set; }
+        public virtual string[] Permissions { get; protected set; }
 
         /// <summary>
-        /// If this property is set to true, all of the <see cref="Claims"/> must be granted.
-        /// If it's false, at least one of the <see cref="Claims"/> must be granted.
+        /// If this property is set to true, all of the <see cref="Permissions"/> must be granted.
+        /// If it's false, at least one of the <see cref="Permissions"/> must be granted.
         /// Default: false.
         /// </summary>
         public virtual bool RequireAll { get; set; }
 
         /// <summary>
-        /// Claims 归属,不设置默认视作 <see cref="ClaimsAuthorizeScope.Common"/>
+        /// Claims 归属,不设置默认视作 <see cref="PermissionAuthorizeScope.Common"/>
         /// </summary>
-        public virtual ClaimsAuthorizeScope Scope { get; set; }
+        public virtual PermissionAuthorizeScope Scope { get; set; }
 
         /// <summary>
-        /// Creates a new instance of <see cref="ClaimsAuthorizeAttribute"/> class.
+        /// Creates a new instance of <see cref="PermissionAuthorizeAttribute"/> class.
         /// </summary>
         /// <param name="roleClaims">A list of permissions to authorize</param>
-        public ClaimsAuthorizeAttribute(params string[] roleClaims)
+        public PermissionAuthorizeAttribute(params string[] permissions)
         {
-            Claims = roleClaims;
-            Scope = ClaimsAuthorizeScope.Common;
-            Policy = ClaimsAuthorizationPolicyProvider.POLICY_NAME;
+            this.Permissions = permissions;
+            this.Scope = PermissionAuthorizeScope.Common;
+            this.Policy = PermissionAuthorizationPolicyProvider.POLICY_NAME;
         }
     }
 
@@ -43,7 +43,7 @@ namespace Riven.Identity.Authorization
     /// <summary>
     /// Claims定义归属范围枚举
     /// </summary>
-    public enum ClaimsAuthorizeScope
+    public enum PermissionAuthorizeScope
     {
         /// <summary>
         /// 公共

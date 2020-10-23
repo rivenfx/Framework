@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 namespace Riven.Identity.Authorization
 {
     // services.AddSingleton<IAuthorizationPolicyProvider, ClaimsAuthorizationPolicyProvider>();
-    public class ClaimsAuthorizationPolicyProvider : IAuthorizationPolicyProvider
+    public class PermissionAuthorizationPolicyProvider : IAuthorizationPolicyProvider
     {
-        public const string POLICY_NAME = "RivenClaims";
+        public const string POLICY_NAME = "RivenPermission";
 
         readonly IServiceProvider _serviceProvider;
 
-        public ClaimsAuthorizationPolicyProvider(IServiceProvider serviceProvider)
+        public PermissionAuthorizationPolicyProvider(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -31,7 +31,7 @@ namespace Riven.Identity.Authorization
         public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
             var policy = new AuthorizationPolicyBuilder();
-            policy.AddRequirements(new ClaimsAuthorizationRequirement(_serviceProvider));
+            policy.AddRequirements(new PermissionAuthorizationRequirement(_serviceProvider));
             return Task.FromResult(policy.Build());
         }
     }
