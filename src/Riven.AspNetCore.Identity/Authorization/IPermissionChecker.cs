@@ -13,10 +13,10 @@ namespace Riven.Authorization
     {
         bool IsGranted([NotNull]string userId, [NotNull]string permission);
 
-        Task<bool> IsGrantedAsync([NotNull]string userId, [NotNull]string claim);
+        Task<bool> IsGrantedAsync([NotNull]string userId, [NotNull]string permission);
 
-        bool IsGranted([NotNull]string userId, bool requireAllRoleClaims, params string[] permissions);
+        bool IsGranted([NotNull]string userId, bool requireAllRolePermissions, params string[] permissions);
 
-        Task<bool> IsGrantedAsync([NotNull]string userId, bool requireAllRoleClaims, params string[] permissions);
+        Task<bool> IsGrantedAsync([NotNull]string userId, bool requireAllRolePermissions, params string[] permissions);
     }
 }

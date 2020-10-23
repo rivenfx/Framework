@@ -10,26 +10,26 @@ namespace Riven.Extensions
 {
     public static class PermissionCheckerExtensions
     {
-        public static async Task AuthorizeAsync(this IPermissionChecker claimsChecker, IStringLocalizer stringLocalizer, string userId, bool requireAll, params string[] claims)
+        public static async Task AuthorizeAsync(this IPermissionChecker permissionChecker, IStringLocalizer stringLocalizer, string userId, bool requireAll, params string[] permissions)
         {
-            if (await claimsChecker.IsGrantedAsync(userId, requireAll, claims))
+            if (await permissionChecker.IsGrantedAsync(userId, requireAll, permissions))
             {
                 return;
             }
             var errorMessageStringBuilder = new StringBuilder();
-            // TODO: 本地化claim名称
+            // TODO: 本地化 permission 名称
             if (requireAll)
             {
-                errorMessageStringBuilder.AppendLine(stringLocalizer["SomeClaimDoNotExist"]);
+                errorMessageStringBuilder.AppendLine(stringLocalizer["SomePermissionDoNotExist"]);
             }
             else
             {
-                errorMessageStringBuilder.AppendLine(stringLocalizer["WithoutAnyClaim"]);
+                errorMessageStringBuilder.AppendLine(stringLocalizer["WithoutAnyPermission"]);
             }
 
-            foreach (var claim in claims)
+            foreach (var permission in permissions)
             {
-                errorMessageStringBuilder.AppendLine(stringLocalizer[claim]);
+                errorMessageStringBuilder.AppendLine(stringLocalizer[permission]);
             }
             throw new AuthorizationException(errorMessageStringBuilder.ToString());
         }

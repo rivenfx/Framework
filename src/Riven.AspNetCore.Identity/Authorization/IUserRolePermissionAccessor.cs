@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace Riven.Authorization
 {
-    public interface IUserRoleClaimAccessor
+    public interface IUserRolePermissionAccessor
     {
         /// <summary>
-        /// 根据 用户id 获取用户拥有的 claims
+        /// 根据 用户id 获取用户拥有的 permissions
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IList<Claim>> GetClaimsByUserIdAsync([NotNull]string userId);
+        Task<IList<Claim>> GetPermissionsByUserIdAsync([NotNull]string userId);
 
 
         /// <summary>
-        /// 根据 用户名 获取用户拥有的 claims
+        /// 根据 用户名 获取用户拥有的 permissions
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IList<Claim>> GetClaimsByUserNameAsync([NotNull]string userName);
+        Task<IList<Claim>> GetPermissionsByUserNameAsync([NotNull]string userName);
 
         /// <summary>
         /// 根据 用户id 获取用户拥有的 role

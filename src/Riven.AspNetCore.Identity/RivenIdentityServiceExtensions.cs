@@ -14,11 +14,11 @@ namespace Riven
     public static class RivenIdentityServiceExtensions
     {
         /// <summary>
-        /// 添加 IAspNetCoreAuthorizationHandler 的 ClaimsAuthorizationHandler 实现
+        /// 添加 IAspNetCoreAuthorizationHandler 的 PermissionAuthorizationHandler 实现
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRivenAspNetCoreClaimsAuthorization(this IServiceCollection services)
+        public static IServiceCollection AddRivenAspNetCorePermissionAuthorization(this IServiceCollection services)
         {
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
@@ -28,18 +28,18 @@ namespace Riven
         }
 
         /// <summary>
-        /// 添加 Riven Identity 的 ClaimAccessor 实现
+        /// 添加 Riven Identity 的 PermissionAccessor 实现
         /// </summary>
-        /// <typeparam name="TRoleClaimAccessor"></typeparam>
-        /// <typeparam name="TUserRoleClaimAccessor"></typeparam>
+        /// <typeparam name="TRolePermissionAccessor"></typeparam>
+        /// <typeparam name="TUserRolePermissionAccessor"></typeparam>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRivenIdentityClaimAccesssor<TRoleClaimAccessor, TUserRoleClaimAccessor>(this IServiceCollection services)
-            where TRoleClaimAccessor : class, IRoleClaimAccessor
-            where TUserRoleClaimAccessor : class, IUserRoleClaimAccessor
+        public static IServiceCollection AddRivenIdentityPermissionAccesssor<TRolePermissionAccessor, TUserRolePermissionAccessor>(this IServiceCollection services)
+            where TRolePermissionAccessor : class, IRolePermissionAccessor
+            where TUserRolePermissionAccessor : class, IUserRolePermissionAccessor
         {
-            services.TryAddScoped<IRoleClaimAccessor, TRoleClaimAccessor>();
-            services.TryAddScoped<IUserRoleClaimAccessor, TUserRoleClaimAccessor>();
+            services.TryAddScoped<IRolePermissionAccessor, TRolePermissionAccessor>();
+            services.TryAddScoped<IUserRolePermissionAccessor, TUserRolePermissionAccessor>();
 
             return services;
         }

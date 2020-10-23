@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Riven.Identity.Authorization
 {
-    // services.AddSingleton<IAuthorizationPolicyProvider, ClaimsAuthorizationPolicyProvider>();
     public class PermissionAuthorizationPolicyProvider : IAuthorizationPolicyProvider
     {
         public const string POLICY_NAME = "RivenPermission";

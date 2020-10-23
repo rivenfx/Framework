@@ -11,13 +11,13 @@ namespace Riven.Authorization
 {
     public class DefaultPermissionChecker : IPermissionChecker
     {
-        readonly IUserRoleClaimAccessor _userClaimAccessor;
-        readonly IRoleClaimAccessor _roleClaimAccessor;
+        readonly IUserRolePermissionAccessor _userPermissionAccessor;
+        readonly IRolePermissionAccessor _rolePermissionAccessor;
 
-        public DefaultPermissionChecker(IUserRoleClaimAccessor userClaimAccessor, IRoleClaimAccessor roleClaimAccessor)
+        public DefaultPermissionChecker(IUserRolePermissionAccessor userPermissionAccessor, IRolePermissionAccessor rolePermissionAccessor)
         {
-            _userClaimAccessor = userClaimAccessor;
-            _roleClaimAccessor = roleClaimAccessor;
+            _userPermissionAccessor = userPermissionAccessor;
+            _rolePermissionAccessor = rolePermissionAccessor;
         }
 
         public bool IsGranted([NotNull] string userId, [NotNull] string permission)
@@ -46,7 +46,7 @@ namespace Riven.Authorization
             return await this.IsGrantedAsync(userId, false, permission);
         }
 
-        public bool IsGranted([NotNull] string userId, bool requireAllRoleClaims, params string[] permissions)
+        public bool IsGranted([NotNull] string userId, bool requireAllRolePermissions, params string[] permissions)
         {
             if (permissions.IsNullOrEmpty())
             {
@@ -58,11 +58,11 @@ namespace Riven.Authorization
 
             return AsyncHelper.RunSync(() =>
             {
-                return this.IsGrantedAsync(userId, requireAllRoleClaims, permissions);
+                return this.IsGrantedAsync(userId, requireAllRolePermissions, permissions);
             });
         }
 
-        public async Task<bool> IsGrantedAsync([NotNull] string userId, bool requireAllRoleClaims, params string[] permissions)
+        public async Task<bool> IsGrantedAsync([NotNull] string userId, bool requireAllRolePermissions, params string[] permissions)
         {
             if (permissions.IsNullOrEmpty())
             {
@@ -72,23 +72,23 @@ namespace Riven.Authorization
 
 
             // 去重
-            var claimsDistinct = permissions.Distinct();
+            var permissionDistinct = permissions.Distinct();
 
-            // 不需要匹配所有的 claim
-            if (!requireAllRoleClaims)
+            // 不需要匹配所有的 Permission
+            if (!requireAllRolePermissions)
             {
-                var userClaims = (await _userClaimAccessor.GetClaimsByUserIdAsync(userId)).Select(o => o.Value);
+                var userPermissions = (await _userPermissionAccessor.GetPermissionsByUserIdAsync(userId)).Select(o => o.Value);
 
-                if (claimsDistinct.Any(o => userClaims.Contains(o)))
+                if (permissionDistinct.Any(o => userPermissions.Contains(o)))
                 {
                     return true;
                 }
 
-                var userRoleNames = await _userClaimAccessor.GetRolesByUserIdAsync(userId);
-                var userRoleClaims = (await _roleClaimAccessor.GetClaimsByRoleNamesAsync(userRoleNames.ToArray())).Select(o => o.Value);
+                var userRoleNames = await _userPermissionAccessor.GetRolesByUserIdAsync(userId);
+                var userRolePermissions = (await _rolePermissionAccessor.GetPermissionsByRoleNamesAsync(userRoleNames.ToArray())).Select(o => o.Value);
 
 
-                if (claimsDistinct.Any(o => userRoleClaims.Contains(o)))
+                if (permissionDistinct.Any(o => userRolePermissions.Contains(o)))
                 {
                     return true;
                 }
@@ -98,16 +98,16 @@ namespace Riven.Authorization
             }
             else
             {
-                var userClaims = (await _userClaimAccessor.GetClaimsByUserIdAsync(userId)).Select(o => o.Value);
+                var userPermissions = (await _userPermissionAccessor.GetPermissionsByUserIdAsync(userId)).Select(o => o.Value);
 
-                var userRoleNames = await _userClaimAccessor.GetRolesByUserIdAsync(userId);
-                var userRoleClaims = (await _roleClaimAccessor.GetClaimsByRoleNamesAsync(userRoleNames.ToArray())).Select(o => o.Value);
+                var userRoleNames = await _userPermissionAccessor.GetRolesByUserIdAsync(userId);
+                var userRolePermissions = (await _rolePermissionAccessor.GetPermissionsByRoleNamesAsync(userRoleNames.ToArray())).Select(o => o.Value);
 
-                // userClaims 与 roleCliams 取并集, 再与 校验标记中的 claims 取交集, 最后获得交集数量
-                var intersectClaimsCount = userClaims.Union(userRoleClaims).Intersect(claimsDistinct).Count();
+                // userPermissions 与 rolePermissions 取并集, 再与 校验标记中的 Permissions 取交集, 最后获得交集数量
+                var intersectPermissionsCount = userPermissions.Union(userRolePermissions).Intersect(permissionDistinct).Count();
 
                 // 长度一致为true,长度不一致为false
-                return intersectClaimsCount == claimsDistinct.Count();
+                return intersectPermissionsCount == permissionDistinct.Count();
             }
         }
     }

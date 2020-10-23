@@ -25,7 +25,7 @@ using Riven.Exceptions;
 namespace Riven.Identity.Authorization
 {
     /// <summary>
-    /// 基于 Claims 的 AuthorizationHandler
+    /// 基于 Permission 的 AuthorizationHandler
     /// </summary>
     public class PermissionAuthorizationRequirement : AuthorizationHandler<PermissionAuthorizationRequirement>, IAuthorizationRequirement
     {
@@ -47,8 +47,8 @@ namespace Riven.Identity.Authorization
             var routeEndpoint = context.Resource as RouteEndpoint;
 
 
-            var claimsAttributes = routeEndpoint?.Metadata?.GetOrderedMetadata<PermissionAuthorizeAttribute>()?.ToList();
-            if (claimsAttributes == null || !claimsAttributes.Any())
+            var permissionAttributes = routeEndpoint?.Metadata?.GetOrderedMetadata<PermissionAuthorizeAttribute>()?.ToList();
+            if (permissionAttributes == null || !permissionAttributes.Any())
             {
                 context.Succeed(requirement);
                 return;
@@ -82,11 +82,11 @@ namespace Riven.Identity.Authorization
                         throw new AuthorizationException(stringLocalizer["NotLoggedIn"]);
                     }
 
-                    var claimsChecker = serviceProvider.GetRequiredService<IPermissionChecker>();
+                    var permissionChecker = serviceProvider.GetRequiredService<IPermissionChecker>();
 
-                    foreach (var claimsAttribute in claimsAttributes)
+                    foreach (var permissionAttribute in permissionAttributes)
                     {
-                        await claimsChecker.AuthorizeAsync(stringLocalizer, userId, claimsAttribute.RequireAll, claimsAttribute.Permissions);
+                        await permissionChecker.AuthorizeAsync(stringLocalizer, userId, permissionAttribute.RequireAll, permissionAttribute.Permissions);
                     }
 
                     context.Succeed(requirement);

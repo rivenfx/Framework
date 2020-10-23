@@ -11,7 +11,7 @@ namespace Riven.Identity.Authorization
         public virtual new string Policy { get; set; }
 
         /// <summary>
-        /// A list of Claims to authorize.
+        /// A list of permissions to authorize.
         /// </summary>
         public virtual string[] Permissions { get; protected set; }
 
@@ -23,14 +23,14 @@ namespace Riven.Identity.Authorization
         public virtual bool RequireAll { get; set; }
 
         /// <summary>
-        /// Claims 归属,不设置默认视作 <see cref="PermissionAuthorizeScope.Common"/>
+        /// Permission 归属,不设置默认视作 <see cref="PermissionAuthorizeScope.Common"/>
         /// </summary>
         public virtual PermissionAuthorizeScope Scope { get; set; }
 
         /// <summary>
         /// Creates a new instance of <see cref="PermissionAuthorizeAttribute"/> class.
         /// </summary>
-        /// <param name="roleClaims">A list of permissions to authorize</param>
+        /// <param name="permissions">A list of permissions to authorize</param>
         public PermissionAuthorizeAttribute(params string[] permissions)
         {
             this.Permissions = permissions;
@@ -41,7 +41,7 @@ namespace Riven.Identity.Authorization
 
 
     /// <summary>
-    /// Claims定义归属范围枚举
+    /// permission 定义归属范围枚举
     /// </summary>
     public enum PermissionAuthorizeScope
     {
