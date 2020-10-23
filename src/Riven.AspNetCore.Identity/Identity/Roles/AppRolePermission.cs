@@ -9,7 +9,7 @@ namespace Riven.Identity.Roles
     /// 
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public class AppRoleClaim<TKey> : IdentityRoleClaim<TKey>
+    public class AppRolePermission<TKey> : IdentityRoleClaim<TKey>
         where TKey : IEquatable<TKey>
     {
 
@@ -18,7 +18,7 @@ namespace Riven.Identity.Roles
     /// <summary>
     /// 
     /// </summary>
-    public class AppRoleClaim : AppRoleClaim<long>
+    public class AppRolePermission : AppRolePermission<long>
     {
 
     }

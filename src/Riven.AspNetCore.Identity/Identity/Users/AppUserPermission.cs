@@ -9,7 +9,7 @@ namespace Riven.Identity.Users
     /// 
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public class AppUserClaim<TKey> : IdentityUserClaim<TKey>
+    public class AppUserPermission<TKey> : IdentityUserClaim<TKey>
      where TKey : IEquatable<TKey>
     {
     }
@@ -17,7 +17,7 @@ namespace Riven.Identity.Users
     /// <summary>
     /// 
     /// </summary>
-    public class AppUserClaim : AppUserClaim<long>
+    public class AppUserPermission : AppUserPermission<long>
     {
     }
 }
