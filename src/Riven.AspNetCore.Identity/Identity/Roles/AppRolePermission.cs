@@ -13,19 +13,28 @@ namespace Riven.Identity.Roles
     public class AppRolePermission<TKey> : IdentityRoleClaim<TKey>
         where TKey : IEquatable<TKey>
     {
-
-        [NotMapped]
-        [Obsolete("use the Name field")]
-        public override string ClaimType { get; set; }
-
-        [NotMapped]
-        [Obsolete("use the Name field")]
-        public override string ClaimValue { get; set; }
-
         /// <summary>
         /// permission name
         /// </summary>
         public virtual string Name { get; set; }
+
+
+
+        #region 重写 ClaimType  ClaimValue 并标记为过时字段
+
+#pragma warning disable CS0809 // 过时成员重写未过时成员
+        [NotMapped]
+        [Obsolete("use the Name field", true)]
+        public override string ClaimType { get; set; }
+
+        [NotMapped]
+        [Obsolete("use the Name field", true)]
+        public override string ClaimValue { get; set; }
+#pragma warning disable CS0809 // 过时成员重写未过时成员 
+
+        #endregion
+
+
     }
 
     /// <summary>
