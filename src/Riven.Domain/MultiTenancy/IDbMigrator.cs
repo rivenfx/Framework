@@ -1,5 +1,5 @@
 using System;
-
+using System.Threading.Tasks;
 
 namespace Riven.MultiTenancy
 {
@@ -8,5 +8,10 @@ namespace Riven.MultiTenancy
         void CreateOrMigrateForHost();
 
         void CreateOrMigrateForTenant(string tenantName);
+
+
+        Task CreateOrMigrateForHostAsync();
+
+        Task CreateOrMigrateForTenantAsync(string tenantName);
     }
 }
