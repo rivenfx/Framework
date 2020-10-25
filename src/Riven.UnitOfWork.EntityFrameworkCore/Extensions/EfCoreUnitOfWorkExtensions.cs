@@ -34,13 +34,13 @@ namespace Riven.Extensions
         {
             Check.NotNull(unitOfWork, nameof(unitOfWork));
 
-            if (!(unitOfWork is EfCoreUnitOfWork))
+            if (!(unitOfWork is EfCoreUnitOfWork efCoreUnitOfWork))
             {
                 throw new ArgumentException("unitOfWork is not type of " + typeof(EfCoreUnitOfWork).FullName, "unitOfWork");
             }
 
 
-            return (unitOfWork as EfCoreUnitOfWork).GetOrCreateDbContext();
+            return efCoreUnitOfWork.GetOrCreateDbContext();
         }
 
         /// <summary>
