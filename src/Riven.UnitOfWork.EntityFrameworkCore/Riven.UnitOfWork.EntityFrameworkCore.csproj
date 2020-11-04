@@ -21,6 +21,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.0" />
+    <PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="3.0.105" />
   </ItemGroup>
 
   <ItemGroup>
