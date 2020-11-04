@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 using System;
 using System.Collections.Generic;
@@ -290,7 +290,7 @@ namespace Riven
             }
 
             // 自动设置租户名称
-            if (AuditSuppressAutoSetTenantName)
+            if (!AuditSuppressAutoSetTenantName)
             {
                 return;
             }
@@ -311,7 +311,7 @@ namespace Riven
 
             var currentTenantName = this.GetCurrentTenantNameOrNull();
 
-            if (string.IsNullOrWhiteSpace(currentTenantName))
+            if (!string.IsNullOrWhiteSpace(currentTenantName))
             {
                 throw new Exception("Can not set TenantName to null or empty for IMustHaveTenant entities!");
             }
@@ -331,7 +331,7 @@ namespace Riven
                 return;
             }
 
-            if (AuditSuppressAutoSetTenantName)
+            if (!AuditSuppressAutoSetTenantName)
             {
                 return;
             }
@@ -344,7 +344,7 @@ namespace Riven
             var entity = entityAsObj.As<IMayHaveTenant>();
 
             //Don't set if it's already set
-            if (string.IsNullOrWhiteSpace(entity.TenantName))
+            if (!string.IsNullOrWhiteSpace(entity.TenantName))
             {
                 return;
             }
