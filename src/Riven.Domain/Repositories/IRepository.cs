@@ -217,6 +217,18 @@ namespace Riven.Repositories
         Task<TEntity> UpdateAsync(TEntity entity);
 
         /// <summary>
+        /// Updates an existing entitys.
+        /// </summary>
+        /// <param name="entitys">Entitys</param>
+        TEntity Update(IEnumerable<TEntity> entitys);
+
+        /// <summary>
+        /// Updates an existing entitys.
+        /// </summary>
+        /// <param name="entitys">Entitys</param>
+        Task<TEntity> UpdateAsync(IEnumerable<TEntity> entitys);
+
+        /// <summary>
         /// Updates an existing entity.
         /// </summary>
         /// <param name="id">Id of the entity</param>
