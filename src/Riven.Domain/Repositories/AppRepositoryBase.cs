@@ -28,9 +28,11 @@ namespace Riven.Repositories
             return GetAll().ToList();
         }
 
-        public virtual Task<List<TEntity>> GetAllListAsync()
+        public virtual async Task<List<TEntity>> GetAllListAsync()
         {
-            return Task.FromResult(GetAllList());
+            await Task.Yield();
+
+            return this.GetAllList();
         }
 
         public virtual List<TEntity> GetAllList(Expression<Func<TEntity, bool>> predicate)
@@ -38,9 +40,11 @@ namespace Riven.Repositories
             return GetAll().Where(predicate).ToList();
         }
 
-        public virtual Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Task.FromResult(GetAllList(predicate));
+            await Task.Yield();
+
+            return this.GetAllList(predicate);
         }
 
         public virtual T Query<T>(Func<IQueryable<TEntity>, T> queryMethod)
@@ -75,9 +79,12 @@ namespace Riven.Repositories
             return GetAll().Single(predicate);
         }
 
-        public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Task.FromResult(Single(predicate));
+            await Task.Yield();
+
+
+            return this.Single(predicate);
         }
 
         public virtual TEntity FirstOrDefault(TKey id)
@@ -85,9 +92,11 @@ namespace Riven.Repositories
             return GetAll().FirstOrDefault(CreateEqualityExpressionForId(id));
         }
 
-        public virtual Task<TEntity> FirstOrDefaultAsync(TKey id)
+        public virtual async Task<TEntity> FirstOrDefaultAsync(TKey id)
         {
-            return Task.FromResult(FirstOrDefault(id));
+            await Task.Yield();
+
+            return this.FirstOrDefault(id);
         }
 
         public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
@@ -95,9 +104,11 @@ namespace Riven.Repositories
             return GetAll().FirstOrDefault(predicate);
         }
 
-        public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Task.FromResult(FirstOrDefault(predicate));
+            await Task.Yield();
+
+            return this.FirstOrDefault(predicate);
         }
 
         public virtual TEntity Load(TKey id)
@@ -107,9 +118,11 @@ namespace Riven.Repositories
 
         public abstract TEntity Insert(TEntity entity);
 
-        public virtual Task<TEntity> InsertAsync(TEntity entity)
+        public virtual async Task<TEntity> InsertAsync(TEntity entity)
         {
-            return Task.FromResult(Insert(entity));
+            await Task.Yield();
+
+            return this.Insert(entity);
         }
 
         public virtual TKey InsertAndGetId(TEntity entity)
@@ -150,9 +163,20 @@ namespace Riven.Repositories
 
         public abstract TEntity Update(TEntity entity);
 
-        public virtual Task<TEntity> UpdateAsync(TEntity entity)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            return Task.FromResult(Update(entity));
+            await Task.Yield();
+
+            return this.Update(entity);
+        }
+
+        public abstract TEntity Update(IEnumerable<TEntity> entitys);
+
+        public virtual async Task<TEntity> UpdateAsync(IEnumerable<TEntity> entitys)
+        {
+            await Task.Yield();
+
+            return Update(entitys);
         }
 
         public virtual TEntity Update(TKey id, Action<TEntity> updateAction)
@@ -171,18 +195,19 @@ namespace Riven.Repositories
 
         public abstract void Delete(TEntity entity);
 
-        public virtual Task DeleteAsync(TEntity entity)
+        public virtual async Task DeleteAsync(TEntity entity)
         {
+            await Task.Yield();
+
             Delete(entity);
-            return Task.CompletedTask;
         }
 
         public abstract void Delete(TKey id);
 
-        public virtual Task DeleteAsync(TKey id)
+        public virtual async Task DeleteAsync(TKey id)
         {
+            await Task.Yield();
             Delete(id);
-            return Task.CompletedTask;
         }
 
         public virtual void Delete(Expression<Func<TEntity, bool>> predicate)
@@ -208,29 +233,35 @@ namespace Riven.Repositories
             return GetAll().Count();
         }
 
-        public virtual Task<int> CountAsync()
+        public virtual async Task<int> CountAsync()
         {
-            return Task.FromResult(Count());
+            await Task.Yield();
+
+            return this.Count();
         }
 
         public virtual int Count(Expression<Func<TEntity, bool>> predicate)
         {
-            return GetAll().Count(predicate);
+            return this.GetAll().Count(predicate);
         }
 
-        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Task.FromResult(Count(predicate));
+            await Task.Yield();
+
+            return this.Count(predicate);
         }
 
         public virtual long LongCount()
         {
-            return GetAll().LongCount();
+            return this.GetAll().LongCount();
         }
 
-        public virtual Task<long> LongCountAsync()
+        public virtual async Task<long> LongCountAsync()
         {
-            return Task.FromResult(LongCount());
+            await Task.Yield();
+
+            return this.LongCount();
         }
 
         public virtual long LongCount(Expression<Func<TEntity, bool>> predicate)
@@ -238,9 +269,11 @@ namespace Riven.Repositories
             return GetAll().LongCount(predicate);
         }
 
-        public virtual Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return Task.FromResult(LongCount(predicate));
+            await Task.Yield();
+
+            return this.LongCount(predicate);
         }
 
         protected virtual Expression<Func<TEntity, bool>> CreateEqualityExpressionForId(TKey id)
