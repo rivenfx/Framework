@@ -125,6 +125,16 @@ namespace Riven.Repositories
             return this.Insert(entity);
         }
 
+        public abstract IEnumerable<TEntity> Insert(IEnumerable<TEntity> entitys);
+
+        public virtual async Task<IEnumerable<TEntity>> InsertAsync(IEnumerable<TEntity> entitys)
+        {
+            await Task.Yield();
+
+            return this.Insert(entitys);
+        }
+
+
         public virtual TKey InsertAndGetId(TEntity entity)
         {
             return Insert(entity).Id;
@@ -218,6 +228,15 @@ namespace Riven.Repositories
             }
         }
 
+        public abstract void Delete(IEnumerable<TEntity> entitys);
+
+        public virtual async Task DeleteAsync(IEnumerable<TEntity> entitys)
+        {
+            await Task.Yield();
+
+            this.Delete(entitys);
+        }
+
         public virtual async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
         {
             var entities = await GetAllListAsync(predicate);
@@ -291,6 +310,9 @@ namespace Riven.Repositories
 
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
         }
+
+       
+
     }
 }
 

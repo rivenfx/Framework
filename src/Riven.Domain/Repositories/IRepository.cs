@@ -150,6 +150,20 @@ namespace Riven.Repositories
         /// <param name="entity">Inserted entity</param>
         Task<TEntity> InsertAsync(TEntity entity);
 
+
+        /// <summary>
+        /// Inserts a new entitys.
+        /// </summary>
+        /// <param name="entitys">Inserted entitys</param>
+        IEnumerable<TEntity> Insert(IEnumerable< TEntity> entitys);
+
+        /// <summary>
+        /// Inserts a new entitys.
+        /// </summary>
+        /// <param name="entitys">Inserted entitys</param>
+        Task<IEnumerable<TEntity>> InsertAsync(IEnumerable<TEntity> entitys);
+
+
         /// <summary>
         /// Inserts a new entity and gets it's Id.
         /// It may require to save current unit of work
@@ -259,6 +273,18 @@ namespace Riven.Repositories
         /// </summary>
         /// <param name="entity">Entity to be deleted</param>
         Task DeleteAsync(TEntity entity);
+
+        /// <summary>
+        /// Deletes an entitys.
+        /// </summary>
+        /// <param name="entitys">Entitys to be deleted</param>
+        void Delete(IEnumerable<TEntity> entitys);
+
+        /// <summary>
+        /// Deletes an entitys.
+        /// </summary>
+        /// <param name="entitys">Entitys to be deleted</param>
+        Task DeleteAsync(IEnumerable<TEntity> entitys);
 
         /// <summary>
         /// Deletes an entity by primary key.
