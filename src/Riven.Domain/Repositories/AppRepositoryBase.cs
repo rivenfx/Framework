@@ -170,13 +170,13 @@ namespace Riven.Repositories
             return this.Update(entity);
         }
 
-        public abstract TEntity Update(IEnumerable<TEntity> entitys);
+        public abstract void Update(IEnumerable<TEntity> entitys);
 
-        public virtual async Task<TEntity> UpdateAsync(IEnumerable<TEntity> entitys)
+        public virtual async Task UpdateAsync(IEnumerable<TEntity> entitys)
         {
             await Task.Yield();
 
-            return Update(entitys);
+            Update(entitys);
         }
 
         public virtual TEntity Update(TKey id, Action<TEntity> updateAction)

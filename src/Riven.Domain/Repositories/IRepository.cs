@@ -220,13 +220,13 @@ namespace Riven.Repositories
         /// Updates an existing entitys.
         /// </summary>
         /// <param name="entitys">Entitys</param>
-        TEntity Update(IEnumerable<TEntity> entitys);
+        void Update(IEnumerable<TEntity> entitys);
 
         /// <summary>
         /// Updates an existing entitys.
         /// </summary>
         /// <param name="entitys">Entitys</param>
-        Task<TEntity> UpdateAsync(IEnumerable<TEntity> entitys);
+        Task UpdateAsync(IEnumerable<TEntity> entitys);
 
         /// <summary>
         /// Updates an existing entity.
