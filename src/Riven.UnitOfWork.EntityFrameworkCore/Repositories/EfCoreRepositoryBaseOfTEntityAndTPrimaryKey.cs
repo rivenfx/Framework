@@ -136,10 +136,21 @@ namespace Riven.Repositories
             return Table.Add(entity).Entity;
         }
 
-        public override Task<TEntity> InsertAsync(TEntity entity)
+        public override IEnumerable<TEntity> Insert(IEnumerable<TEntity> entitys)
         {
-            return Task.FromResult(Insert(entity));
+            Context.BulkInsert(entitys);
+
+            return entitys;
         }
+
+        public override async Task<IEnumerable<TEntity>> InsertAsync(IEnumerable<TEntity> entitys)
+        {
+            await Context.BulkInsertAsync(entitys);
+
+            return entitys;
+        }
+
+
 
         public override TKey InsertAndGetId(TEntity entity)
         {
@@ -196,6 +207,16 @@ namespace Riven.Repositories
             return entity;
         }
 
+        public override void Update(IEnumerable<TEntity> entitys)
+        {
+            Context.BulkUpdate(entitys);
+        }
+
+        public override async Task UpdateAsync(IEnumerable<TEntity> entitys)
+        {
+            await Context.BulkUpdateAsync(entitys);
+        }
+
         public override Task<TEntity> UpdateAsync(TEntity entity)
         {
             entity = Update(entity);
@@ -225,6 +246,16 @@ namespace Riven.Repositories
             }
 
             //Could not found the entity, do nothing.
+        }
+
+        public override void Delete(IEnumerable<TEntity> entitys)
+        {
+            Context.BulkDelete(entitys);
+        }
+
+        public override async Task DeleteAsync(IEnumerable<TEntity> entitys)
+        {
+            await Context.BulkDeleteAsync(entitys);
         }
 
         public override async Task<int> CountAsync()
@@ -337,5 +368,7 @@ namespace Riven.Repositories
 
             return false;
         }
+
+
     }
 }
