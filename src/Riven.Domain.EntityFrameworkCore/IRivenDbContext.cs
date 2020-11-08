@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore.Metadata;
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -63,19 +62,30 @@ namespace Riven
         /// <summary>
         /// 当前工作单元提供者
         /// </summary>
-        ICurrentUnitOfWorkProvider CurrentUnitOfWorkProvider => this.GetApplicationService<ICurrentUnitOfWorkProvider>();
+        ICurrentUnitOfWorkProvider CurrentUnitOfWorkProvider =>
+            this.GetApplicationService<ICurrentUnitOfWorkProvider>();
 
-        /// <summary>
-        /// 获取当前租户名称
-        /// </summary>
-        /// <returns></returns>
-        string GetCurrentTenantNameOrNull();
 
         /// <summary>
         /// 获取当前用户Id
         /// </summary>
         /// <returns></returns>
         string GetCurrentUserIdOrNull();
+
+        /// <summary>
+        /// 获取当前租户名称
+        /// </summary>
+        /// <returns></returns>
+        string GetCurrentTenantNameOrNull()
+        {
+            var connectionStringName = CurrentUnitOfWorkProvider?.Current?.GetConnectionStringName();
+            if (connectionStringName == RivenUnitOfWorkConsts.DefaultConnectionStringName)
+            {
+                return null;
+            }
+
+            return connectionStringName;
+        }
 
         /// <summary>
         /// 获取当前是否启用了多租户
@@ -495,7 +505,6 @@ namespace Riven
             var hardDeleteKey = EntityHelper.GetHardDeleteKey(entry.Entity, currentTenantName);
             return objects.Contains(hardDeleteKey);
         }
-
 
         #endregion
     }
