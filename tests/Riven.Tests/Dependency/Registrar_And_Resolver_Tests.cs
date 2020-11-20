@@ -33,7 +33,7 @@ namespace Riven.Dependency
         [Fact]
         public void Should_LifeStyle_Transient()
         {
-            this.Services.AddTransient<ISampleClass, SampleClassA>();
+            this.Services.RegisterAssembly(this.GetType().Assembly);
             this.Build();
 
             var sampleClass1 = this.ServiceProvider.GetService<ISampleClass>();
@@ -46,7 +46,7 @@ namespace Riven.Dependency
         [Fact]
         public void Should_LifeStyle_Scope()
         {
-            this.Services.AddScoped<ISampleClass, SampleClassA>();
+            this.Services.RegisterAssembly(this.GetType().Assembly);
             this.Build();
 
             using (var scope = this.ServiceProvider.CreateScope())
@@ -65,7 +65,7 @@ namespace Riven.Dependency
         [Fact]
         public void Should_LifeStyle_Singleton()
         {
-            this.Services.AddSingleton<ISampleClass, SampleClassA>();
+            this.Services.RegisterAssembly(this.GetType().Assembly);
             this.Build();
 
             var sampleClass1 = this.ServiceProvider.GetService<ISampleClass>();
