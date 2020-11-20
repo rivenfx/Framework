@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Riven.Dependency
 {
-    public class Registrar_And_Resolver_Tests : TestBaseWithLocalIocManager
+    public partial class Registrar_And_Resolver_Tests : TestBaseWithLocalIocManager
     {
 
         [Fact]
@@ -73,23 +73,6 @@ namespace Riven.Dependency
             var sampleClass2 = this.ServiceProvider.GetService<ISampleClass>();
 
             sampleClass1.ShouldBe(sampleClass2);
-        }
-
-
-        public interface ISampleClass
-        {
-            string Name { get; set; }
-            string Call();
-        }
-
-        public class SampleClassA : ISampleClass, ITransientDependency
-        {
-            public string Name { get; set; }
-
-            public string Call()
-            {
-                return nameof(SampleClassA);
-            }
         }
     }
 }
