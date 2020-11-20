@@ -23,8 +23,8 @@ namespace Riven.Dependency
 
             this.Build();
 
-            var sampleClass = this.ServiceProvider.GetService<ISampleClass>();
-            var valA = nameof(SampleClassA);
+            var sampleClass = this.ServiceProvider.GetService<ITransient>();
+            var valA = nameof(Transient);
             Assert.Equal(sampleClass.Call(), valA);
 
         }
@@ -36,9 +36,9 @@ namespace Riven.Dependency
             this.Services.RegisterAssembly(this.GetType().Assembly);
             this.Build();
 
-            var sampleClass1 = this.ServiceProvider.GetService<ISampleClass>();
+            var sampleClass1 = this.ServiceProvider.GetService<ITransient>();
 
-            var sampleClass2 = this.ServiceProvider.GetService<ISampleClass>();
+            var sampleClass2 = this.ServiceProvider.GetService<ITransient>();
 
             sampleClass1.ShouldNotBe(sampleClass2);
         }
@@ -53,9 +53,9 @@ namespace Riven.Dependency
             {
                 var scopeServiceProvider = scope.ServiceProvider;
 
-                var sampleClass1 = scopeServiceProvider.GetService<ISampleClass>();
+                var sampleClass1 = scopeServiceProvider.GetService<IScope>();
 
-                var sampleClass2 = scopeServiceProvider.GetService<ISampleClass>();
+                var sampleClass2 = scopeServiceProvider.GetService<IScope>();
 
                 sampleClass1.ShouldBe(sampleClass2);
             }
@@ -68,11 +68,59 @@ namespace Riven.Dependency
             this.Services.RegisterAssembly(this.GetType().Assembly);
             this.Build();
 
-            var sampleClass1 = this.ServiceProvider.GetService<ISampleClass>();
+            var sampleClass1 = this.ServiceProvider.GetService<ISingleton>();
 
-            var sampleClass2 = this.ServiceProvider.GetService<ISampleClass>();
+            var sampleClass2 = this.ServiceProvider.GetService<ISingleton>();
 
             sampleClass1.ShouldBe(sampleClass2);
+        }
+
+        public interface ITransient
+        {
+            string Name { get; set; }
+            string Call();
+        }
+
+        public class Transient : ITransient, ITransientDependency
+        {
+            public string Name { get; set; }
+
+            public string Call()
+            {
+                return nameof(Transient);
+            }
+        }
+
+        public interface IScope
+        {
+            string Name { get; set; }
+            string Call();
+        }
+
+        public class Scope : IScope, IScopeDependency
+        {
+            public string Name { get; set; }
+
+            public string Call()
+            {
+                return nameof(Scope);
+            }
+        }
+
+        public interface ISingleton
+        {
+            string Name { get; set; }
+            string Call();
+        }
+
+        public class Singleton : ISingleton, ISingletonDependency
+        {
+            public string Name { get; set; }
+
+            public string Call()
+            {
+                return nameof(Singleton);
+            }
         }
     }
 }
