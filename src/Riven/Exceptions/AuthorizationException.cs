@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
@@ -9,7 +9,7 @@ namespace Riven.Exceptions
     public class AuthorizationException : Exception
     {
         /// <summary>
-        /// Creates a new <see cref="AbpAuthorizationException"/> object.
+        /// Creates a new <see cref="AuthorizationException"/> object.
         /// </summary>
         public AuthorizationException()
         {
@@ -17,7 +17,7 @@ namespace Riven.Exceptions
         }
 
         /// <summary>
-        /// Creates a new <see cref="AbpAuthorizationException"/> object.
+        /// Creates a new <see cref="AuthorizationException"/> object.
         /// </summary>
         public AuthorizationException(SerializationInfo serializationInfo, StreamingContext context)
             : base(serializationInfo, context)
@@ -26,7 +26,7 @@ namespace Riven.Exceptions
         }
 
         /// <summary>
-        /// Creates a new <see cref="AbpAuthorizationException"/> object.
+        /// Creates a new <see cref="AuthorizationException"/> object.
         /// </summary>
         /// <param name="message">Exception message</param>
         public AuthorizationException(string message)
@@ -36,7 +36,7 @@ namespace Riven.Exceptions
         }
 
         /// <summary>
-        /// Creates a new <see cref="AbpAuthorizationException"/> object.
+        /// Creates a new <see cref="AuthorizationException"/> object.
         /// </summary>
         /// <param name="message">Exception message</param>
         /// <param name="innerException">Inner exception</param>
