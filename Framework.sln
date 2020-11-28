@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		common.props = common.props
 		LICENSE = LICENSE
 		README.md = README.md
+		RELEASE_NOTES.md = RELEASE_NOTES.md
 		repository_info.props = repository_info.props
 		version.props = version.props
 	EndProjectSection
@@ -77,33 +78,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\build_and_publish_nuget.yml = .github\workflows\build_and_publish_nuget.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Tests", "tests\Riven.AspNetCore.Tests\Riven.AspNetCore.Tests.csproj", "{6A2F8208-63BC-441C-86FB-1956AEE2CD22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Tests", "tests\Riven.AspNetCore.Tests\Riven.AspNetCore.Tests.csproj", "{6A2F8208-63BC-441C-86FB-1956AEE2CD22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Identity.Tests", "tests\Riven.AspNetCore.Identity.Tests\Riven.AspNetCore.Identity.Tests.csproj", "{26679D2F-8E73-4A67-814C-E54A37597D86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Identity.Tests", "tests\Riven.AspNetCore.Identity.Tests\Riven.AspNetCore.Identity.Tests.csproj", "{26679D2F-8E73-4A67-814C-E54A37597D86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Localization.Tests", "tests\Riven.AspNetCore.Localization.Tests\Riven.AspNetCore.Localization.Tests.csproj", "{2D739D2F-3D0E-43E9-B5C1-79E8BC1531A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Localization.Tests", "tests\Riven.AspNetCore.Localization.Tests\Riven.AspNetCore.Localization.Tests.csproj", "{2D739D2F-3D0E-43E9-B5C1-79E8BC1531A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Modular.Tests", "tests\Riven.AspNetCore.Modular.Tests\Riven.AspNetCore.Modular.Tests.csproj", "{207A6EFE-E39A-485D-AC1C-086E08553602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Modular.Tests", "tests\Riven.AspNetCore.Modular.Tests\Riven.AspNetCore.Modular.Tests.csproj", "{207A6EFE-E39A-485D-AC1C-086E08553602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Swashbuckle.Tests", "tests\Riven.AspNetCore.Swashbuckle.Tests\Riven.AspNetCore.Swashbuckle.Tests.csproj", "{D81FE524-9F92-4C33-8ED7-7E8EB1DCB883}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Swashbuckle.Tests", "tests\Riven.AspNetCore.Swashbuckle.Tests\Riven.AspNetCore.Swashbuckle.Tests.csproj", "{D81FE524-9F92-4C33-8ED7-7E8EB1DCB883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspNetCore.Uow.Tests", "tests\Riven.AspNetCore.Uow.Tests\Riven.AspNetCore.Uow.Tests.csproj", "{6DD76A59-0250-49AE-AD17-836046A1E51B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspNetCore.Uow.Tests", "tests\Riven.AspNetCore.Uow.Tests\Riven.AspNetCore.Uow.Tests.csproj", "{6DD76A59-0250-49AE-AD17-836046A1E51B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Domain.Tests", "tests\Riven.Domain.Tests\Riven.Domain.Tests.csproj", "{E1177EE1-2FAA-400A-9E9B-DAF9A34A9326}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Domain.Tests", "tests\Riven.Domain.Tests\Riven.Domain.Tests.csproj", "{E1177EE1-2FAA-400A-9E9B-DAF9A34A9326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Domain.EntityFrameworkCore.Tests", "tests\Riven.Domain.EntityFrameworkCore.Tests\Riven.Domain.EntityFrameworkCore.Tests.csproj", "{3CCB83EB-DC13-423C-8992-E6302E7769F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Domain.EntityFrameworkCore.Tests", "tests\Riven.Domain.EntityFrameworkCore.Tests\Riven.Domain.EntityFrameworkCore.Tests.csproj", "{3CCB83EB-DC13-423C-8992-E6302E7769F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Localization.Tests", "tests\Riven.Localization.Tests\Riven.Localization.Tests.csproj", "{BD389A38-D3EC-402A-B1F9-051E06353ECF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Localization.Tests", "tests\Riven.Localization.Tests\Riven.Localization.Tests.csproj", "{BD389A38-D3EC-402A-B1F9-051E06353ECF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Mapster.Tests", "tests\Riven.Mapster.Tests\Riven.Mapster.Tests.csproj", "{B3AF68E0-3D99-4A3D-A6C4-3CE9547FE2A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Mapster.Tests", "tests\Riven.Mapster.Tests\Riven.Mapster.Tests.csproj", "{B3AF68E0-3D99-4A3D-A6C4-3CE9547FE2A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.UnitOfWork.Tests", "tests\Riven.UnitOfWork.Tests\Riven.UnitOfWork.Tests.csproj", "{EABE3DBB-1F21-49C0-88A7-8911467680AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.UnitOfWork.Tests", "tests\Riven.UnitOfWork.Tests\Riven.UnitOfWork.Tests.csproj", "{EABE3DBB-1F21-49C0-88A7-8911467680AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.UnitOfWork.Dapper.Tests", "tests\Riven.UnitOfWork.Dapper.Tests\Riven.UnitOfWork.Dapper.Tests.csproj", "{E203F1C1-E9AD-4F62-9789-1BAB37A6E64C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.UnitOfWork.Dapper.Tests", "tests\Riven.UnitOfWork.Dapper.Tests\Riven.UnitOfWork.Dapper.Tests.csproj", "{E203F1C1-E9AD-4F62-9789-1BAB37A6E64C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.UnitOfWork.EntityFrameworkCore.Tests", "tests\Riven.UnitOfWork.EntityFrameworkCore.Tests\Riven.UnitOfWork.EntityFrameworkCore.Tests.csproj", "{F60E58C9-6FA5-4CB2-AD0A-ABECAE0365DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.UnitOfWork.EntityFrameworkCore.Tests", "tests\Riven.UnitOfWork.EntityFrameworkCore.Tests\Riven.UnitOfWork.EntityFrameworkCore.Tests.csproj", "{F60E58C9-6FA5-4CB2-AD0A-ABECAE0365DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.AspectCore.Tests", "tests\Riven.AspectCore.Tests\Riven.AspectCore.Tests.csproj", "{FBB5E96E-485B-459F-BC9A-AE9032FA067D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspectCore.Tests", "tests\Riven.AspectCore.Tests\Riven.AspectCore.Tests.csproj", "{FBB5E96E-485B-459F-BC9A-AE9032FA067D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

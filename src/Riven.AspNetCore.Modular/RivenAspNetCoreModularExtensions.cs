@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 
 using Riven.Modular;
 using Riven.AspNetCore.Accessors;
+using System;
 
 namespace Riven
 {
@@ -15,11 +16,12 @@ namespace Riven
         /// <typeparam name="TModule">模块类型</typeparam>
         /// <param name="services"></param>
         /// <param name="configuration">应用配置</param>
+        /// <param name="moduleOptionsConfiguration">模块配置函数</param>
         /// <returns></returns>
-        public static IServiceCollection AddRivenAspNetCoreModule<TModule>(this IServiceCollection services, IConfiguration configuration) where TModule : IAppModule
+        public static IServiceCollection AddRivenAspNetCoreModule<TModule>(this IServiceCollection services, IConfiguration configuration, Action<ModuleOptions> moduleOptionsConfiguration = null) where TModule : IAppModule
         {
             services.AddSingleton<IApplicationBuilderAccessor, DefaultApplicationBuilderAccessor>();
-            services.AddRivenModule<TModule>(configuration);
+            services.AddRivenModule<TModule>(configuration, moduleOptionsConfiguration);
             return services;
         }
 
