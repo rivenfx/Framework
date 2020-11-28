@@ -138,14 +138,13 @@ namespace Riven.Repositories
 
         public override IEnumerable<TEntity> Insert(IEnumerable<TEntity> entitys)
         {
-            Context.BulkInsert(entitys);
-
+            Table.AddRange(entitys);
             return entitys;
         }
 
         public override async Task<IEnumerable<TEntity>> InsertAsync(IEnumerable<TEntity> entitys)
         {
-            await Context.BulkInsertAsync(entitys);
+            await Table.AddRangeAsync(entitys);
 
             return entitys;
         }
@@ -209,12 +208,13 @@ namespace Riven.Repositories
 
         public override void Update(IEnumerable<TEntity> entitys)
         {
-            Context.BulkUpdate(entitys);
+            Table.UpdateRange(entitys);
         }
 
         public override async Task UpdateAsync(IEnumerable<TEntity> entitys)
         {
-            await Context.BulkUpdateAsync(entitys);
+            await Task.Yield();
+            Table.UpdateRange(entitys);
         }
 
         public override Task<TEntity> UpdateAsync(TEntity entity)
@@ -250,12 +250,14 @@ namespace Riven.Repositories
 
         public override void Delete(IEnumerable<TEntity> entitys)
         {
-            Context.BulkDelete(entitys);
+            Table.RemoveRange(entitys);
         }
 
         public override async Task DeleteAsync(IEnumerable<TEntity> entitys)
         {
-            await Context.BulkDeleteAsync(entitys);
+            await Task.Yield();
+
+            Table.RemoveRange(entitys);
         }
 
         public override async Task<int> CountAsync()
