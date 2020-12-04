@@ -34,8 +34,9 @@ namespace Riven
         /// </summary>
         IRivenDbContext Self { get; }
 
+
         /// <summary>
-        /// 审计自动设置租户名称
+        /// 是否审计自动设置租户名称
         /// </summary>
         bool AuditSuppressAutoSetTenantName { get; }
 
@@ -48,6 +49,21 @@ namespace Riven
         /// 服务实例容器
         /// </summary>
         ConcurrentDictionary<Type, object> SerivceInstanceMap { get; }
+
+        /// <summary>
+        /// 获取当前用户Id
+        /// </summary>
+        /// <returns></returns>
+        string GetCurrentUserIdOrNull();
+
+        /// <summary>
+        /// 将实例转换为EntityEntry
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        EntityEntry ConvertToEntry(object obj);
+
+
 
         /// <summary>
         /// 日志
@@ -63,14 +79,10 @@ namespace Riven
         /// 当前工作单元提供者
         /// </summary>
         ICurrentUnitOfWorkProvider CurrentUnitOfWorkProvider =>
-            this.GetApplicationService<ICurrentUnitOfWorkProvider>();
+           this.GetApplicationService<ICurrentUnitOfWorkProvider>();
 
 
-        /// <summary>
-        /// 获取当前用户Id
-        /// </summary>
-        /// <returns></returns>
-        string GetCurrentUserIdOrNull();
+
 
         /// <summary>
         /// 获取当前租户名称
@@ -78,13 +90,8 @@ namespace Riven
         /// <returns></returns>
         string GetCurrentTenantNameOrNull()
         {
-            var connectionStringName = CurrentUnitOfWorkProvider?.Current?.GetConnectionStringName();
-            if (connectionStringName == RivenUnitOfWorkConsts.DefaultConnectionStringName)
-            {
-                return null;
-            }
-
-            return connectionStringName;
+            var multiTenancyInfo = this.GetApplicationService<IMultiTenancyProvider>();
+            return multiTenancyInfo.CurrentTenantNameOrNull();
         }
 
         /// <summary>
@@ -93,7 +100,8 @@ namespace Riven
         /// <returns></returns>
         bool GetMultiTenancyEnabled()
         {
-            return MultiTenancyConfig.IsEnabled;
+            var multiTenancyOptions = this.GetApplicationService<IMultiTenancyOptions>();
+            return multiTenancyOptions.IsEnabled;
         }
 
         /// <summary>
@@ -102,7 +110,7 @@ namespace Riven
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
         TService GetApplicationService<TService>()
-            where TService : class
+           where TService : class
         {
             if (this.ServiceProvider == null)
             {
@@ -117,19 +125,15 @@ namespace Riven
         }
 
         /// <summary>
-        /// 将实例转换为EntityEntry
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        EntityEntry ConvertToEntry(object obj);
-
-        /// <summary>
         /// 释放 IRivenDbContext 资源
         /// </summary>
         void DisposeRivenDbContext()
         {
             SerivceInstanceMap.Clear();
         }
+
+
+
 
 
         #region Filter
@@ -141,7 +145,7 @@ namespace Riven
         /// <param name="modelBuilder"></param>
         /// <param name="entityType"></param>
         void ConfigureGlobalFilters<TEntity>(ModelBuilder modelBuilder)
-            where TEntity : class
+           where TEntity : class
         {
             if (ServiceProvider == null)
             {
