@@ -18,7 +18,7 @@ namespace Riven.Extensions
         /// </summary>
         /// <param name="keyValuePairs"></param>
         /// <returns></returns>
-        public static string GetTenantName([NotNull] this IDictionary<string, StringValues> keyValuePairs, IMultiTenancyOptions multiTenancyOptions)
+        public static string GetTenantName([NotNull] this IDictionary<string, StringValues> keyValuePairs)
         {
             Check.NotNull(keyValuePairs, nameof(keyValuePairs));
 
