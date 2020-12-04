@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using Microsoft.Extensions.Primitives;
 
@@ -18,12 +18,12 @@ namespace Riven.Extensions
         /// </summary>
         /// <param name="keyValuePairs"></param>
         /// <returns></returns>
-        public static string GetTenantName([NotNull] this IDictionary<string, StringValues> keyValuePairs)
+        public static string GetTenantName([NotNull] this IDictionary<string, StringValues> keyValuePairs, IMultiTenancyOptions multiTenancyOptions)
         {
             Check.NotNull(keyValuePairs, nameof(keyValuePairs));
 
             var keyValuePair = keyValuePairs
-                .FirstOrDefault(o => o.Key.ToLower() == MultiTenancyConfig.DEFAULT_TENANT_NAME_KEY.ToLower());
+                .FirstOrDefault(o => o.Key.ToLower() == MultiTenancyConfig.TenantNameKey);
 
             return keyValuePair.Value;
         }
