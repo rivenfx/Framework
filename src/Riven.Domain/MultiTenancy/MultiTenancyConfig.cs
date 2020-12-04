@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,12 +9,10 @@ namespace Riven.MultiTenancy
     /// </summary>
     public static class MultiTenancyConfig
     {
-        /// <summary>
-        /// 默认存储租户名称键值
-        /// </summary>
-        public const string DEFAULT_TENANT_NAME_KEY = "TenantName";
 
-        private static bool? _isEnabled = null;
+        #region 是否启用
+
+        static bool? _isEnabled = null;
 
         /// <summary>
         /// 是否启用多租户,默认值为false,只有第一次设置值会生效
@@ -41,7 +39,17 @@ namespace Riven.MultiTenancy
             }
         }
 
-        private static string _tenantNameKey = DEFAULT_TENANT_NAME_KEY;
+        #endregion
+
+
+        #region 多租户键值
+
+        /// <summary>
+        /// 默认存储租户名称键值
+        /// </summary>
+        const string DEFAULT_TENANT_NAME_KEY = "tenantname";
+
+        static string _tenantNameKey = DEFAULT_TENANT_NAME_KEY;
 
         /// <summary>
         /// 存储租户名称键值 ,默认值为 <see cref="DEFAULT_TENANT_NAME_KEY"/>, 值不能为空, 第一次设置值会生效
@@ -58,9 +66,11 @@ namespace Riven.MultiTenancy
 
                 if (_tenantNameKey == DEFAULT_TENANT_NAME_KEY)
                 {
-                    _tenantNameKey = value;
+                    _tenantNameKey = value.ToLower();
                 }
             }
-        }
+        } 
+
+        #endregion
     }
 }
