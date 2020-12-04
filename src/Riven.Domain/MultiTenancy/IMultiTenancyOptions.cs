@@ -8,12 +8,12 @@ namespace Riven.MultiTenancy
         /// <summary>
         /// 是否启用多租户
         /// </summary>
-        bool IsEnabled { get; }
+        bool IsEnabled { get; set; }
 
         /// <summary>
         /// 租户名称键值
         /// </summary>
-        string TenantNameKey { get; }
+        string TenantNameKey { get; set; }
     }
 
     public class DefaultMultiTenancyOptions : IMultiTenancyOptions
