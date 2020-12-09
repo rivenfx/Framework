@@ -16,6 +16,7 @@ Please note: once the use of the open source projects as well as the reference f
 |Package|Status|Downloads|
 |:------|:-----:|:-----:|
 |Riven|[![NuGet version](https://img.shields.io/nuget/v/Riven?color=brightgreen)](https://www.nuget.org/packages/Riven/)|[![Nuget](https://img.shields.io/nuget/dt/Riven?color=brightgreen)](https://www.nuget.org/packages/Riven/)|
+|Riven.Dependency|[![NuGet version](https://img.shields.io/nuget/v/Riven.Dependency?color=brightgreen)](https://www.nuget.org/packages/Riven.Dependency/)|[![Nuget](https://img.shields.io/nuget/dt/Riven.Dependency?color=brightgreen)](https://www.nuget.org/packages/Riven.Dependency/)|
 |Riven.AspectCore|[![NuGet version](https://img.shields.io/nuget/v/Riven.AspectCore?color=brightgreen)](https://www.nuget.org/packages/Riven.AspectCore/)|[![Nuget](https://img.shields.io/nuget/dt/Riven.AspectCore?color=brightgreen)](https://www.nuget.org/packages/Riven.AspectCore/)|
 |Riven.AspNetCore|[![NuGet version](https://img.shields.io/nuget/v/Riven.AspNetCore?color=brightgreen)](https://www.nuget.org/packages/Riven.AspNetCore/)|[![Nuget](https://img.shields.io/nuget/dt/Riven.AspNetCore?color=brightgreen)](https://www.nuget.org/packages/Riven.AspNetCore/)|
 |Riven.AspNetCore.Identity|[![NuGet version](https://img.shields.io/nuget/v/Riven.AspNetCore.Identity?color=brightgreen)](https://www.nuget.org/packages/Riven.AspNetCore.Identity/)|[![Nuget](https://img.shields.io/nuget/dt/Riven.AspNetCore.Identity?color=brightgreen)](https://www.nuget.org/packages/Riven.AspNetCore.Identity/)|
