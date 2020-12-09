@@ -8,11 +8,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Riven</RootNamespace>
 
-    <PackageId>Riven</PackageId>
-    <Description>Riven</Description>
+    <PackageId>Riven.Dependency</PackageId>
+    <Description>Riven.Dependency</Description>
     <AssemblyName>Riven.Dependency</AssemblyName>
 
-    <PackageTags>riven;framework;application framework;domain driven design</PackageTags>
+    <PackageTags>riven;framework;application framework;domain driven design;di;ioc;</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
