@@ -108,6 +108,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspectCore.Tests", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Dependency", "src\Riven.Dependency\Riven.Dependency.csproj", "{11FB5673-638E-4596-ABF6-40E863CCB012}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Dependency.Tests", "tests\Riven.Dependency.Tests\Riven.Dependency.Tests.csproj", "{A95942E0-2B55-4F97-8144-1F4EAB64EA73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -242,6 +244,10 @@ Global
 		{11FB5673-638E-4596-ABF6-40E863CCB012}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11FB5673-638E-4596-ABF6-40E863CCB012}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11FB5673-638E-4596-ABF6-40E863CCB012}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A95942E0-2B55-4F97-8144-1F4EAB64EA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A95942E0-2B55-4F97-8144-1F4EAB64EA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A95942E0-2B55-4F97-8144-1F4EAB64EA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A95942E0-2B55-4F97-8144-1F4EAB64EA73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -283,6 +289,7 @@ Global
 		{F60E58C9-6FA5-4CB2-AD0A-ABECAE0365DB} = {5359754A-33EC-4FE5-B958-8EBE13CDA68F}
 		{FBB5E96E-485B-459F-BC9A-AE9032FA067D} = {5359754A-33EC-4FE5-B958-8EBE13CDA68F}
 		{11FB5673-638E-4596-ABF6-40E863CCB012} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
+		{A95942E0-2B55-4F97-8144-1F4EAB64EA73} = {5359754A-33EC-4FE5-B958-8EBE13CDA68F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}
