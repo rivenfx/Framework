@@ -8,6 +8,7 @@ $packOutputFolder = Join-Path $packFolder "dist"        # 输出nuget package �
 # 所有的项目名称
 $projects = (
     "Riven",
+    "Riven.Dependency",
     "Riven.AspectCore",
     "Riven.AspNetCore",
     "Riven.AspNetCore.Identity",
