@@ -47,7 +47,7 @@ namespace Riven.MultiTenancy
         /// <summary>
         /// 默认存储租户名称键值
         /// </summary>
-        const string DEFAULT_TENANT_NAME_KEY = "tenantname";
+        const string DEFAULT_TENANT_NAME_KEY = "tenant";
 
         static string _tenantNameKey = DEFAULT_TENANT_NAME_KEY;
 
