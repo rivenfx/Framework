@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Linq;
 using JetBrains.Annotations;
+using Riven.MultiTenancy;
 
 namespace Riven
 {
@@ -21,12 +22,19 @@ namespace Riven
         {
             Check.NotNull(services, nameof(services));
 
+            // 工作单元管理器和工作单元提供者
             services.TryAddTransient<IUnitOfWorkManager, DefaultUnitOfWorkManager>();
             services.TryAddTransient<ICurrentUnitOfWorkProvider, AsyncLocalCurrentUnitOfWorkProvider>();
+
+            // 工作单元事务提供者
             services.TryAddTransient<IActiveTransactionProvider, NullActiveTransactionProvider>();
 
+            // 连接字符串获取器和存储器
             services.TryAddTransient<IConnectionStringResolver, DefaultConnectionStringResolver>();
             services.TryAddSingleton<IConnectionStringStorage, DefaultConnectionStringStore>();
+
+            // 工作单元租户名称提供者
+            services.TryAddTransient<IMultiTenancyProvider, UowMultiTenancyProvider>();
 
             return services;
         }
