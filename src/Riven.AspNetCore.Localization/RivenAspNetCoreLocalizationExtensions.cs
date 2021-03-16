@@ -54,10 +54,6 @@ namespace Riven
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures,
             };
-
-            // 0: QueryStringRequestCultureProvider
-            options.RequestCultureProviders.Insert(1, new DefaultUserRequestCultureProvider());
-
             // 本地化默认使用的语言信息
             var defaultCultureInfo = supportedCultures.FirstOrDefault(o => o.Name == defaultCultures);
             if (defaultCultureInfo != null)
@@ -67,6 +63,10 @@ namespace Riven
                     defaultCultureInfo
                     );
             }
+
+            // 0: QueryStringRequestCultureProvider
+            options.RequestCultureProviders.Insert(1, new DefaultUserRequestCultureProvider(options));
+
 
             // 自行配置
             optionsAction?.Invoke(options);

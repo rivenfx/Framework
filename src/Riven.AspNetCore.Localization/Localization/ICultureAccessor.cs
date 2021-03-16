@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Builder;
 
 namespace Riven.Localization
 {
@@ -13,6 +14,12 @@ namespace Riven.Localization
     /// </summary>
     public interface ICultureAccessor : IDisposable
     {
+        /// <summary>
+        /// <see cref="RequestLocalizationOptions"/>
+        /// </summary>
+        RequestLocalizationOptions Options { get; set; }
+
+
         /// <summary>
         /// 获取 cookie 或 header 中的 culture 之前。
         /// 返回值不为空则使用返回值做 culture

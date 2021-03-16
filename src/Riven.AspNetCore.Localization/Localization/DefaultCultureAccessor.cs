@@ -24,13 +24,13 @@ namespace Riven.Localization
 
         protected readonly ILanguageManager _languageManager;
         protected readonly ILogger<DefaultCultureAccessor> _logger;
-        protected readonly IOptions<RequestLocalizationOptions> _requestLocalizationOptions;
 
-        public DefaultCultureAccessor(ILanguageManager languageManager, ILogger<DefaultCultureAccessor> logger, IOptions<RequestLocalizationOptions> requestLocalizationOptions)
+        public virtual RequestLocalizationOptions Options { get; set; }
+
+        public DefaultCultureAccessor(ILanguageManager languageManager, ILogger<DefaultCultureAccessor> logger)
         {
             _languageManager = languageManager;
             _logger = logger;
-            _requestLocalizationOptions = requestLocalizationOptions;
         }
 
         public virtual Task<ProviderCultureResult> OnUserRequestCultureBefore(HttpContext httpContext)
@@ -43,7 +43,7 @@ namespace Riven.Localization
             if (string.IsNullOrWhiteSpace(cookieOrHeaderCulture)
                 && string.IsNullOrWhiteSpace(cookieOrHeaderCultureWithUI))
             {
-                var defaultRequestCulture = _requestLocalizationOptions.Value?.DefaultRequestCulture;
+                var defaultRequestCulture = this.Options?.DefaultRequestCulture;
                 if (defaultRequestCulture != null)
                 {
                     return Task.FromResult(new ProviderCultureResult(defaultRequestCulture.Culture.Name, defaultRequestCulture.UICulture.Name));

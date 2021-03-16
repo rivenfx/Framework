@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,17 +11,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Riven.Extensions;
+using Microsoft.AspNetCore.Builder;
 
 namespace Riven.Localization
 {
     public class DefaultUserRequestCultureProvider : RequestCultureProvider
     {
+        readonly RequestLocalizationOptions _requestLocalizationOptions;
+
+        public DefaultUserRequestCultureProvider(RequestLocalizationOptions requestLocalizationOptions)
+        {
+            _requestLocalizationOptions = requestLocalizationOptions;
+        }
 
         public override async Task<ProviderCultureResult> DetermineProviderCultureResult(HttpContext httpContext)
         {
-            var cultureManager = httpContext.RequestServices.GetService<ICultureAccessor>();
+            var cultureAccessor = httpContext.RequestServices.GetService<ICultureAccessor>();
 
-            return await cultureManager.GetUserRequestCulture(httpContext);
+            cultureAccessor.Options = this._requestLocalizationOptions;
+
+            return await cultureAccessor.GetUserRequestCulture(httpContext);
         }
     }
 }
