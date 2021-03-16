@@ -29,14 +29,15 @@ namespace Riven
         }
 
         /// <summary>
-        /// 添加多租户提供者
+        /// 添加多租户信息提供者
         /// </summary>
+        /// <typeparam name="TProvider">租户信息提供者</typeparam>
         /// <param name="services"></param>
         /// <returns></returns>
         public static IServiceCollection AddRivenMultiTenancyProvider<TProvider>(this IServiceCollection services)
             where TProvider : class, IMultiTenancyProvider
         {
-            services.TryAddScoped<IMultiTenancyProvider, TProvider>();
+            services.TryAddTransient<IMultiTenancyProvider, TProvider>();
 
             return services;
         }
