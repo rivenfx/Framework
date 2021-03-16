@@ -34,7 +34,7 @@ namespace Riven
             services.TryAddSingleton<IConnectionStringStorage, DefaultConnectionStringStore>();
 
             // 工作单元租户名称提供者
-            services.TryAddTransient<IMultiTenancyProvider, UowMultiTenancyProvider>();
+            services.AddRivenMultiTenancyProvider<UowMultiTenancyProvider>();
 
             return services;
         }
