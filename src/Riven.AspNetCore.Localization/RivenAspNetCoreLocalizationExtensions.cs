@@ -55,18 +55,10 @@ namespace Riven
                 SupportedUICultures = supportedCultures,
             };
 
-            ////0: QueryStringRequestCultureProvider
-            //options.RequestCultureProviders.Insert(0, new DefaultUserRequestCultureProvider());
-            //options.RequestCultureProviders.Insert(2, new DefaultLocalizationHeaderRequestCultureProvider());
-            ////3: CookieRequestCultureProvider
-            ////4: AcceptLanguageHeaderRequestCultureProvider
-            //options.RequestCultureProviders.Insert(5, new DefaultRequestCultureProvider());
+            // 0: QueryStringRequestCultureProvider
+            options.RequestCultureProviders.Insert(1, new DefaultUserRequestCultureProvider());
 
-
-            options.RequestCultureProviders.Clear();
-            options.RequestCultureProviders.Add(new DefaultUserRequestCultureProvider());
-
-            // 默认使用的本地化
+            // 本地化默认使用的语言信息
             var defaultCultureInfo = supportedCultures.FirstOrDefault(o => o.Name == defaultCultures);
             if (defaultCultureInfo != null)
             {

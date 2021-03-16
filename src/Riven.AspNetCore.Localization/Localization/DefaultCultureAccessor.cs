@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 
 using Riven.Extensions;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Builder;
 
 namespace Riven.Localization
 {
@@ -18,23 +20,38 @@ namespace Riven.Localization
 
         private static readonly string _culturePrefix = "c=";
         private static readonly string _uiCulturePrefix = "uic=";
+
+
         protected readonly ILanguageManager _languageManager;
-        public ILogger Logger { get; set; }
+        protected readonly ILogger<DefaultCultureAccessor> _logger;
+        protected readonly IOptions<RequestLocalizationOptions> _requestLocalizationOptions;
 
-        public DefaultCultureAccessor()
+        public DefaultCultureAccessor(ILanguageManager languageManager, ILogger<DefaultCultureAccessor> logger, IOptions<RequestLocalizationOptions> requestLocalizationOptions)
         {
-            Logger = NullLogger.Instance;
+            _languageManager = languageManager;
+            _logger = logger;
+            _requestLocalizationOptions = requestLocalizationOptions;
         }
-
 
         public virtual Task<ProviderCultureResult> OnUserRequestCultureBefore(HttpContext httpContext)
         {
-            return Task.FromResult<ProviderCultureResult>(null);
+            return Task.FromResult<ProviderCultureResult>(default);
         }
 
         public virtual Task<ProviderCultureResult> OnUserRequestCultureAfter(HttpContext httpContext, string cookieOrHeaderCulture = null, string cookieOrHeaderCultureWithUI = null)
         {
-            return Task.FromResult<ProviderCultureResult>(null);
+            if (string.IsNullOrWhiteSpace(cookieOrHeaderCulture)
+                && string.IsNullOrWhiteSpace(cookieOrHeaderCultureWithUI))
+            {
+                var defaultRequestCulture = _requestLocalizationOptions.Value?.DefaultRequestCulture;
+                if (defaultRequestCulture != null)
+                {
+                    return Task.FromResult(new ProviderCultureResult(defaultRequestCulture.Culture.Name, defaultRequestCulture.UICulture.Name));
+                }
+            }
+
+
+            return Task.FromResult<ProviderCultureResult>(default);
         }
 
         public virtual async Task<ProviderCultureResult> GetUserRequestCulture(HttpContext httpContext)
@@ -50,8 +67,8 @@ namespace Riven.Localization
                 culture = beforeUserResult.Cultures.First().Value;
                 cultureWithUI = beforeUserResult.UICultures.First().Value;
 
-                Logger.LogDebug("{0} {1} - Read from user settings", nameof(GetUserRequestCulture), nameof(OnUserRequestCultureBefore));
-                Logger.LogDebug("Using Culture:{0} , UICulture:{1}", culture, cultureWithUI);
+                _logger.LogDebug("{0} {1} - Read from user settings", nameof(GetUserRequestCulture), nameof(OnUserRequestCultureBefore));
+                _logger.LogDebug("Using Culture:{0} , UICulture:{1}", culture, cultureWithUI);
                 return beforeUserResult;
             }
 
@@ -69,8 +86,8 @@ namespace Riven.Localization
                 culture = cookieResult.Cultures.First().Value;
                 cultureWithUI = cookieResult.UICultures.First().Value;
 
-                Logger.LogDebug("{0} {1} - Read from cookie", nameof(GetUserRequestCulture), nameof(GetCookieRequestCulture));
-                Logger.LogDebug("Using Culture:{0} , UICulture:{1}", culture, cultureWithUI);
+                _logger.LogDebug("{0} {1} - Read from cookie", nameof(GetUserRequestCulture), nameof(GetCookieRequestCulture));
+                _logger.LogDebug("Using Culture:{0} , UICulture:{1}", culture, cultureWithUI);
 
                 result = cookieResult;
             }
@@ -89,8 +106,8 @@ namespace Riven.Localization
                     culture = headerResult.Cultures.First().Value;
                     cultureWithUI = headerResult.UICultures.First().Value;
 
-                    Logger.LogDebug("{0} {1} - Read from header", nameof(GetUserRequestCulture), nameof(GetHeaderRequestCulture));
-                    Logger.LogDebug("Using Culture:{0} , UICulture:{1}", culture, cultureWithUI);
+                    _logger.LogDebug("{0} {1} - Read from header", nameof(GetUserRequestCulture), nameof(GetHeaderRequestCulture));
+                    _logger.LogDebug("Using Culture:{0} , UICulture:{1}", culture, cultureWithUI);
 
                     result = headerResult;
                 }
@@ -108,8 +125,8 @@ namespace Riven.Localization
                 culture = afterUserResult.Cultures.First().Value;
                 cultureWithUI = afterUserResult.UICultures.First().Value;
 
-                Logger.LogDebug("{0} {1} - Read from user settings", nameof(GetUserRequestCulture), nameof(OnUserRequestCultureAfter));
-                Logger.LogDebug("Using Culture:{0} , UICulture:{1}", culture, cultureWithUI);
+                _logger.LogDebug("{0} {1} - Read from user settings", nameof(GetUserRequestCulture), nameof(OnUserRequestCultureAfter));
+                _logger.LogDebug("Using Culture:{0} , UICulture:{1}", culture, cultureWithUI);
                 return afterUserResult;
             }
 
@@ -135,7 +152,7 @@ namespace Riven.Localization
             var cultureResult = ParseHeaderValue(localizationHeader);
             var culture = cultureResult.Cultures.First().Value;
             var uiCulture = cultureResult.UICultures.First().Value;
-            Logger.LogDebug("{0} - Using Culture:{1} , UICulture:{2}", nameof(DefaultLocalizationHeaderRequestCultureProvider), culture, uiCulture);
+            _logger.LogDebug("{0} - Using Culture:{1} , UICulture:{2}", nameof(DefaultLocalizationHeaderRequestCultureProvider), culture, uiCulture);
 
             return Task.FromResult(cultureResult);
         }
