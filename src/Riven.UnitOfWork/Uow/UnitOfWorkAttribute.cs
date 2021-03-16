@@ -227,7 +227,7 @@ namespace Riven.Uow
                 IsolationLevel = IsolationLevel,
                 Timeout = Timeout,
                 Scope = Scope ?? TransactionScopeOption.Required,
-                ConnectionStringName = connectionStringName.IsNullOrWhiteSpace() ? RivenUnitOfWorkConsts.DefaultConnectionStringName : connectionStringName
+                ConnectionStringName = connectionStringName
             };
         }
     }

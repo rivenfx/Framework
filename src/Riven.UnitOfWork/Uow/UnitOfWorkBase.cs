@@ -95,7 +95,7 @@ namespace Riven.Uow
             //TODO: Do not set options like that, instead make a copy?
             Options = options;
 
-            this.SetConnectionStringName(Options.ConnectionStringName);
+            this._connectionStringName = options.ConnectionStringName;
 
             BeginUow();
         }
@@ -267,6 +267,7 @@ namespace Riven.Uow
         /// <inheritdoc/>
         public IDisposable SetConnectionStringName(string connectionStringName)
         {
+            // 切换连接字符串名称
             var oldConnectionStringName = this._connectionStringName;
 
             this._connectionStringName = connectionStringName;
