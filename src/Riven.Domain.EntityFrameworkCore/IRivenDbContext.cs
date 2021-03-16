@@ -46,15 +46,11 @@ namespace Riven
         IServiceProvider ServiceProvider { get; }
 
         /// <summary>
-        /// 服务实例容器
-        /// </summary>
-        ConcurrentDictionary<Type, object> SerivceInstanceMap { get; }
-
-        /// <summary>
         /// 获取当前用户Id
         /// </summary>
         /// <returns></returns>
-        string GetCurrentUserIdOrNull();
+        string CurrentUserId { get; }
+
 
         /// <summary>
         /// 将实例转换为EntityEntry
@@ -64,52 +60,34 @@ namespace Riven
         EntityEntry ConvertToEntry(object obj);
 
 
+        /// <summary>
+        /// 获取当前租户名称
+        /// </summary>
+        string CurrentTenantName => this.GetT<IMultiTenancyProvider>()?.CurrentTenantNameOrNull();
 
         /// <summary>
         /// 日志
         /// </summary>
-        ILogger Logger => this.GetApplicationService<ILogger>();
+        ILogger Logger => this.GetT<ILogger>();
 
         /// <summary>
         /// Guid 生成器
         /// </summary>
-        IGuidGenerator GuidGenerator => this.GetApplicationService<IGuidGenerator>();
+        IGuidGenerator GuidGenerator => this.GetT<IGuidGenerator>();
 
         /// <summary>
         /// 当前工作单元提供者
         /// </summary>
         ICurrentUnitOfWorkProvider CurrentUnitOfWorkProvider =>
-           this.GetApplicationService<ICurrentUnitOfWorkProvider>();
+           this.GetT<ICurrentUnitOfWorkProvider>();
 
-
-
-
-        /// <summary>
-        /// 获取当前租户名称
-        /// </summary>
-        /// <returns></returns>
-        string GetCurrentTenantNameOrNull()
-        {
-            var multiTenancyInfo = this.GetApplicationService<IMultiTenancyProvider>();
-            return multiTenancyInfo.CurrentTenantNameOrNull();
-        }
-
-        /// <summary>
-        /// 获取当前是否启用了多租户
-        /// </summary>
-        /// <returns></returns>
-        bool GetMultiTenancyEnabled()
-        {
-            var multiTenancyOptions = this.GetApplicationService<IMultiTenancyOptions>();
-            return multiTenancyOptions.IsEnabled;
-        }
 
         /// <summary>
         /// 获取服务实例
         /// </summary>
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
-        TService GetApplicationService<TService>()
+        TService GetT<TService>()
            where TService : class
         {
             if (this.ServiceProvider == null)
@@ -117,24 +95,8 @@ namespace Riven
                 return default(TService);
             }
 
-            var serviceType = typeof(TService);
-            return (TService)SerivceInstanceMap.GetOrAdd(serviceType, (type) =>
-            {
-                return this.ServiceProvider.GetService(serviceType);
-            });
+            return this.ServiceProvider.GetRequiredService<TService>();
         }
-
-        /// <summary>
-        /// 释放 IRivenDbContext 资源
-        /// </summary>
-        void DisposeRivenDbContext()
-        {
-            SerivceInstanceMap.Clear();
-        }
-
-
-
-
 
         #region Filter
 
@@ -152,14 +114,29 @@ namespace Riven
                 return;
             }
 
-            Expression<Func<TEntity, bool>> filterExpression = null;
+            var filterExpression = default(Expression<Func<TEntity, bool>>);
 
-            filterExpression = ModelBuilderFilterExtenstions.CreateSoftDeleteFilterExpression(filterExpression);
-            filterExpression = ModelBuilderFilterExtenstions.CreateMultiTenancyFilterExpression(
-                filterExpression,
-                this.GetCurrentTenantNameOrNull()
-            );
+            // 软删除
+            if (EntityHelper.ShouldSoftDeleteEntity(typeof(TEntity)))
+            {
+                Expression<Func<TEntity, bool>> softDeleteFilter = e => !((ISoftDelete)e).IsDeleted;
+                filterExpression = filterExpression == null ? softDeleteFilter : filterExpression.CombineExpressions(softDeleteFilter);
+            }
 
+            // 多租户1
+            if (EntityHelper.ShouldMayHaveTenancyEntity(typeof(TEntity)))
+            {
+                Expression<Func<TEntity, bool>> mayHaveTenantFilter = e => ((IMayHaveTenant)e).TenantName == this.CurrentTenantName;
+                filterExpression = filterExpression == null ? mayHaveTenantFilter : filterExpression.CombineExpressions(mayHaveTenantFilter);
+            }
+            // 多租户2
+            if (EntityHelper.ShouldMustHaveTenancyEntity(typeof(TEntity)))
+            {
+                Expression<Func<TEntity, bool>> mustHaveTenantFilter = e => ((IMustHaveTenant)e).TenantName == this.CurrentTenantName;
+                filterExpression = filterExpression == null ? mustHaveTenantFilter : filterExpression.CombineExpressions(mustHaveTenantFilter);
+            }
+
+            // 将筛选表达式应用到对应的实体类型
             if (filterExpression != null)
             {
                 modelBuilder.Entity<TEntity>().HasQueryFilter(filterExpression);
@@ -182,7 +159,7 @@ namespace Riven
                 return;
             }
 
-            var userId = GetCurrentUserIdOrNull();
+            var userId = this.CurrentUserId;
 
             foreach (var entry in changeTracker.Entries().ToList())
             {
@@ -323,9 +300,9 @@ namespace Riven
                 return;
             }
 
-            var currentTenantName = this.GetCurrentTenantNameOrNull();
+            var currentTenantName = this.CurrentTenantName;
 
-            if (!string.IsNullOrWhiteSpace(currentTenantName))
+            if (!string.IsNullOrWhiteSpace(this.CurrentTenantName))
             {
                 throw new Exception("Can not set TenantName to null or empty for IMustHaveTenant entities!");
             }
@@ -363,7 +340,7 @@ namespace Riven
                 return;
             }
 
-            entity.TenantName = GetCurrentTenantNameOrNull();
+            entity.TenantName = this.CurrentTenantName;
         }
 
 
@@ -379,7 +356,10 @@ namespace Riven
                 return;
             }
 
-            EntityAuditingHelper.SetCreationAuditProperties(entityAsObj, this.GetCurrentTenantNameOrNull(), userId);
+            EntityAuditingHelper.SetCreationAuditProperties(
+                entityAsObj,
+                this.CurrentTenantName,
+                userId);
         }
 
 
@@ -395,7 +375,10 @@ namespace Riven
                 return;
             }
 
-            EntityAuditingHelper.SetModificationAuditProperties(entityAsObj, this.GetCurrentTenantNameOrNull(), userId);
+            EntityAuditingHelper.SetModificationAuditProperties(
+                entityAsObj,
+                this.CurrentTenantName,
+                userId);
         }
 
 
@@ -433,7 +416,7 @@ namespace Riven
                 return;
             }
 
-            var tenantName = this.GetCurrentTenantNameOrNull();
+            var tenantName = this.CurrentTenantName;
 
             if (entityAsObj is IHasDeletionTime)
             {
@@ -505,7 +488,7 @@ namespace Riven
                 return false;
             }
 
-            var currentTenantName = GetCurrentTenantNameOrNull();
+            var currentTenantName = this.CurrentTenantName;
             var hardDeleteKey = EntityHelper.GetHardDeleteKey(entry.Entity, currentTenantName);
             return objects.Contains(hardDeleteKey);
         }
