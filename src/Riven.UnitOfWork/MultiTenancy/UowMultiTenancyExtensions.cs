@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Riven
+namespace Riven.Extensions
 {
     public static class UowMultiTenancyExtensions
     {
@@ -16,7 +16,7 @@ namespace Riven
         /// <param name="uow">工作单元</param>
         /// <param name="tenantName">租户名称</param>
         /// <returns></returns>
-        public static IDisposable ChangeTenant([NotNull] this IUnitOfWork uow, string tenantName)
+        public static IDisposable ChangeTenant([NotNull] this IActiveUnitOfWork uow, string tenantName)
         {
             Check.NotNull(uow, nameof(uow));
 
