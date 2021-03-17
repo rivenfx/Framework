@@ -20,7 +20,7 @@ namespace Riven.Data
         public Dictionary<string, object> Properties { get; }
 
 
-        public DataSeedContext(string tenantName)
+        public DataSeedContext(string tenantName = null)
         {
             TenantName = tenantName;
             Properties = new Dictionary<string, object>();
