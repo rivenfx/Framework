@@ -107,9 +107,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.UnitOfWork.EntityFram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.AspectCore.Tests", "tests\Riven.AspectCore.Tests\Riven.AspectCore.Tests.csproj", "{FBB5E96E-485B-459F-BC9A-AE9032FA067D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Dependency", "src\Riven.Dependency\Riven.Dependency.csproj", "{11FB5673-638E-4596-ABF6-40E863CCB012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Dependency", "src\Riven.Dependency\Riven.Dependency.csproj", "{11FB5673-638E-4596-ABF6-40E863CCB012}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Dependency.Tests", "tests\Riven.Dependency.Tests\Riven.Dependency.Tests.csproj", "{A95942E0-2B55-4F97-8144-1F4EAB64EA73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Dependency.Tests", "tests\Riven.Dependency.Tests\Riven.Dependency.Tests.csproj", "{A95942E0-2B55-4F97-8144-1F4EAB64EA73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Data", "src\Riven.Data\Riven.Data.csproj", "{C69324CB-8B08-4327-9974-66A8C194CEF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -249,6 +251,10 @@ Global
 		{A95942E0-2B55-4F97-8144-1F4EAB64EA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A95942E0-2B55-4F97-8144-1F4EAB64EA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A95942E0-2B55-4F97-8144-1F4EAB64EA73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C69324CB-8B08-4327-9974-66A8C194CEF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C69324CB-8B08-4327-9974-66A8C194CEF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C69324CB-8B08-4327-9974-66A8C194CEF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C69324CB-8B08-4327-9974-66A8C194CEF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -291,6 +297,7 @@ Global
 		{FBB5E96E-485B-459F-BC9A-AE9032FA067D} = {5359754A-33EC-4FE5-B958-8EBE13CDA68F}
 		{11FB5673-638E-4596-ABF6-40E863CCB012} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{A95942E0-2B55-4F97-8144-1F4EAB64EA73} = {5359754A-33EC-4FE5-B958-8EBE13CDA68F}
+		{C69324CB-8B08-4327-9974-66A8C194CEF1} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}
