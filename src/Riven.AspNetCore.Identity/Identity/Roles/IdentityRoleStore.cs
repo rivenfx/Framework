@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,14 +16,14 @@ namespace Riven.Identity.Roles
     /// Creates a new instance of a persistence store for roles.
     /// </summary>
     /// <typeparam name="TRole">The type of the class representing a role</typeparam>
-    public class AppRoleStore<TRole> : AppRoleStore<TRole, DbContext, string>
+    public class IdentityRoleStore<TRole> : IdentityRoleStore<TRole, DbContext, string>
         where TRole : IdentityRole<string>
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="AppRoleStore{TRole}"/>.
+        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole}"/>.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public AppRoleStore(IdentityErrorDescriber describer = null) : base(describer) { }
+        public IdentityRoleStore(IdentityErrorDescriber describer = null) : base(describer) { }
     }
 
     /// <summary>
@@ -30,16 +31,16 @@ namespace Riven.Identity.Roles
     /// </summary>
     /// <typeparam name="TRole">The type of the class representing a role.</typeparam>
     /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
-    public class AppRoleStore<TRole, TContext> : AppRoleStore<TRole, TContext, string>
+    public class IdentityRoleStore<TRole, TContext> : IdentityRoleStore<TRole, TContext, string>
         where TRole : IdentityRole<string>
         where TContext : DbContext
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="AppRoleStore{TRole, TContext}"/>.
+        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole, TContext}"/>.
         /// </summary>
         /// <param name="context">The <see cref="DbContext"/>.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public AppRoleStore(IdentityErrorDescriber describer = null) : base(describer) { }
+        public IdentityRoleStore(IdentityErrorDescriber describer = null) : base(describer) { }
     }
 
     /// <summary>
@@ -48,7 +49,7 @@ namespace Riven.Identity.Roles
     /// <typeparam name="TRole">The type of the class representing a role.</typeparam>
     /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
     /// <typeparam name="TKey">The type of the primary key for a role.</typeparam>
-    public class AppRoleStore<TRole, TContext, TKey> : AppRoleStore<TRole, TContext, TKey, IdentityUserRole<TKey>, IdentityRoleClaim<TKey>>,
+    public class IdentityRoleStore<TRole, TContext, TKey> : IdentityRoleStore<TRole, TContext, TKey, IdentityUserRole<TKey>, IdentityRoleClaim<TKey>>,
         IQueryableRoleStore<TRole>,
         IRoleClaimStore<TRole>
         where TRole : IdentityRole<TKey>
@@ -56,10 +57,10 @@ namespace Riven.Identity.Roles
         where TContext : DbContext
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="AppRoleStore{TRole, TContext, TKey}"/>.
+        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole, TContext, TKey}"/>.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public AppRoleStore(IdentityErrorDescriber describer = null) : base(describer) { }
+        public IdentityRoleStore(IdentityErrorDescriber describer = null) : base(describer) { }
     }
 
     /// <summary>
@@ -70,7 +71,7 @@ namespace Riven.Identity.Roles
     /// <typeparam name="TKey">The type of the primary key for a role.</typeparam>
     /// <typeparam name="TUserRole">The type of the class representing a user role.</typeparam>
     /// <typeparam name="TRoleClaim">The type of the class representing a role claim.</typeparam>
-    public class AppRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> :
+    public class IdentityRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> :
         IQueryableRoleStore<TRole>,
         IRoleClaimStore<TRole>
         where TRole : IdentityRole<TKey>
@@ -80,10 +81,10 @@ namespace Riven.Identity.Roles
         where TRoleClaim : IdentityRoleClaim<TKey>, new()
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="AppRoleStore{TRole, TContext, TKey, TUserRole, TRoleClaim}"/>.
+        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole, TContext, TKey, TUserRole, TRoleClaim}"/>.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public AppRoleStore(IdentityErrorDescriber describer = null)
+        public IdentityRoleStore(IdentityErrorDescriber describer = null)
         {
             ErrorDescriber = describer ?? new IdentityErrorDescriber();
         }

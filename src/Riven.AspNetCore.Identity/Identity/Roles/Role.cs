@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ namespace Riven.Identity.Roles
     /// 角色
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public class AppRole<TKey> : IdentityRole<TKey>
+    public abstract class Role<TKey> : IdentityRole<TKey>
         where TKey : IEquatable<TKey>
     {
         /// <summary>
@@ -40,13 +41,4 @@ namespace Riven.Identity.Roles
         /// </summary>
         public virtual bool IsStatic { get; set; }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class AppRole : AppRole<long>
-    {
-
-    }
-
 }
