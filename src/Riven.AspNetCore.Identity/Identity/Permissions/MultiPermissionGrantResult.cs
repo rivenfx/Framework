@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Riven.Identity.Permissions
 {
+    /// <summary>
+    /// 多个权限校验结果
+    /// </summary>
     public class MultiPermissionGrantResult
     {
-        public static MultiPermissionGrantResult SuccessResult { get; } = new MultiPermissionGrantResult();
+        /// <summary>
+        /// 默认的成功的
+        /// </summary>
+        public static MultiPermissionGrantResult SuccessResult { get; } = new MultiPermissionGrantResult(true);
 
 
         /// <summary>
@@ -27,6 +33,12 @@ namespace Riven.Identity.Permissions
         public MultiPermissionGrantResult()
         {
             Unsuccessful = new List<string>();
+        }
+
+        public MultiPermissionGrantResult(bool successed)
+            : this()
+        {
+            Successed = successed;
         }
 
         public void SetSuccessed(bool input)
