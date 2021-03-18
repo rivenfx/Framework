@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
+
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -10,6 +11,11 @@ namespace Riven.Extensions
     {
         public static string GetUserId(this ClaimsPrincipal claimsPrincipal, IdentityOptions identityOptions)
         {
+            if (claimsPrincipal == null)
+            {
+                return null;
+            }
+
             var userIdString = claimsPrincipal.FindFirstValue(identityOptions.ClaimsIdentity.UserIdClaimType);
             if (!userIdString.IsNullOrWhiteSpace())
             {
@@ -20,6 +26,11 @@ namespace Riven.Extensions
 
         public static string GetUserName(this ClaimsPrincipal claimsPrincipal, IdentityOptions identityOptions)
         {
+            if (claimsPrincipal == null)
+            {
+                return null;
+            }
+
             return claimsPrincipal.FindFirstValue(identityOptions.ClaimsIdentity.UserNameClaimType);
         }
     }
