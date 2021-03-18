@@ -14,6 +14,11 @@ namespace Riven.Identity.Permissions
         #region 长度限制
 
         /// <summary>
+        /// <see cref="Id"/> 最大长度
+        /// </summary>
+        public const int IdMaxLength = 32;
+
+        /// <summary>
         /// <see cref="Name"/> 最大长度
         /// </summary>
         public const int NameMaxLength = 128;
@@ -30,11 +35,16 @@ namespace Riven.Identity.Permissions
 
         #endregion
 
+        /// <summary>
+        /// Id
+        /// </summary>
+        [Key]
+        [StringLength(IdMaxLength)]
+        public virtual string Id { get; set; }
 
         /// <summary>
         /// 权限名称
         /// </summary>
-        [Key]
         [Required]
         [StringLength(NameMaxLength)]
         public string Name { get; set; }
