@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -11,70 +10,51 @@ using Microsoft.EntityFrameworkCore;
 namespace Riven.Identity.Users
 {
     /// <summary>
-    /// Represents a new instance of a persistence store for users, using the default implementation
-    /// of <see cref="IdentityUser{TKey}"/> with a string as a primary key.
-    /// </summary>
-    public class AppUserStore : AppUserStore<IdentityUser<string>>
-    {
-        /// <summary>
-        /// Constructs a new instance of <see cref="AppUserStore"/>.
-        /// </summary>
-        /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public AppUserStore(IdentityErrorDescriber describer = null) 
-            : base(describer) { }
-    }
-
-    /// <summary>
     /// Creates a new instance of a persistence store for the specified user type.
     /// </summary>
     /// <typeparam name="TUser">The type representing a user.</typeparam>
-    public class AppUserStore<TUser> : AppUserStore<TUser, IdentityRole, DbContext, string>
-        where TUser : IdentityUser<string>, new()
+    public class IdentityUserOnlyStore<TUser> : IdentityUserOnlyStore<TUser, DbContext, string> where TUser : IdentityUser<string>, new()
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="AppUserStore{TUser}"/>.
+        /// Constructs a new instance of <see cref="IdentityUserOnlyStore{TUser}"/>.
         /// </summary>
+        /// <param name="context">The <see cref="DbContext"/>.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public AppUserStore(IdentityErrorDescriber describer = null) 
-            : base( describer) { }
+        public IdentityUserOnlyStore(IdentityErrorDescriber describer = null) : base(describer) { }
     }
 
     /// <summary>
     /// Represents a new instance of a persistence store for the specified user and role types.
     /// </summary>
     /// <typeparam name="TUser">The type representing a user.</typeparam>
-    /// <typeparam name="TRole">The type representing a role.</typeparam>
     /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
-    public class AppUserStore<TUser, TRole, TContext> : AppUserStore<TUser, TRole, TContext, string>
+    public class IdentityUserOnlyStore<TUser, TContext> : IdentityUserOnlyStore<TUser, TContext, string>
         where TUser : IdentityUser<string>
-        where TRole : IdentityRole<string>
         where TContext : DbContext
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="AppUserStore{TUser, TRole, TContext}"/>.
+        /// Constructs a new instance of <see cref="AppUserOnlyStore{TUser, TRole, TContext}"/>.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public AppUserStore(IdentityErrorDescriber describer = null) : base(describer) { }
+        public IdentityUserOnlyStore(IdentityErrorDescriber describer = null) : base(describer) { }
     }
 
     /// <summary>
     /// Represents a new instance of a persistence store for the specified user and role types.
     /// </summary>
     /// <typeparam name="TUser">The type representing a user.</typeparam>
-    /// <typeparam name="TRole">The type representing a role.</typeparam>
     /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
     /// <typeparam name="TKey">The type of the primary key for a role.</typeparam>
-    public class AppUserStore<TUser, TRole, TContext, TKey> : AppUserStore<TUser, TRole, TContext, TKey, IdentityUserClaim<TKey>, IdentityUserRole<TKey>, IdentityUserLogin<TKey>, IdentityUserToken<TKey>, IdentityRoleClaim<TKey>>
+    public class IdentityUserOnlyStore<TUser, TContext, TKey> : IdentityUserOnlyStore<TUser, TContext, TKey, IdentityUserClaim<TKey>, IdentityUserLogin<TKey>, IdentityUserToken<TKey>>
         where TUser : IdentityUser<TKey>
-        where TRole : IdentityRole<TKey>
         where TContext : DbContext
         where TKey : IEquatable<TKey>
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="AppUserStore{TUser, TRole, TContext, TKey}"/>.
+        /// Constructs a new instance of <see cref="IdentityUserStore{TUser, TRole, TContext, TKey}"/>.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public AppUserStore(IdentityErrorDescriber describer = null) 
+        public IdentityUserOnlyStore(IdentityErrorDescriber describer = null)
             : base(describer) { }
     }
 
@@ -82,33 +62,38 @@ namespace Riven.Identity.Users
     /// Represents a new instance of a persistence store for the specified user and role types.
     /// </summary>
     /// <typeparam name="TUser">The type representing a user.</typeparam>
-    /// <typeparam name="TRole">The type representing a role.</typeparam>
     /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
     /// <typeparam name="TKey">The type of the primary key for a role.</typeparam>
     /// <typeparam name="TUserClaim">The type representing a claim.</typeparam>
-    /// <typeparam name="TUserRole">The type representing a user role.</typeparam>
     /// <typeparam name="TUserLogin">The type representing a user external login.</typeparam>
     /// <typeparam name="TUserToken">The type representing a user token.</typeparam>
-    /// <typeparam name="TRoleClaim">The type representing a role claim.</typeparam>
-    public class AppUserStore<TUser, TRole, TContext, TKey, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim> :
-        UserStoreBase<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim>,
+    public class IdentityUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, TUserToken> :
+        UserStoreBase<TUser, TKey, TUserClaim, TUserLogin, TUserToken>,
+        IUserLoginStore<TUser>,
+        IUserClaimStore<TUser>,
+        IUserPasswordStore<TUser>,
+        IUserSecurityStampStore<TUser>,
+        IUserEmailStore<TUser>,
+        IUserLockoutStore<TUser>,
+        IUserPhoneNumberStore<TUser>,
+        IQueryableUserStore<TUser>,
+        IUserTwoFactorStore<TUser>,
+        IUserAuthenticationTokenStore<TUser>,
+        IUserAuthenticatorKeyStore<TUser>,
+        IUserTwoFactorRecoveryCodeStore<TUser>,
         IProtectedUserStore<TUser>
         where TUser : IdentityUser<TKey>
-        where TRole : IdentityRole<TKey>
         where TContext : DbContext
         where TKey : IEquatable<TKey>
         where TUserClaim : IdentityUserClaim<TKey>, new()
-        where TUserRole : IdentityUserRole<TKey>, new()
         where TUserLogin : IdentityUserLogin<TKey>, new()
         where TUserToken : IdentityUserToken<TKey>, new()
-        where TRoleClaim : IdentityRoleClaim<TKey>, new()
     {
         /// <summary>
         /// Creates a new instance of the store.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/> used to describe store errors.</param>
-        public AppUserStore(IdentityErrorDescriber describer = null) 
-            : base(describer ?? new IdentityErrorDescriber())
+        public IdentityUserOnlyStore(IdentityErrorDescriber describer = null) : base(describer ?? new IdentityErrorDescriber())
         {
 
         }
@@ -118,12 +103,25 @@ namespace Riven.Identity.Users
         /// </summary>
         public virtual TContext Context => throw new NotImplementedException(nameof(Context));
 
-        private DbSet<TUser> UsersSet { get { return Context.Set<TUser>(); } }
-        private DbSet<TRole> Roles { get { return Context.Set<TRole>(); } }
-        private DbSet<TUserClaim> UserClaims { get { return Context.Set<TUserClaim>(); } }
-        private DbSet<TUserRole> UserRoles { get { return Context.Set<TUserRole>(); } }
-        private DbSet<TUserLogin> UserLogins { get { return Context.Set<TUserLogin>(); } }
-        private DbSet<TUserToken> UserTokens { get { return Context.Set<TUserToken>(); } }
+        /// <summary>
+        /// DbSet of users.
+        /// </summary>
+        protected DbSet<TUser> UsersSet { get { return Context.Set<TUser>(); } }
+
+        /// <summary>
+        /// DbSet of user claims.
+        /// </summary>
+        protected DbSet<TUserClaim> UserClaims { get { return Context.Set<TUserClaim>(); } }
+
+        /// <summary>
+        /// DbSet of user logins.
+        /// </summary>
+        protected DbSet<TUserLogin> UserLogins { get { return Context.Set<TUserLogin>(); } }
+
+        /// <summary>
+        /// DbSet of user tokens.
+        /// </summary>
+        protected DbSet<TUserToken> UserTokens { get { return Context.Set<TUserToken>(); } }
 
         /// <summary>
         /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.
@@ -257,29 +255,6 @@ namespace Riven.Identity.Users
         }
 
         /// <summary>
-        /// Return a role with the normalized name if it exists.
-        /// </summary>
-        /// <param name="normalizedRoleName">The normalized role name.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>The role if it exists.</returns>
-        protected override Task<TRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
-        {
-            return Roles.SingleOrDefaultAsync(r => r.NormalizedName == normalizedRoleName, cancellationToken);
-        }
-
-        /// <summary>
-        /// Return a user role for the userId and roleId if it exists.
-        /// </summary>
-        /// <param name="userId">The user's id.</param>
-        /// <param name="roleId">The role's id.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>The user role if it exists.</returns>
-        protected override Task<TUserRole> FindUserRoleAsync(TKey userId, TKey roleId, CancellationToken cancellationToken)
-        {
-            return UserRoles.FindAsync(new object[] { userId, roleId }, cancellationToken).AsTask();
-        }
-
-        /// <summary>
         /// Return a user with the matching userId if it exists.
         /// </summary>
         /// <param name="userId">The user's id.</param>
@@ -313,109 +288,6 @@ namespace Riven.Identity.Users
         protected override Task<TUserLogin> FindUserLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
         {
             return UserLogins.SingleOrDefaultAsync(userLogin => userLogin.LoginProvider == loginProvider && userLogin.ProviderKey == providerKey, cancellationToken);
-        }
-
-
-        /// <summary>
-        /// Adds the given <paramref name="normalizedRoleName"/> to the specified <paramref name="user"/>.
-        /// </summary>
-        /// <param name="user">The user to add the role to.</param>
-        /// <param name="normalizedRoleName">The role to add.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public async override Task AddToRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            Check.NotNullOrWhiteSpace(normalizedRoleName, nameof(normalizedRoleName));
-           
-            var roleEntity = await FindRoleAsync(normalizedRoleName, cancellationToken);
-
-            Check.NotNull(roleEntity, nameof(roleEntity));
-
-            UserRoles.Add(CreateUserRole(user, roleEntity));
-        }
-
-        /// <summary>
-        /// Removes the given <paramref name="normalizedRoleName"/> from the specified <paramref name="user"/>.
-        /// </summary>
-        /// <param name="user">The user to remove the role from.</param>
-        /// <param name="normalizedRoleName">The role to remove.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public async override Task RemoveFromRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            Check.NotNullOrWhiteSpace(normalizedRoleName, nameof(normalizedRoleName));
-
-            var roleEntity = await FindRoleAsync(normalizedRoleName, cancellationToken);
-            if (roleEntity != null)
-            {
-                var userRole = await FindUserRoleAsync(user.Id, roleEntity.Id, cancellationToken);
-                if (userRole != null)
-                {
-                    UserRoles.Remove(userRole);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the roles the specified <paramref name="user"/> is a member of.
-        /// </summary>
-        /// <param name="user">The user whose roles should be retrieved.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="Task{TResult}"/> that contains the roles the user is a member of.</returns>
-        public override async Task<IList<string>> GetRolesAsync(TUser user, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            var userId = user.Id;
-            var query = from userRole in UserRoles
-                        join role in Roles on userRole.RoleId equals role.Id
-                        where userRole.UserId.Equals(userId)
-                        select role.Name;
-            return await query.ToListAsync(cancellationToken);
-        }
-
-        /// <summary>
-        /// Returns a flag indicating if the specified user is a member of the give <paramref name="normalizedRoleName"/>.
-        /// </summary>
-        /// <param name="user">The user whose role membership should be checked.</param>
-        /// <param name="normalizedRoleName">The role to check membership of</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="Task{TResult}"/> containing a flag indicating if the specified user is a member of the given group. If the
-        /// user is a member of the group the returned value with be true, otherwise it will be false.</returns>
-        public override async Task<bool> IsInRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            Check.NotNullOrWhiteSpace(normalizedRoleName, nameof(normalizedRoleName));
-
-
-            var role = await FindRoleAsync(normalizedRoleName, cancellationToken);
-            if (role != null)
-            {
-                var userRole = await FindUserRoleAsync(user.Id, role.Id, cancellationToken);
-                return userRole != null;
-            }
-            return false;
         }
 
         /// <summary>
@@ -651,37 +523,6 @@ namespace Riven.Identity.Users
                         select user;
 
             return await query.ToListAsync(cancellationToken);
-        }
-
-        /// <summary>
-        /// Retrieves all users in the specified role.
-        /// </summary>
-        /// <param name="normalizedRoleName">The role whose users should be retrieved.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>
-        /// The <see cref="Task"/> contains a list of users, if any, that are in the specified role.
-        /// </returns>
-        public async override Task<IList<TUser>> GetUsersInRoleAsync(string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (string.IsNullOrEmpty(normalizedRoleName))
-            {
-                throw new ArgumentNullException(nameof(normalizedRoleName));
-            }
-
-            var role = await FindRoleAsync(normalizedRoleName, cancellationToken);
-
-            if (role != null)
-            {
-                var query = from userrole in UserRoles
-                            join user in Users on userrole.UserId equals user.Id
-                            where userrole.RoleId.Equals(role.Id)
-                            select user;
-
-                return await query.ToListAsync(cancellationToken);
-            }
-            return new List<TUser>();
         }
 
         /// <summary>
