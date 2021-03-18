@@ -26,12 +26,4 @@ namespace Riven.Identity.Users
             }
         }
     }
-
-    public class LoginResult : LoginResult<AppUser>
-    {
-        public LoginResult(LoginResultType result, AppUser user, ClaimsPrincipal claimsPrincipal)
-            : base(result, user, claimsPrincipal)
-        {
-        }
-    }
 }
