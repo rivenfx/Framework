@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Riven.Identity.Permissions
 {
-    public class IdentityPermissionStore<TPermission> : IIdentityPermissionStore<TPermission>
+    public abstract class IdentityPermissionStore<TPermission> : IIdentityPermissionStore<TPermission>
         where TPermission : IdentityPermission
     {
         protected static List<string> _emptyPermissionNames = new List<string>();
@@ -23,7 +23,6 @@ namespace Riven.Identity.Permissions
         public virtual DbContext Context => throw new NotImplementedException(nameof(Context));
 
         public virtual IQueryable<TPermission> Query => Context.Set<TPermission>();
-
 
 
         public async Task CreateAsync([NotNull] TPermission permission)
