@@ -10,7 +10,7 @@ namespace Riven.Identity.Users
     /// 用户
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class AppUser<TKey> : IdentityUser<TKey>
+    public abstract class User<TKey> : IdentityUser<TKey>
      where TKey : IEquatable<TKey>
     {
         /// <summary>
@@ -45,13 +45,5 @@ namespace Riven.Identity.Users
         /// 是否为系统内置
         /// </summary>
         public virtual bool IsStatic { get; set; }
-    }
-
-    /// <summary>
-    /// 用户,主键类型为long
-    /// </summary>
-    public class AppUser : AppUser<long>
-    {
-
     }
 }
