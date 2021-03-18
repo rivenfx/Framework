@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Riven.Identity.Roles;
 using Riven.Identity.Users;
@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace Riven.Authorization
 {
     public class IdentityUserClaimsPrincipalFactory<TUser, TRole, TKey> : UserClaimsPrincipalFactory<TUser, TRole>
-        where TUser : AppUser<TKey>
-        where TRole : AppRole<TKey>
+        where TUser : User<TKey>
+        where TRole : Role<TKey>
         where TKey : IEquatable<TKey>
     {
         public IdentityUserClaimsPrincipalFactory(
@@ -49,8 +49,8 @@ namespace Riven.Authorization
     }
 
     public class IdentityUserClaimsPrincipalFactory<TUser, TRole> : IdentityUserClaimsPrincipalFactory<TUser, TRole, long>
-        where TUser : AppUser<long>
-        where TRole : AppRole<long>
+        where TUser : User<long>
+        where TRole : Role<long>
     {
         public IdentityUserClaimsPrincipalFactory(
             UserManager<TUser> userManager,

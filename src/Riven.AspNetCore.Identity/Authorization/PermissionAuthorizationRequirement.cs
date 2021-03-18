@@ -65,12 +65,10 @@ namespace Riven.Identity.Authorization
 
                 try
                 {
-                    var identityOptions = serviceProvider.GetRequiredService<IOptions<IdentityOptions>>().Value;
+                    var aspNetCoreSession = serviceProvider.GetRequiredService<IAspNetCoreSession>();
 
                     var user = httpContextAccessor.HttpContext.User;
-                    var userId = user.GetUserId(identityOptions);
-
-                    if (user == null || userId.IsNullOrWhiteSpace())
+                    if (aspNetCoreSession.UserId.IsNullOrWhiteSpace())
                     {
                         if (!httpContextAccessor.HttpContext.IsAjax())
                         {
@@ -86,7 +84,12 @@ namespace Riven.Identity.Authorization
 
                     foreach (var permissionAttribute in permissionAttributes)
                     {
-                        await permissionChecker.AuthorizeAsync(stringLocalizer, userId, permissionAttribute.RequireAll, permissionAttribute.Permissions);
+                        await permissionChecker.AuthorizeAsync(
+                            stringLocalizer,
+                            aspNetCoreSession.UserId,
+                            permissionAttribute.RequireAll,
+                            permissionAttribute.Permissions
+                            );
                     }
 
                     context.Succeed(requirement);

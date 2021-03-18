@@ -6,19 +6,24 @@ using JetBrains.Annotations;
 using Riven.Threading;
 using System.Collections.Immutable;
 using Riven.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
+using Riven.Identity.Permissions;
+using Riven.Identity.Users;
 
 namespace Riven.Authorization
 {
     public class DefaultPermissionChecker : IPermissionChecker
     {
-        readonly IUserRolePermissionAccessor _userPermissionAccessor;
-        readonly IRolePermissionAccessor _rolePermissionAccessor;
+        protected readonly IAspNetCoreSession _aspNetCoreSession;
+        protected readonly IIdentityUserRoleFinder _userRoleFinder;
+        protected readonly IIdentityPermissionFinder _permissionFinder;
 
-        public DefaultPermissionChecker(IUserRolePermissionAccessor userPermissionAccessor, IRolePermissionAccessor rolePermissionAccessor)
-        {
-            _userPermissionAccessor = userPermissionAccessor;
-            _rolePermissionAccessor = rolePermissionAccessor;
-        }
+
+
 
         public bool IsGranted([NotNull] string userId, [NotNull] string permission)
         {
@@ -46,7 +51,29 @@ namespace Riven.Authorization
             return await this.IsGrantedAsync(userId, false, permission);
         }
 
-        public bool IsGranted([NotNull] string userId, bool requireAllRolePermissions, params string[] permissions)
+
+
+        public bool IsGranted(bool requireAll, params string[] permissions)
+        {
+            return this.IsGranted(this._aspNetCoreSession.UserId, requireAll, permissions);
+        }
+
+        public Task<bool> IsGrantedAsync(bool requireAll, params string[] permissions)
+        {
+            return this.IsGrantedAsync(this._aspNetCoreSession.UserId, requireAll, permissions);
+        }
+
+        public bool IsGranted([NotNull] string permission)
+        {
+            return this.IsGranted(this._aspNetCoreSession.UserId, permission);
+        }
+
+        public Task<bool> IsGrantedAsync([NotNull] string permission)
+        {
+            return this.IsGrantedAsync(this._aspNetCoreSession.UserId, permission);
+        }
+
+        public bool IsGranted([NotNull] string userId, bool requireAll, params string[] permissions)
         {
             if (permissions.IsNullOrEmpty())
             {
@@ -58,11 +85,11 @@ namespace Riven.Authorization
 
             return AsyncHelper.RunSync(() =>
             {
-                return this.IsGrantedAsync(userId, requireAllRolePermissions, permissions);
+                return this.IsGrantedAsync(userId, requireAll, permissions);
             });
         }
 
-        public async Task<bool> IsGrantedAsync([NotNull] string userId, bool requireAllRolePermissions, params string[] permissions)
+        public async Task<bool> IsGrantedAsync([NotNull] string userId, bool requireAll, params string[] permissions)
         {
             if (permissions.IsNullOrEmpty())
             {
@@ -70,45 +97,66 @@ namespace Riven.Authorization
             }
             Check.NotNullOrWhiteSpace(userId, nameof(userId));
 
-
             // 去重
             var permissionDistinct = permissions.Distinct();
 
             // 不需要匹配所有的 Permission
-            if (!requireAllRolePermissions)
+            if (!requireAll)
             {
-                var userPermissions = (await _userPermissionAccessor.GetPermissionsByUserIdAsync(userId));
-
+                // 先校验用户权限
+                var userPermissions = await this.GetUserPermissions(userId);
                 if (permissionDistinct.Any(o => userPermissions.Contains(o)))
                 {
                     return true;
                 }
 
-                var userRoleNames = await _userPermissionAccessor.GetRolesByUserIdAsync(userId);
-                var userRolePermissions = (await _rolePermissionAccessor.GetPermissionsByRoleNamesAsync(userRoleNames.ToArray()));
-
-
+                // 校验角色权限
+                var userRolePermissions = await this.GetRolesPermissions(userId);
                 if (permissionDistinct.Any(o => userRolePermissions.Contains(o)))
                 {
                     return true;
                 }
 
-
                 return false;
             }
             else
             {
-                var userPermissions = (await _userPermissionAccessor.GetPermissionsByUserIdAsync(userId));
+                // 用户权限
+                var userPermissions = await this.GetUserPermissions(userId);
+                // 角色权限
+                var userRolePermissions = await this.GetRolesPermissions(userId);
 
-                var userRoleNames = await _userPermissionAccessor.GetRolesByUserIdAsync(userId);
-                var userRolePermissions = (await _rolePermissionAccessor.GetPermissionsByRoleNamesAsync(userRoleNames.ToArray()));
-
-                // userPermissions 与 rolePermissions 取并集, 再与 校验标记中的 Permissions 取交集, 最后获得交集数量
-                var intersectPermissionsCount = userPermissions.Union(userRolePermissions).Intersect(permissionDistinct).Count();
+                // 1. userPermissions 与 rolePermissions 取并集,
+                // 2. 与 校验标记中的 Permissions 取交集, 最后获得交集数量
+                var intersectPermissionsCount = userPermissions.Union(userRolePermissions)
+                    .Intersect(permissionDistinct)
+                    .Count();
 
                 // 长度一致为true,长度不一致为false
                 return intersectPermissionsCount == permissionDistinct.Count();
             }
+        }
+
+
+        /// <summary>
+        /// 获取用户拥有的权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        protected virtual async Task<IEnumerable<string>> GetUserPermissions(string userId)
+        {
+            return await this._permissionFinder.FindPermissions(PermissionType.User, userId);
+        }
+
+        /// <summary>
+        /// 获取用户拥有的角色的权限
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        protected virtual async Task<IEnumerable<string>> GetRolesPermissions(string userId)
+        {
+            var roles = await this._userRoleFinder.GetRolesByUserIdAsync(userId);
+            return await this._permissionFinder.FindPermissions(PermissionType.Role, roles.ToArray());
         }
     }
 }
