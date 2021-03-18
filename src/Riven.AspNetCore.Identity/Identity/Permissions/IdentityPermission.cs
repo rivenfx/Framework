@@ -9,7 +9,7 @@ namespace Riven.Identity.Permissions
     /// 应用权限
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public class AppPermission<TKey>
+    public class IdentityPermission<TKey>
          where TKey : IEquatable<TKey>
     {
         /// <summary>
@@ -58,7 +58,7 @@ namespace Riven.Identity.Permissions
     }
 
 
-    public class AppPermission : AppPermission<Guid>
+    public class AppPermission : IdentityPermission<Guid>
     {
 
     }

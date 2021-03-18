@@ -3,26 +3,48 @@ using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Riven.Identity.Permissions
 {
-    public class AppPermissionStore<TPermission, TKey>
+    public class IdentityPermissionStore<TPermission, TKey>
         where TKey : IEquatable<TKey>
-        where TPermission : AppPermission<TKey>
+        where TPermission : IdentityPermission<TKey>
     {
         public virtual DbContext Context => throw new NotImplementedException(nameof(Context));
 
         public virtual IQueryable<TPermission> Permissions => Context.Set<TPermission>();
 
+        /// <summary>
+        /// 创建权限
+        /// </summary>
+        /// <param name="permission"></param>
+        /// <returns></returns>
         public async Task CreateAsync([NotNull] TPermission permission)
         {
             Check.NotNull(permission, nameof(permission));
 
             await Context.AddAsync(permission);
         }
+
+
+        /// <summary>
+        /// 查找权限
+        /// </summary>
+        /// <param name="type">权限类型.</param>
+        /// <param name="provider">类型映射关联的数据.</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<string>> FindPermissions(string type, string provider)
+        {
+            return await Permissions.AsNoTracking()
+                    .Where(o => o.Type == type && o.Provider == provider)
+                    .Select(o => o.Name)
+                    .ToListAsync();
+        }
+
 
         /// <summary>
         /// 校验权限
@@ -112,7 +134,7 @@ namespace Riven.Identity.Permissions
 
 
 
-    public class AppPermissionStore : AppPermissionStore<AppPermission, Guid>
+    public class AppPermissionStore : IdentityPermissionStore<AppPermission, Guid>
     {
 
     }
