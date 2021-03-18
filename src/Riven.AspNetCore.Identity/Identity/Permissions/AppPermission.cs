@@ -42,6 +42,7 @@ namespace Riven.Identity.Permissions
 
         /// <summary>
         /// 权限类型
+        /// <see cref="PermissionType"/>
         /// </summary>
         [Required]
         [StringLength(TypeMaxLength)]
