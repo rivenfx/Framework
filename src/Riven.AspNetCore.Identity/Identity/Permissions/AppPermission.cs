@@ -20,7 +20,7 @@ namespace Riven.Identity.Permissions
         /// <summary>
         /// <see cref="Type"/> 最大长度
         /// </summary>
-        public const int TypeMaxLength = 32;
+        public const int TypeMaxLength = 16;
 
         /// <summary>
         /// <see cref="Provider"/> 最大长度
