@@ -28,6 +28,11 @@ namespace Riven.Identity.Authorization
         public virtual PermissionAuthorizeScope Scope { get; set; }
 
         /// <summary>
+        /// 权限排序号,决定在同级别权限显示的先后顺序
+        /// </summary>
+        public virtual int Sort { get; set; }
+
+        /// <summary>
         /// Creates a new instance of <see cref="PermissionAuthorizeAttribute"/> class.
         /// </summary>
         /// <param name="permissions">A list of permissions to authorize</param>
