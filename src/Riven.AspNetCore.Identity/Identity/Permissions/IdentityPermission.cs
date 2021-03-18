@@ -8,10 +8,11 @@ namespace Riven.Identity.Permissions
     /// <summary>
     /// 应用权限
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    public class IdentityPermission<TKey>
-         where TKey : IEquatable<TKey>
+    public class IdentityPermission
     {
+
+        #region 长度限制
+
         /// <summary>
         /// <see cref="Name"/> 最大长度
         /// </summary>
@@ -27,15 +28,13 @@ namespace Riven.Identity.Permissions
         /// </summary>
         public const int ProviderMaxLength = 64;
 
+        #endregion
 
-        /// <summary>
-        /// Id
-        /// </summary>
-        public virtual TKey Id { get; set; }
 
         /// <summary>
         /// 权限名称
         /// </summary>
+        [Key]
         [Required]
         [StringLength(NameMaxLength)]
         public string Name { get; set; }
@@ -55,11 +54,5 @@ namespace Riven.Identity.Permissions
         [Required]
         [StringLength(ProviderMaxLength)]
         public string Provider { get; set; }
-    }
-
-
-    public class AppPermission : IdentityPermission<Guid>
-    {
-
     }
 }

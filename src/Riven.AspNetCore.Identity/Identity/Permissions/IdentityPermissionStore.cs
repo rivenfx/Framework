@@ -10,19 +10,21 @@ using System.Threading.Tasks;
 
 namespace Riven.Identity.Permissions
 {
-    public class IdentityPermissionStore<TPermission, TKey>
-        where TKey : IEquatable<TKey>
-        where TPermission : IdentityPermission<TKey>
+    public class IdentityPermissionStore<TPermission> : IIdentityPermissionStore<TPermission>
+        where TPermission : IdentityPermission
     {
         public virtual DbContext Context => throw new NotImplementedException(nameof(Context));
 
         public virtual IQueryable<TPermission> Permissions => Context.Set<TPermission>();
 
-        /// <summary>
-        /// 创建权限
-        /// </summary>
-        /// <param name="permission"></param>
-        /// <returns></returns>
+        public async Task<IEnumerable<string>> GetAll()
+        {
+            return await Permissions.AsNoTracking()
+                   .GroupBy(o => o.Name)
+                   .Select(o => o.Key)
+                   .ToListAsync();
+        }
+
         public async Task CreateAsync([NotNull] TPermission permission)
         {
             Check.NotNull(permission, nameof(permission));
@@ -30,13 +32,6 @@ namespace Riven.Identity.Permissions
             await Context.AddAsync(permission);
         }
 
-
-        /// <summary>
-        /// 查找权限
-        /// </summary>
-        /// <param name="type">权限类型.</param>
-        /// <param name="provider">类型映射关联的数据.</param>
-        /// <returns></returns>
         public async Task<IEnumerable<string>> FindPermissions(string type, string provider)
         {
             return await Permissions.AsNoTracking()
@@ -45,97 +40,110 @@ namespace Riven.Identity.Permissions
                     .ToListAsync();
         }
 
-
-        /// <summary>
-        /// 校验权限
-        /// </summary>
-        /// <param name="name">
-        /// <see cref="TPermission.Name"/>
-        /// </param>
-        /// <param name="type">
-        /// <see cref="TPermission.Type"/>
-        /// </param>
-        /// <param name="provider">
-        /// <see cref="TPermission.Provider"/>
-        /// </param>
-        /// <returns></returns>
-        public async Task<bool> IsGrantedAsync(string name, string type, string provider)
+        public async Task Remove(params string[] names)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return true;
-            }
-
-
-            var count = await Permissions.CountAsync(o => o.Name == name
-                    && o.Type == type
-                    && o.Provider == provider);
-
-            return count > 0;
-        }
-
-        /// <summary>
-        /// 多个校验权限
-        /// </summary>
-        /// <param name="names">
-        /// <see cref="TPermission.Name"/>
-        /// </param>
-        /// <param name="type">
-        /// <see cref="TPermission.Type"/>
-        /// </param>
-        /// <param name="provider">
-        /// <see cref="TPermission.Provider"/>
-        /// </param>
-        /// <param name="requireAll">是否要校验所有权限</param>
-        /// <returns></returns>
-        public async Task<MultiPermissionGrantResult> IsGrantedAsync(string[] names, string type, string provider, bool requireAll = false)
-        {
-            var result = new MultiPermissionGrantResult();
-
             if (names == null || names.Length == 0)
             {
-                return MultiPermissionGrantResult.SuccessResult;
+                return;
             }
 
-            var successed = false;
-            // 校验所有权限
-            if (requireAll)
-            {
+            await Task.Yield();
 
-                foreach (var item in names)
-                {
-                    successed = await this.IsGrantedAsync(item, type, provider);
 
-                    if (!successed)
-                    {
-                        result.Unsuccessful.Add(item);
-                    }
-                }
+            var permissions = await Permissions
+                .Where(o => names.Contains(o.Name))
+                .ToListAsync();
 
-                result.SetSuccessed(!result.HasError);
-
-                return result;
-            }
-
-            // 只校验部分权限
-            foreach (var item in names)
-            {
-                successed = await this.IsGrantedAsync(item, type, provider);
-                if (successed)
-                {
-                    result.SetSuccessed(true);
-                    break;
-                }
-            }
-
-            return result;
+            this.Context.RemoveRange(permissions);
         }
-    }
 
 
 
-    public class AppPermissionStore : IdentityPermissionStore<AppPermission, Guid>
-    {
+        ///// <summary>
+        ///// 校验权限
+        ///// </summary>
+        ///// <param name="name">
+        ///// <see cref="TPermission.Name"/>
+        ///// </param>
+        ///// <param name="type">
+        ///// <see cref="TPermission.Type"/>
+        ///// </param>
+        ///// <param name="provider">
+        ///// <see cref="TPermission.Provider"/>
+        ///// </param>
+        ///// <returns></returns>
+        //public async Task<bool> IsGrantedAsync(string name, string type, string provider)
+        //{
+        //    if (string.IsNullOrWhiteSpace(name))
+        //    {
+        //        return true;
+        //    }
+
+
+        //    var count = await Permissions.CountAsync(o => o.Name == name
+        //            && o.Type == type
+        //            && o.Provider == provider);
+
+        //    return count > 0;
+        //}
+
+        ///// <summary>
+        ///// 多个校验权限
+        ///// </summary>
+        ///// <param name="names">
+        ///// <see cref="TPermission.Name"/>
+        ///// </param>
+        ///// <param name="type">
+        ///// <see cref="TPermission.Type"/>
+        ///// </param>
+        ///// <param name="provider">
+        ///// <see cref="TPermission.Provider"/>
+        ///// </param>
+        ///// <param name="requireAll">是否要校验所有权限</param>
+        ///// <returns></returns>
+        //public async Task<MultiPermissionGrantResult> IsGrantedAsync(string[] names, string type, string provider, bool requireAll = false)
+        //{
+        //    var result = new MultiPermissionGrantResult();
+
+        //    if (names == null || names.Length == 0)
+        //    {
+        //        return MultiPermissionGrantResult.SuccessResult;
+        //    }
+
+        //    var successed = false;
+        //    // 校验所有权限
+        //    if (requireAll)
+        //    {
+
+        //        foreach (var item in names)
+        //        {
+        //            successed = await this.IsGrantedAsync(item, type, provider);
+
+        //            if (!successed)
+        //            {
+        //                result.Unsuccessful.Add(item);
+        //            }
+        //        }
+
+        //        result.SetSuccessed(!result.HasError);
+
+        //        return result;
+        //    }
+
+        //    // 只校验部分权限
+        //    foreach (var item in names)
+        //    {
+        //        successed = await this.IsGrantedAsync(item, type, provider);
+        //        if (successed)
+        //        {
+        //            result.SetSuccessed(true);
+        //            break;
+        //        }
+        //    }
+
+        //    return result;
+        //}
+
 
     }
 }
