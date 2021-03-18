@@ -5,6 +5,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+
+using JetBrains.Annotations;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +23,7 @@ namespace Riven.Identity.Users
         /// Constructs a new instance of <see cref="IdentityUserStore"/>.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityUserStore(IdentityErrorDescriber describer = null) 
+        public IdentityUserStore(IdentityErrorDescriber describer = null)
             : base(describer) { }
     }
 
@@ -35,8 +38,8 @@ namespace Riven.Identity.Users
         /// Constructs a new instance of <see cref="IdentityUserStore{TUser}"/>.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityUserStore(IdentityErrorDescriber describer = null) 
-            : base( describer) { }
+        public IdentityUserStore(IdentityErrorDescriber describer = null)
+            : base(describer) { }
     }
 
     /// <summary>
@@ -74,7 +77,7 @@ namespace Riven.Identity.Users
         /// Constructs a new instance of <see cref="IdentityUserStore{TUser, TRole, TContext, TKey}"/>.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityUserStore(IdentityErrorDescriber describer = null) 
+        public IdentityUserStore(IdentityErrorDescriber describer = null)
             : base(describer) { }
     }
 
@@ -92,7 +95,7 @@ namespace Riven.Identity.Users
     /// <typeparam name="TRoleClaim">The type representing a role claim.</typeparam>
     public class IdentityUserStore<TUser, TRole, TContext, TKey, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim> :
         UserStoreBase<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim>,
-        IProtectedUserStore<TUser>
+        IProtectedUserStore<TUser>, IIdentityUserRoleFinder
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
         where TContext : DbContext
@@ -107,7 +110,7 @@ namespace Riven.Identity.Users
         /// Creates a new instance of the store.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/> used to describe store errors.</param>
-        public IdentityUserStore(IdentityErrorDescriber describer = null) 
+        public IdentityUserStore(IdentityErrorDescriber describer = null)
             : base(describer ?? new IdentityErrorDescriber())
         {
 
@@ -332,7 +335,7 @@ namespace Riven.Identity.Users
                 throw new ArgumentNullException(nameof(user));
             }
             Check.NotNullOrWhiteSpace(normalizedRoleName, nameof(normalizedRoleName));
-           
+
             var roleEntity = await FindRoleAsync(normalizedRoleName, cancellationToken);
 
             Check.NotNull(roleEntity, nameof(roleEntity));
@@ -716,6 +719,20 @@ namespace Riven.Identity.Users
         {
             UserTokens.Remove(token);
             return Task.CompletedTask;
+        }
+
+        public virtual async Task<IEnumerable<string>> GetRolesByUserIdAsync([NotNull] string userId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+
+            Riven.Check.NotNullOrWhiteSpace(userId, nameof(userId));
+
+            var query = from userRole in UserRoles
+                        join role in Roles on userRole.RoleId equals role.Id
+                        where userRole.UserId.Equals(userId)
+                        select role.Name;
+            return await query.ToListAsync(cancellationToken);
         }
     }
 }
