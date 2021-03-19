@@ -1,74 +1,62 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
+using JetBrains.Annotations;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Riven.Identity.Users
 {
     /// <summary>
-    /// Creates a new instance of a persistence store for the specified user type.
-    /// </summary>
-    /// <typeparam name="TUser">The type representing a user.</typeparam>
-    public class IdentityUserOnlyStore<TUser> : IdentityUserOnlyStore<TUser, DbContext, string> where TUser : IdentityUser<string>, new()
-    {
-        /// <summary>
-        /// Constructs a new instance of <see cref="IdentityUserOnlyStore{TUser}"/>.
-        /// </summary>
-        /// <param name="context">The <see cref="DbContext"/>.</param>
-        /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityUserOnlyStore(IdentityErrorDescriber describer = null) : base(describer) { }
-    }
-
-    /// <summary>
     /// Represents a new instance of a persistence store for the specified user and role types.
     /// </summary>
     /// <typeparam name="TUser">The type representing a user.</typeparam>
-    /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
-    public class IdentityUserOnlyStore<TUser, TContext> : IdentityUserOnlyStore<TUser, TContext, string>
+    public class IdentityUserOnlyStore<TUser> : IdentityUserOnlyStore<TUser, string>
         where TUser : IdentityUser<string>
-        where TContext : DbContext
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="AppUserOnlyStore{TUser, TRole, TContext}"/>.
+        /// Constructs a new instance of <see cref="AppUserOnlyStore{TUser, TRole}"/>.
         /// </summary>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityUserOnlyStore(IdentityErrorDescriber describer = null) : base(describer) { }
+        public IdentityUserOnlyStore(IServiceProvider serviceProvider, IdentityErrorDescriber describer = null)
+           : base(serviceProvider, describer) { }
     }
 
     /// <summary>
     /// Represents a new instance of a persistence store for the specified user and role types.
     /// </summary>
     /// <typeparam name="TUser">The type representing a user.</typeparam>
-    /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
     /// <typeparam name="TKey">The type of the primary key for a role.</typeparam>
-    public class IdentityUserOnlyStore<TUser, TContext, TKey> : IdentityUserOnlyStore<TUser, TContext, TKey, IdentityUserClaim<TKey>, IdentityUserLogin<TKey>, IdentityUserToken<TKey>>
+    public class IdentityUserOnlyStore<TUser, TKey> : IdentityUserOnlyStore<TUser, TKey, IdentityUserClaim<TKey>, IdentityUserLogin<TKey>, IdentityUserToken<TKey>>
         where TUser : IdentityUser<TKey>
-        where TContext : DbContext
         where TKey : IEquatable<TKey>
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="IdentityUserStore{TUser, TRole, TContext, TKey}"/>.
+        /// Constructs a new instance of <see cref="IdentityUserStore{TUser, TRole,  TKey}"/>.
         /// </summary>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityUserOnlyStore(IdentityErrorDescriber describer = null)
-            : base(describer) { }
+        public IdentityUserOnlyStore(IServiceProvider serviceProvider, IdentityErrorDescriber describer = null)
+           : base(serviceProvider, describer) { }
     }
 
     /// <summary>
     /// Represents a new instance of a persistence store for the specified user and role types.
     /// </summary>
     /// <typeparam name="TUser">The type representing a user.</typeparam>
-    /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
     /// <typeparam name="TKey">The type of the primary key for a role.</typeparam>
     /// <typeparam name="TUserClaim">The type representing a claim.</typeparam>
     /// <typeparam name="TUserLogin">The type representing a user external login.</typeparam>
     /// <typeparam name="TUserToken">The type representing a user token.</typeparam>
-    public class IdentityUserOnlyStore<TUser, TContext, TKey, TUserClaim, TUserLogin, TUserToken> :
+    public class IdentityUserOnlyStore<TUser, TKey, TUserClaim, TUserLogin, TUserToken> :
         UserStoreBase<TUser, TKey, TUserClaim, TUserLogin, TUserToken>,
         IUserLoginStore<TUser>,
         IUserClaimStore<TUser>,
@@ -84,25 +72,29 @@ namespace Riven.Identity.Users
         IUserTwoFactorRecoveryCodeStore<TUser>,
         IProtectedUserStore<TUser>
         where TUser : IdentityUser<TKey>
-        where TContext : DbContext
         where TKey : IEquatable<TKey>
         where TUserClaim : IdentityUserClaim<TKey>, new()
         where TUserLogin : IdentityUserLogin<TKey>, new()
         where TUserToken : IdentityUserToken<TKey>, new()
     {
+        protected readonly IServiceProvider _serviceProvider;
+        protected readonly IIdentityDbContextAccessor _contextAccessor;
+
         /// <summary>
         /// Creates a new instance of the store.
         /// </summary>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/> used to describe store errors.</param>
-        public IdentityUserOnlyStore(IdentityErrorDescriber describer = null) : base(describer ?? new IdentityErrorDescriber())
+        public IdentityUserOnlyStore(IServiceProvider serviceProvider, IdentityErrorDescriber describer = null)
+            : base(describer ?? new IdentityErrorDescriber())
         {
-
+            _contextAccessor = serviceProvider.GetService<IIdentityDbContextAccessor>();
         }
 
         /// <summary>
         /// Gets the database context for this store.
         /// </summary>
-        public virtual TContext Context => throw new NotImplementedException(nameof(Context));
+        public virtual DbContext Context => _contextAccessor.Context;
 
         /// <summary>
         /// DbSet of users.
