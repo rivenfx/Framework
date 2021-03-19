@@ -22,17 +22,17 @@ namespace Riven
         /// <summary>
         /// 添加 IAspNetCoreAuthorizationHandler 的 PermissionAuthorizationHandler 实现
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="identityBuilder"></param>
         /// <returns></returns>
-        public static IServiceCollection AddRivenAspNetCorePermissionAuthorization(this IServiceCollection services)
+        public static IdentityBuilder AddRivenAspNetCorePermissionAuthorization(this IdentityBuilder identityBuilder)
         {
             // 认证策略
-            services.TryAddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+            identityBuilder.Services.TryAddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
             // 权限检查器
-            services.TryAddTransient<IPermissionChecker, AspNetCorePermissionChecker>();
+            identityBuilder.Services.TryAddTransient<IPermissionChecker, AspNetCorePermissionChecker>();
 
-            return services;
+            return identityBuilder;
         }
 
 
