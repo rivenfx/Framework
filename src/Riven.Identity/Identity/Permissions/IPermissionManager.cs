@@ -4,41 +4,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Riven.Identity.Permissions
 {
     public interface IPermissionManager<TPermission>
         where TPermission : IdentityPermission
     {
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        void Init();
+        IIdentityPermissionStore<TPermission> Store { get; }
 
-        /// <summary>
-        /// 查询
-        /// </summary>
-        /// <param name="fromCache">从缓存</param>
-        /// <returns></returns>
-        IQueryable<PermissionItem> GetAll(bool fromCache = false);
+        IQueryable<PermissionItem> ItemQuery { get; }
     }
 
-    public class PermissionManager
+    public class PermissionManager<TPermission> : IPermissionManager<TPermission>
+        where TPermission : IdentityPermission
     {
-        protected readonly IPermissionInitializer _permissionInitializer;
-        protected readonly Lazy<Dictionary<PermissionItem, int>> _permissions;
+        protected readonly IIdentityPermissionStore<TPermission> _store;
+        protected readonly IPermissionItemStore _itemStore;
 
 
-        public PermissionManager()
+
+        public PermissionManager(IServiceProvider serviceProvider)
         {
-            _permissions = new Lazy<Dictionary<PermissionItem, int>>(() =>
-              {
-                  return _permissionInitializer.Run().ToDictionary(o => o, o => 0);
-              });
+            _store = serviceProvider
+                .GetService<IIdentityPermissionStore<TPermission>>();
+            _itemStore = serviceProvider.GetService<IPermissionItemStore>();
+
         }
 
+        public virtual IQueryable<PermissionItem> ItemQuery => _itemStore.Query;
 
-
-
+        public virtual IIdentityPermissionStore<TPermission> Store => _store;
     }
 }

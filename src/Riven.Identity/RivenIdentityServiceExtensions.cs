@@ -108,7 +108,25 @@ namespace Riven
             where TPermissionInitializer : class, IPermissionInitializer
         {
             builder.Services
-                .AddSingleton<IPermissionInitializer, TPermissionInitializer>();
+                .TryAddSingleton<IPermissionInitializer, TPermissionInitializer>();
+
+            return builder;
+        }
+
+        /// <summary>
+        /// 添加权限管理器
+        /// </summary>
+        /// <typeparam name="TPermissionManager"></typeparam>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IdentityBuilder AddPermissionManager<TPermissionManager>(this IdentityBuilder builder)
+            where TPermissionManager : class
+        {
+            // 添加存储器
+            var managerType = typeof(IPermissionManager<>).MakeGenericType(IdentityInfo.PermissionType);
+
+            builder.Services
+                .TryAddScoped(managerType, typeof(TPermissionManager));
 
             return builder;
         }
