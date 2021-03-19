@@ -30,7 +30,7 @@ namespace Riven
             services.TryAddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
             // 权限检查器
-            services.TryAddTransient<IPermissionChecker, DefaultPermissionChecker>();
+            services.TryAddTransient<IPermissionChecker, AspNetCorePermissionChecker>();
 
             return services;
         }

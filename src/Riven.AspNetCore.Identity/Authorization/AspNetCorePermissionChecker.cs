@@ -16,7 +16,7 @@ using Riven.Identity.Users;
 
 namespace Riven.Authorization
 {
-    public class DefaultPermissionChecker : IPermissionChecker
+    public class AspNetCorePermissionChecker : IPermissionChecker
     {
         protected readonly IAspNetCoreSession _aspNetCoreSession;
         protected readonly IIdentityUserRoleFinder _userRoleFinder;
