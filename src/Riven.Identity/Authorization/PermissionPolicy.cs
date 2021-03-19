@@ -6,6 +6,6 @@ namespace Riven.Authorization
 {
     public static class PermissionPolicy
     {
-        public const string PERMISSION_POLICY_NAME = "RivenIdentityPermission";
+        public const string POLICY_NAME = "RivenIdentityPermission";
     }
 }

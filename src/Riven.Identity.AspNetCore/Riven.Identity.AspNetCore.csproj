@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+  <Import Project="..\..\version.props" />
+  <Import Project="..\..\repository_info.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Riven</RootNamespace>
+
+    <PackageId>Riven.Identity.AspNetCore</PackageId>
+    <Description>Riven.Identity.AspNetCore</Description>
+    <AssemblyName>Riven.Identity.AspNetCore</AssemblyName>
+
+    <PackageTags>riven;framework;application framework;domain driven design;aspectcore;identity;</PackageTags>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riven.AspNetCore\Riven.AspNetCore.csproj" />
+    <ProjectReference Include="..\Riven.Identity\Riven.Identity.csproj" />
+  </ItemGroup>
+
+</Project>
