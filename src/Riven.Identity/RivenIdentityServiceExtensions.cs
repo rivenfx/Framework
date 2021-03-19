@@ -14,9 +14,6 @@ namespace Riven
 {
     public static class RivenIdentityServiceExtensions
     {
-
-
-
         /// <summary>
         /// 添加权限存储器
         /// </summary>
@@ -25,6 +22,21 @@ namespace Riven
         /// <returns></returns>
         public static IdentityBuilder AddPermissionStore<TPermissionStore>(this IdentityBuilder builder)
             where TPermissionStore : class
+        {
+            return builder.AddPermissionStore<TPermissionStore, PermissionItemStore>();
+        }
+
+
+        /// <summary>
+        /// 添加权限存储器
+        /// </summary>
+        /// <typeparam name="TPermissionStore"></typeparam>
+        /// <typeparam name="TPermissionItemStore">内存权限</typeparam>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IdentityBuilder AddPermissionStore<TPermissionStore, TPermissionItemStore>(this IdentityBuilder builder)
+            where TPermissionStore : class
+            where TPermissionItemStore : class, IPermissionItemStore
         {
             // 添加存储器
             var storeInterface = typeof(IIdentityPermissionStore<>).MakeGenericType(IdentityInfo.PermissionType);
@@ -46,6 +58,8 @@ namespace Riven
                 var obj = serviceProvider.GetRequiredService(storeInterface);
                 return (IIdentityPermissionFinder)obj;
             });
+
+            builder.Services.TryAddSingleton<IPermissionItemStore, TPermissionItemStore>();
 
             return builder;
         }
@@ -80,6 +94,21 @@ namespace Riven
             builder.Services.TryAddTransient<ICurrentUser, CurrentUser>();
 
             builder.Services.TryAddTransient<IPermissionChecker, PermissionChecker>();
+
+            return builder;
+        }
+
+        /// <summary>
+        /// 添加权限初始化器
+        /// </summary>
+        /// <typeparam name="TPermissionInitializer"></typeparam>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IdentityBuilder AddPermissionInitializer<TPermissionInitializer>(this IdentityBuilder builder)
+            where TPermissionInitializer : class, IPermissionInitializer
+        {
+            builder.Services
+                .AddSingleton<IPermissionInitializer, TPermissionInitializer>();
 
             return builder;
         }
