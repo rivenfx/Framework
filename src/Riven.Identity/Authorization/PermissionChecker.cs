@@ -158,7 +158,7 @@ namespace Riven.Authorization
         protected virtual async Task<IEnumerable<string>> GetRolesPermissions(string userId)
         {
             var roles = await this._userRoleFinder.GetRolesByUserIdAsync(userId);
-            return await this._permissionFinder.FindPermissions(IdentityPermissionType.Role, roles.ToArray());
+            return await this._permissionFinder.FindPermissions(IdentityPermissionType.Role, roles);
         }
     }
 }

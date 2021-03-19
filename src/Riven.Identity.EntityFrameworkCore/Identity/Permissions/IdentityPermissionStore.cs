@@ -89,7 +89,8 @@ namespace Riven.Identity.Permissions
 
             return await Query.AsNoTracking()
                     .Where(o => o.Type == type && o.Provider == provider)
-                    .Select(o => o.Name)
+                     .GroupBy(o => o.Name)
+                    .Select(o => o.Key)
                     .ToListAsync();
         }
 
@@ -112,30 +113,32 @@ namespace Riven.Identity.Permissions
                    .AnyAsync();
         }
 
-        public async Task<IEnumerable<string>> FindPermissions(string[] types, string[] providers)
+        public async Task<IEnumerable<string>> FindPermissions(IEnumerable<string> types, IEnumerable<string> providers)
         {
-            if (providers == null || providers.Length == 0 ||
-types == null || types.Length == 0)
+            if (providers == null || providers.Count() == 0 ||
+types == null || types.Count() == 0)
             {
                 return _emptyPermissionNames;
             }
 
             return await Query.AsNoTracking()
                     .Where(o => types.Contains(o.Type) && providers.Contains(o.Provider))
-                    .Select(o => o.Name)
+                    .GroupBy(o => o.Name)
+                    .Select(o => o.Key)
                     .ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> FindPermissions(string type, string[] providers)
+        public async Task<IEnumerable<string>> FindPermissions(string type, IEnumerable<string> providers)
         {
-            if (providers == null || providers.Length == 0 || string.IsNullOrWhiteSpace(type))
+            if (providers == null || providers.Count() == 0 || string.IsNullOrWhiteSpace(type))
             {
                 return _emptyPermissionNames;
             }
 
             return await Query.AsNoTracking()
                     .Where(o => o.Type == type && providers.Contains(o.Provider))
-                    .Select(o => o.Name)
+                    .GroupBy(o => o.Name)
+                    .Select(o => o.Key)
                     .ToListAsync();
         }
 

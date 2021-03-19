@@ -26,7 +26,7 @@ namespace Riven.Identity.Permissions
         /// </param>
         /// <param name="providers">类型映射关联的数据.</param>
         /// <returns></returns>
-        Task<IEnumerable<string>> FindPermissions(string type, string[] providers);
+        Task<IEnumerable<string>> FindPermissions(string type, IEnumerable<string> providers);
 
         /// <summary>
         /// 根据条件查找所有符合条件的权限.
@@ -39,7 +39,7 @@ namespace Riven.Identity.Permissions
         /// 类型映射关联的数据.
         /// </param>
         /// <returns></returns>
-        Task<IEnumerable<string>> FindPermissions(string[] types, string[] providers);
+        Task<IEnumerable<string>> FindPermissions(IEnumerable<string> types, IEnumerable<string> providers);
 
         /// <summary>
         /// 根据条件判断是否存在某个权限.
