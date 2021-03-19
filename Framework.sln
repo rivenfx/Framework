@@ -115,6 +115,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Riven.Data", "src\Riven.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Identity", "src\Riven.Identity\Riven.Identity.csproj", "{73F9D80D-5713-429F-B8BB-A4AA0D970C52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Identity.AspNetCore", "src\Riven.Identity.AspNetCore\Riven.Identity.AspNetCore.csproj", "{56A137D9-635A-4719-915E-C7BF66E2A13A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riven.Identity.EntityFrameworkCore", "src\Riven.Identity.EntityFrameworkCore\Riven.Identity.EntityFrameworkCore.csproj", "{79989F16-D4A6-4468-8214-06D97C561A5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -261,6 +265,14 @@ Global
 		{73F9D80D-5713-429F-B8BB-A4AA0D970C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73F9D80D-5713-429F-B8BB-A4AA0D970C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73F9D80D-5713-429F-B8BB-A4AA0D970C52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56A137D9-635A-4719-915E-C7BF66E2A13A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56A137D9-635A-4719-915E-C7BF66E2A13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56A137D9-635A-4719-915E-C7BF66E2A13A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56A137D9-635A-4719-915E-C7BF66E2A13A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79989F16-D4A6-4468-8214-06D97C561A5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79989F16-D4A6-4468-8214-06D97C561A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79989F16-D4A6-4468-8214-06D97C561A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79989F16-D4A6-4468-8214-06D97C561A5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -305,6 +317,8 @@ Global
 		{A95942E0-2B55-4F97-8144-1F4EAB64EA73} = {5359754A-33EC-4FE5-B958-8EBE13CDA68F}
 		{C69324CB-8B08-4327-9974-66A8C194CEF1} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 		{73F9D80D-5713-429F-B8BB-A4AA0D970C52} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
+		{56A137D9-635A-4719-915E-C7BF66E2A13A} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
+		{79989F16-D4A6-4468-8214-06D97C561A5B} = {CC3D977F-8239-444A-ADFD-DDE22AE5E993}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82681AFF-9974-4E44-B9E3-92562502F471}
