@@ -15,19 +15,6 @@ namespace Riven
     public static class RivenIdentityServiceExtensions
     {
 
-        /// <summary>
-        /// 添加权限
-        /// </summary>
-        /// <typeparam name="TPermission"></typeparam>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public static IdentityBuilder AddIdentityPermission<TPermission>(this IdentityBuilder builder)
-            where TPermission : IdentityPermission
-        {
-            IdentityInfo.PermissionType = typeof(TPermission);
-
-            return builder;
-        }
 
 
         /// <summary>

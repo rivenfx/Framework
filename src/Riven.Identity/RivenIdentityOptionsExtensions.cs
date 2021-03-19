@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 
 using Riven.Identity;
+using Riven.Identity.Permissions;
 
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,12 @@ namespace Riven
         /// </summary>
         /// <param name="identityOptions"></param>
         /// <returns></returns>
-        public static IdentityOptions ConfigurationRivenIdentity(this IdentityOptions identityOptions)
+        public static IdentityOptions ConfigureRivenIdentity<TPermission>(this IdentityOptions identityOptions)
+             where TPermission : IdentityPermission
         {
             IdentityInfo.Init(identityOptions);
+            IdentityInfo.PermissionType = typeof(TPermission);
+
             return identityOptions;
         }
     }

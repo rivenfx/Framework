@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Riven.Identity.Permissions
 {
-    public abstract class IdentityPermissionStore<TPermission> : IIdentityPermissionStore<TPermission>
+    public class IdentityPermissionStore<TPermission> : IIdentityPermissionStore<TPermission>
         where TPermission : IdentityPermission
     {
         protected static List<string> _emptyPermissionNames = new List<string>();
