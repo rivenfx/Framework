@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace Riven.Identity.Roles
@@ -16,77 +17,63 @@ namespace Riven.Identity.Roles
     /// Creates a new instance of a persistence store for roles.
     /// </summary>
     /// <typeparam name="TRole">The type of the class representing a role</typeparam>
-    public class IdentityRoleStore<TRole> : IdentityRoleStore<TRole, DbContext, string>
+    public class IdentityRoleStore<TRole> : IdentityRoleStore<TRole, string>
         where TRole : IdentityRole<string>
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole}"/>.
+        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole, TKey}"/>.
         /// </summary>
-        /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityRoleStore(IdentityErrorDescriber describer = null) : base(describer) { }
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
+        public IdentityRoleStore(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 
     /// <summary>
     /// Creates a new instance of a persistence store for roles.
     /// </summary>
     /// <typeparam name="TRole">The type of the class representing a role.</typeparam>
-    /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
-    public class IdentityRoleStore<TRole, TContext> : IdentityRoleStore<TRole, TContext, string>
-        where TRole : IdentityRole<string>
-        where TContext : DbContext
-    {
-        /// <summary>
-        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole, TContext}"/>.
-        /// </summary>
-        /// <param name="context">The <see cref="DbContext"/>.</param>
-        /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityRoleStore(IdentityErrorDescriber describer = null) : base(describer) { }
-    }
-
-    /// <summary>
-    /// Creates a new instance of a persistence store for roles.
-    /// </summary>
-    /// <typeparam name="TRole">The type of the class representing a role.</typeparam>
-    /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
     /// <typeparam name="TKey">The type of the primary key for a role.</typeparam>
-    public class IdentityRoleStore<TRole, TContext, TKey> : IdentityRoleStore<TRole, TContext, TKey, IdentityUserRole<TKey>, IdentityRoleClaim<TKey>>,
+    public class IdentityRoleStore<TRole, TKey> : IdentityRoleStore<TRole, TKey, IdentityUserRole<TKey>, IdentityRoleClaim<TKey>>,
         IQueryableRoleStore<TRole>,
         IRoleClaimStore<TRole>
         where TRole : IdentityRole<TKey>
         where TKey : IEquatable<TKey>
-        where TContext : DbContext
     {
         /// <summary>
-        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole, TContext, TKey}"/>.
+        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole, TKey}"/>.
         /// </summary>
-        /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityRoleStore(IdentityErrorDescriber describer = null) : base(describer) { }
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>.</param>
+        public IdentityRoleStore(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 
     /// <summary>
     /// Creates a new instance of a persistence store for roles.
     /// </summary>
     /// <typeparam name="TRole">The type of the class representing a role.</typeparam>
-    /// <typeparam name="TContext">The type of the data context class used to access the store.</typeparam>
     /// <typeparam name="TKey">The type of the primary key for a role.</typeparam>
     /// <typeparam name="TUserRole">The type of the class representing a user role.</typeparam>
     /// <typeparam name="TRoleClaim">The type of the class representing a role claim.</typeparam>
-    public class IdentityRoleStore<TRole, TContext, TKey, TUserRole, TRoleClaim> :
+    public class IdentityRoleStore<TRole, TKey, TUserRole, TRoleClaim> :
         IQueryableRoleStore<TRole>,
         IRoleClaimStore<TRole>
         where TRole : IdentityRole<TKey>
         where TKey : IEquatable<TKey>
-        where TContext : DbContext
         where TUserRole : IdentityUserRole<TKey>, new()
         where TRoleClaim : IdentityRoleClaim<TKey>, new()
     {
+        protected readonly IServiceProvider _serviceProvider;
+        protected readonly IIdentityDbContextAccessor _contextAccessor;
+
         /// <summary>
-        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole, TContext, TKey, TUserRole, TRoleClaim}"/>.
+        /// Constructs a new instance of <see cref="IdentityRoleStore{TRole, TKey, TUserRole, TRoleClaim}"/>.
         /// </summary>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public IdentityRoleStore(IdentityErrorDescriber describer = null)
+        public IdentityRoleStore(IServiceProvider serviceProvider)
         {
-            ErrorDescriber = describer ?? new IdentityErrorDescriber();
+            _serviceProvider = serviceProvider;
+
+            ErrorDescriber = serviceProvider.GetService<IdentityErrorDescriber>() ?? new IdentityErrorDescriber();
+            _contextAccessor = serviceProvider.GetService<IIdentityDbContextAccessor>();
+
         }
 
         private bool _disposed;
@@ -95,7 +82,7 @@ namespace Riven.Identity.Roles
         /// <summary>
         /// Gets the database context for this store.
         /// </summary>
-        public virtual TContext Context => throw new NotImplementedException(nameof(Context));
+        public virtual DbContext Context => _contextAccessor.Context;
 
         /// <summary>
         /// Gets or sets the <see cref="IdentityErrorDescriber"/> for any error that occurred with the current operation.
