@@ -21,8 +21,9 @@ using System.Net;
 using Riven.AspNetCore.Mvc.Extensions;
 using Microsoft.Extensions.Localization;
 using Riven.Exceptions;
+using Riven.Identity;
 
-namespace Riven.Identity.Authorization
+namespace Riven.Authorization
 {
     /// <summary>
     /// 基于 Permission 的 AuthorizationHandler

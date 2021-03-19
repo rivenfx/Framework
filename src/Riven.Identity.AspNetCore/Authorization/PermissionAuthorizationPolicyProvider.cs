@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Riven.Authorization
 {
-    public class PermissionAuthorizationPolicyProvider
+    public class PermissionAuthorizationPolicyProvider : IAuthorizationPolicyProvider
     {
         readonly IServiceProvider _serviceProvider;
 
