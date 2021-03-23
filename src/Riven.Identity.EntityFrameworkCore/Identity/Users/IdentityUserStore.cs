@@ -735,9 +735,11 @@ namespace Riven.Identity.Users
 
             Riven.Check.NotNullOrWhiteSpace(userId, nameof(userId));
 
+            var user = await this.FindByIdAsync(userId);
+
             var query = from userRole in UserRoles
                         join role in Roles on userRole.RoleId equals role.Id
-                        where userRole.UserId.Equals(userId)
+                        where userRole.UserId.Equals(user.Id)
                         select role.Name;
             return await query.ToListAsync(cancellationToken);
         }
