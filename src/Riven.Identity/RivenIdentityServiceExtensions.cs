@@ -14,6 +14,7 @@ namespace Riven
 {
     public static class RivenIdentityServiceExtensions
     {
+
         /// <summary>
         /// 添加权限存储器
         /// </summary>
@@ -38,27 +39,29 @@ namespace Riven
             where TPermissionStore : class
             where TPermissionItemStore : class, IPermissionItemStore
         {
-            // 添加存储器
+            // 权限存储器
             var storeInterface = typeof(IIdentityPermissionStore<>).MakeGenericType(IdentityInfo.PermissionType);
 
             var storeImp = typeof(TPermissionStore);
-
-            builder.Services.TryAddScoped(storeInterface, storeImp);
-
-
-            if (storeImp.GetInterface(storeInterface.FullName) == null)
+            if (storeImp.GetInterface(storeInterface.Name) == null)
             {
                 throw new Exception($"{storeImp.FullName} did not implement {storeInterface.FullName}");
             }
+            builder.Services.TryAddScoped(storeInterface, storeImp);
+            builder.Services.TryAddScoped((provider) =>
+            {
+                return (TPermissionStore)provider.GetService(storeInterface);
+            });
 
 
-
+            // 权限查找器
             builder.Services.TryAddScoped((serviceProvider) =>
             {
                 var obj = serviceProvider.GetRequiredService(storeInterface);
                 return (IIdentityPermissionFinder)obj;
             });
 
+            // 系统权限存储器
             builder.Services.TryAddSingleton<IPermissionItemStore, TPermissionItemStore>();
 
             return builder;
@@ -87,8 +90,11 @@ namespace Riven
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IdentityBuilder AddRivenIdentityCore(this IdentityBuilder builder)
+        public static IdentityBuilder AddRivenIdentityCore<TPermission>(this IdentityBuilder builder)
+             where TPermission : IdentityPermission
         {
+            IdentityInfo.PermissionType = typeof(TPermission);
+
             builder.Services.AddRivenSecurity();
 
             builder.Services.TryAddTransient<ICurrentUser, CurrentUser>();
@@ -127,6 +133,11 @@ namespace Riven
 
             builder.Services
                 .TryAddScoped(managerType, typeof(TPermissionManager));
+            builder.Services
+                .TryAddScoped((provider) =>
+                {
+                    return (TPermissionManager)provider.GetService(managerType);
+                });
 
             return builder;
         }

@@ -27,11 +27,12 @@ namespace Riven
             where TRole : class
             where TPermission : IdentityPermission
         {
-            return services.AddIdentity<TUser, TRole>((options) =>
+            var builder = services.AddIdentity<TUser, TRole>((options) =>
             {
                 options.ConfigureRivenIdentity<TPermission>();
                 setupAction?.Invoke(options);
             });
+            return builder.AddRivenIdentityCore<TPermission>();
         }
 
 

@@ -20,8 +20,6 @@ namespace Riven
              where TPermission : IdentityPermission
         {
             IdentityInfo.Init(identityOptions);
-            IdentityInfo.PermissionType = typeof(TPermission);
-
             return identityOptions;
         }
     }
