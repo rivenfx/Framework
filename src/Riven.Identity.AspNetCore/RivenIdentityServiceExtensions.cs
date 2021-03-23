@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Riven.Authorization;
 using Riven.Identity.Permissions;
+using Riven.Security;
 
 using System;
 
@@ -32,6 +33,11 @@ namespace Riven
                 options.ConfigureRivenIdentity<TPermission>();
                 setupAction?.Invoke(options);
             });
+
+            // 访问器
+            builder.Services.TryAddSingleton<ICurrentPrincipalAccessor, AspNetCoreCurrentPrincipalAccessor>();
+
+            // 核心依赖
             return builder.AddRivenIdentityCore<TPermission>();
         }
 
