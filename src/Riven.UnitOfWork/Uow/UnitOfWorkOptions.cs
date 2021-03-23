@@ -65,7 +65,6 @@ namespace Riven.Uow
             IsTransactional = true;
             Scope = TransactionScopeOption.Required;
             IsTransactionScopeAvailable = true;
-            ConnectionStringName = RivenUnitOfWorkConsts.DefaultConnectionStringName;
             ExtraData = new Dictionary<string, object>();
         }
     }
