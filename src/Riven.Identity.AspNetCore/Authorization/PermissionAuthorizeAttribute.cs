@@ -14,10 +14,14 @@ namespace Riven.Authorization
 
         public virtual string[] Permissions
         {
-            get => _permissions; set
+            get => _permissions;
+            set
             {
-                throw new Exception($"{nameof(PermissionAuthorizeAttribute.Permissions)} XX does not support the 'set'.");
+                _permissions = value;
             }
+            //{
+            //    throw new Exception($"{nameof(PermissionAuthorizeAttribute.Permissions)} XX does not support the 'set'.");
+            //}
         }
 
         public virtual bool RequireAll { get; set; }
