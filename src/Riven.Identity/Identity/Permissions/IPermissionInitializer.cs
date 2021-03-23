@@ -66,7 +66,7 @@ namespace Riven.Identity.Permissions
                             .Where(o =>
                             {
                                 return o.GetType()
-                                .GetInterface(PermissionAuthorizeAttributeType.FullName) != null;
+                                .GetInterface(PermissionAuthorizeAttributeType.Name) != null;
                             }).ToArray()
                             ;
                         if (attrs.Length == 0)
