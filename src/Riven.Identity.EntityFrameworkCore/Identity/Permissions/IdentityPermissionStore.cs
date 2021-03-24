@@ -36,7 +36,7 @@ namespace Riven.Identity.Permissions
 
         public virtual IQueryable<TPermission> Query => Context.Set<TPermission>();
 
-        public async Task CreateAsync([NotNull] TPermission permission)
+        public virtual async Task CreateAsync([NotNull] TPermission permission)
         {
             Check.NotNull(permission, nameof(permission));
 
@@ -47,7 +47,47 @@ namespace Riven.Identity.Permissions
             await this.SaveChanges(default);
         }
 
-        public async Task Remove(params string[] names)
+        public virtual async Task CreateAsync([NotNull] IEnumerable<TPermission> permissions)
+        {
+            Check.NotNull(permissions, nameof(permissions));
+
+            ThrowIfDisposed();
+
+            await Context.AddRangeAsync(permissions);
+
+            await this.SaveChanges(default);
+        }
+
+        public virtual async Task Remove([NotNull] string type, [NotNull] string provider, params string[] names)
+        {
+            Check.NotNull(type, nameof(type));
+            Check.NotNull(provider, nameof(provider));
+
+            ThrowIfDisposed();
+
+
+            var query = default(IQueryable<TPermission>);
+            if (names == null || names.Length == 0)
+            {
+                query = this.Query.Where(o => o.Type == type && o.Provider == provider)
+                    .AsNoTracking();
+            }
+            else
+            {
+                query = this.Query.Where(o => o.Type == type
+                    && o.Provider == provider
+                    && names.Contains(o.Name))
+                    .AsNoTracking();
+            }
+
+            var permissions = query.ToListAsync();
+
+            this.Context.RemoveRange(permissions);
+
+            await this.SaveChanges(default);
+        }
+
+        public virtual async Task Remove(params string[] names)
         {
             if (names == null || names.Length == 0)
             {
@@ -69,7 +109,7 @@ namespace Riven.Identity.Permissions
         }
 
 
-        public async Task<IEnumerable<string>> GetAll()
+        public virtual async Task<IEnumerable<string>> GetAll()
         {
             return await Query.AsNoTracking()
                    .GroupBy(o => o.Name)
@@ -78,7 +118,7 @@ namespace Riven.Identity.Permissions
         }
 
 
-        public async Task<IEnumerable<string>> FindPermissions(string type, string provider)
+        public virtual async Task<IEnumerable<string>> FindPermissions(string type, string provider)
         {
             if (string.IsNullOrWhiteSpace(type)
                 || string.IsNullOrWhiteSpace(provider)
@@ -96,7 +136,7 @@ namespace Riven.Identity.Permissions
 
 
 
-        public async Task<bool> ExistPermission(string name, string type, string provider)
+        public virtual async Task<bool> ExistPermission(string name, string type, string provider)
         {
             if (string.IsNullOrWhiteSpace(name)
                 || string.IsNullOrWhiteSpace(type)
@@ -113,10 +153,12 @@ namespace Riven.Identity.Permissions
                    .AnyAsync();
         }
 
-        public async Task<IEnumerable<string>> FindPermissions(IEnumerable<string> types, IEnumerable<string> providers)
+        public virtual async Task<IEnumerable<string>> FindPermissions(IEnumerable<string> types, IEnumerable<string> providers)
         {
-            if (providers == null || providers.Count() == 0 ||
-types == null || types.Count() == 0)
+            if (providers == null
+                || providers.Count() == 0
+                || types == null 
+                || types.Count() == 0)
             {
                 return _emptyPermissionNames;
             }
@@ -128,7 +170,7 @@ types == null || types.Count() == 0)
                     .ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> FindPermissions(string type, IEnumerable<string> providers)
+        public virtual async Task<IEnumerable<string>> FindPermissions(string type, IEnumerable<string> providers)
         {
             if (providers == null || providers.Count() == 0 || string.IsNullOrWhiteSpace(type))
             {
@@ -152,7 +194,7 @@ types == null || types.Count() == 0)
         /// <summary>
         /// Throws if this class has been disposed.
         /// </summary>
-        protected void ThrowIfDisposed()
+        protected virtual void ThrowIfDisposed()
         {
             if (_disposed)
             {
