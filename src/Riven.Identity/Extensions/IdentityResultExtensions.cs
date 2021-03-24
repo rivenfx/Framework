@@ -15,7 +15,13 @@ namespace Riven.Extensions
         /// 检查异常
         /// </summary>
         /// <param name="identityResult"></param>
-        public static void CheckError(this IdentityResult identityResult)
+        /// <param name="userFriendly">抛出
+        /// <see cref="UserFriendlyException"/>
+        /// </param>
+        /// <param name="userFriendlyMsg">
+        /// <see cref="Exception.Message"/>
+        /// </param>
+        public static void CheckError(this IdentityResult identityResult, bool userFriendly = false, string userFriendlyMsg = null)
         {
             if (identityResult.Succeeded)
             {
@@ -26,6 +32,24 @@ namespace Riven.Extensions
             {
                 throw new ArgumentException("identityResult.Errors should not be null.");
             }
+
+            if (userFriendly)
+            {
+                if (string.IsNullOrWhiteSpace(userFriendlyMsg))
+                {
+                    throw new UserFriendlyException(
+                        userFriendlyMsg,
+                        identityResult.ToErrorMesssage()
+                        );
+                }
+                else
+                {
+                    throw new UserFriendlyException(
+                        identityResult.ToErrorMesssage()
+                        );
+                }
+            }
+
 
             throw new IdentityResultException(identityResult.ToErrorMesssage());
         }
