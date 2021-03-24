@@ -33,7 +33,9 @@ namespace Riven
 
             services.TryAddTransient<IActiveTransactionProvider, EfCoreActiveTransactionProvider>();
 
-            
+
+            services.TryAddSingleton<ITableNameAccessor, EfCoreTableNameAccessor>();
+
             services.AddRivenUnitOfWork();
 
             return services;
@@ -48,7 +50,7 @@ namespace Riven
         {
             services.TryAddTransient(typeof(IRepository<>), typeof(EfCoreRepositoryBase<>));
             services.TryAddTransient(typeof(IRepository<,>), typeof(EfCoreRepositoryBase<,>));
-         
+
 
             return services;
         }
