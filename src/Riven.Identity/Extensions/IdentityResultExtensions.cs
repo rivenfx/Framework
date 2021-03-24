@@ -40,6 +40,11 @@ namespace Riven.Extensions
         {
             Check.NotNull(identityResult, nameof(identityResult));
 
+            if (identityResult.Succeeded)
+            {
+                return null;
+            }
+
             if (identityResult.Errors == null)
             {
                 return "identityResult.Errors has no error messages.";
