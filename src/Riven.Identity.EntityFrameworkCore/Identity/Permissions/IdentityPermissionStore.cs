@@ -58,7 +58,9 @@ namespace Riven.Identity.Permissions
 
             ThrowIfDisposed();
 
-            foreach (var item in permissions)
+            var newPermissions = permissions.ToList();
+
+            foreach (var item in newPermissions)
             {
                 if (string.IsNullOrWhiteSpace(item.Id))
                 {
@@ -66,7 +68,7 @@ namespace Riven.Identity.Permissions
                 }
             }
 
-            await Context.AddRangeAsync(permissions);
+            await Context.AddRangeAsync(newPermissions);
 
             await this.SaveChanges(default);
         }
