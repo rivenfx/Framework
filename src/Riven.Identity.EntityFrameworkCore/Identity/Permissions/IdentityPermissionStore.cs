@@ -42,6 +42,11 @@ namespace Riven.Identity.Permissions
 
             ThrowIfDisposed();
 
+            if (string.IsNullOrWhiteSpace(permission.Id))
+            {
+                permission.Id = Guid.NewGuid().ToString("N").Replace("-", string.Empty);
+            }
+
             await Context.AddAsync(permission);
 
             await this.SaveChanges(default);
@@ -52,6 +57,14 @@ namespace Riven.Identity.Permissions
             Check.NotNull(permissions, nameof(permissions));
 
             ThrowIfDisposed();
+
+            foreach (var item in permissions)
+            {
+                if (string.IsNullOrWhiteSpace(item.Id))
+                {
+                    item.Id = Guid.NewGuid().ToString("N").Replace("-", string.Empty);
+                }
+            }
 
             await Context.AddRangeAsync(permissions);
 
@@ -157,7 +170,7 @@ namespace Riven.Identity.Permissions
         {
             if (providers == null
                 || providers.Count() == 0
-                || types == null 
+                || types == null
                 || types.Count() == 0)
             {
                 return _emptyPermissionNames;
