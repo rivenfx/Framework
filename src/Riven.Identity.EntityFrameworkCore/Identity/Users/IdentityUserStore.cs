@@ -286,7 +286,10 @@ namespace Riven.Identity.Users
         /// <returns>The user role if it exists.</returns>
         protected override Task<TUserRole> FindUserRoleAsync(TKey userId, TKey roleId, CancellationToken cancellationToken)
         {
-            return UserRoles.FindAsync(new object[] { userId, roleId }, cancellationToken).AsTask();
+            return UserRoles
+                .Where(o => o.UserId.Equals(userId) && o.RoleId.Equals(roleId))
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
 
         /// <summary>
