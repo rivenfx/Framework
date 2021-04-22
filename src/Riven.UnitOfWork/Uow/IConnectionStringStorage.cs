@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Concurrent;
 using Riven.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using JetBrains.Annotations;
 
 namespace Riven.Uow
 {
@@ -13,7 +14,7 @@ namespace Riven.Uow
     /// </summary>
     public interface IConnectionStringStorage : IAnyStorage<IConnectionStringProvider>
     {
-
+        void AddOrUpdate([NotNull] IConnectionStringProvider connectionStringProvider);
     }
 
     public class DefaultConnectionStringStore : AnyStorageBase<IConnectionStringProvider>, IConnectionStringStorage
@@ -28,6 +29,16 @@ namespace Riven.Uow
             {
                 this.AddOrUpdate(item.Key, item.Value);
             }
+        }
+
+        public void AddOrUpdate([NotNull] IConnectionStringProvider connectionStringProvider)
+        {
+            Check.NotNull(connectionStringProvider, nameof(connectionStringProvider));
+            Check.NotNullOrWhiteSpace(connectionStringProvider.Name, nameof(connectionStringProvider.Name));
+            Check.NotNullOrWhiteSpace(connectionStringProvider.ConnectionString, nameof(connectionStringProvider.ConnectionString));
+
+
+            this.AddOrUpdate(connectionStringProvider.Name, connectionStringProvider);
         }
     }
 }
