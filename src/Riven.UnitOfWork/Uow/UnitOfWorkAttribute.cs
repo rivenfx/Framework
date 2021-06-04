@@ -8,49 +8,47 @@ using Riven.Extensions;
 namespace Riven.Uow
 {
     /// <summary>
-    /// This attribute is used to indicate that declaring method is atomic and should be considered as a unit of work.
-    /// A method that has this attribute is intercepted, a database connection is opened and a transaction is started before call the method.
-    /// At the end of method call, transaction is committed and all changes applied to the database if there is no exception,
-    /// otherwise it's rolled back. 
+    /// 此属性用于指示方法声明是原子性的，应该将其视为一个工作单元。
+    /// 拦截具有此属性的方法，在调用该方法之前打开数据库连接并启动事务。
+    /// 在方法调用结束时，提交事务并将所有更改应用到数据库(如果没有异常)，否则将回滚。
     /// </summary>
     /// <remarks>
-    /// This attribute has no effect if there is already a unit of work before calling this method, if so, it uses the same transaction.
+    /// 如果在调用此方法之前已经有一个工作单元，则此属性无效，它使用相同的事务。
     /// </remarks>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
     public class UnitOfWorkAttribute : Attribute
     {
         /// <summary>
-        /// Scope option.
+        /// 工作单元事务范围,默认 <see cref="TransactionScopeOption.Required"/>
         /// </summary>
         public TransactionScopeOption? Scope { get; set; }
 
         /// <summary>
-        /// Is this UOW transactional?
-        /// Uses default value if not supplied.
+        /// uow 是否启用事务。
+        /// 如果未设置则使用默认值
         /// </summary>
         public bool? IsTransactional { get; set; }
 
         /// <summary>
-        /// Timeout of UOW As milliseconds.
-        /// Uses default value if not supplied.
+        /// uow 超时时间，单位为毫秒。
+        /// 如果未设置则使用默认值
         /// </summary>
         public TimeSpan? Timeout { get; set; }
 
         /// <summary>
-        /// If this UOW is transactional, this option indicated the isolation level of the transaction.
-        /// Uses default value if not supplied.
+        /// 如果此uow启用事务性，则此选项指示事务的隔离级别。如果没有提供，则使用默认值。
         /// </summary>
         public IsolationLevel? IsolationLevel { get; set; }
 
         /// <summary>
-        /// Used to prevent starting a unit of work for the method.
-        /// If there is already a started unit of work, this property is ignored.
-        /// Default: false.
+        /// 标识方法不启用工作单元。
+        /// 如果已经启动了一个工作单元，此属性将不生效。
+        /// 默认值:false。
         /// </summary>
         public bool IsDisabled { get; set; }
 
         /// <summary>
-        /// Creates a new UnitOfWorkAttribute object.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
         /// </summary>
         public UnitOfWorkAttribute()
         {
@@ -58,10 +56,10 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
         /// </summary>
         /// <param name="isTransactional">
-        /// Is this unit of work will be transactional?
+        /// 是否启用事务
         /// </param>
         public UnitOfWorkAttribute(bool isTransactional)
             : this()
@@ -70,9 +68,9 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
         /// </summary>
-        /// <param name="timeout">As milliseconds</param>
+        /// <param name="timeout">uow 超时时间 (毫秒)</param>
         public UnitOfWorkAttribute(int timeout)
             : this()
         {
@@ -80,10 +78,10 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
         /// </summary>
-        /// <param name="isTransactional">Is this unit of work will be transactional?</param>
-        /// <param name="timeout">As milliseconds</param>
+        /// <param name="isTransactional">是否启用事务</param>
+        /// <param name="timeout">uow 超时时间 (毫秒)</param>
         public UnitOfWorkAttribute(bool isTransactional, int timeout)
             : this()
         {
@@ -92,10 +90,10 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
-        /// <see cref="IsTransactional"/> is automatically set to true.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
+        /// <see cref="IsTransactional"/> 自动设置为true.
         /// </summary>
-        /// <param name="isolationLevel">Transaction isolation level</param>
+        /// <param name="isolationLevel">事务隔离级别</param>
         public UnitOfWorkAttribute(IsolationLevel isolationLevel)
             : this()
         {
@@ -104,11 +102,11 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
-        /// <see cref="IsTransactional"/> is automatically set to true.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
+        /// <see cref="IsTransactional"/> 自动设置为true.
         /// </summary>
-        /// <param name="isolationLevel">Transaction isolation level</param>
-        /// <param name="timeout">Transaction  timeout as milliseconds</param>
+        /// <param name="isolationLevel">事务隔离级别</param>
+        /// <param name="timeout">事务超时(以毫秒为单位)</param>
         public UnitOfWorkAttribute(IsolationLevel isolationLevel, int timeout)
             : this()
         {
@@ -118,10 +116,10 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
-        /// <see cref="IsTransactional"/> is automatically set to true.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
+        /// <see cref="IsTransactional"/> 自动设置为true.
         /// </summary>
-        /// <param name="scope">Transaction scope</param>
+        /// <param name="scope">事务范围</param>
         public UnitOfWorkAttribute(TransactionScopeOption scope)
             : this()
         {
@@ -130,11 +128,11 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
         /// </summary>
-        /// <param name="scope">Transaction scope</param>
+        /// <param name="scope">事务范围</param>
         /// <param name="isTransactional">
-        /// Is this unit of work will be transactional?
+        /// 是否启用事务
         /// </param>
         public UnitOfWorkAttribute(TransactionScopeOption scope, bool isTransactional)
             : this()
@@ -144,11 +142,11 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
-        /// <see cref="IsTransactional"/> is automatically set to true.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
+        /// <see cref="IsTransactional"/> 自动设置为true.
         /// </summary>
-        /// <param name="scope">Transaction scope</param>
-        /// <param name="timeout">Transaction  timeout as milliseconds</param>
+        /// <param name="scope">事务范围</param>
+        /// <param name="timeout">事务超时(以毫秒为单位)</param>
         public UnitOfWorkAttribute(TransactionScopeOption scope, int timeout)
             : this()
         {
@@ -158,11 +156,11 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
-        /// <see cref="IsTransactional"/> is automatically set to true.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
+        /// <see cref="IsTransactional"/> 自动设置为true.
         /// </summary>
-        /// <param name="scope">Transaction scope</param>
-        /// <param name="isolationLevel">Transaction isolation level</param>
+        /// <param name="scope">事务范围</param>
+        /// <param name="isolationLevel">事务隔离级别</param>
         public UnitOfWorkAttribute(TransactionScopeOption scope, IsolationLevel isolationLevel)
             : this()
         {
@@ -172,12 +170,12 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
-        /// <see cref="IsTransactional"/> is automatically set to true.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
+        /// <see cref="IsTransactional"/> 自动设置为true.
         /// </summary>
-        /// <param name="scope">Transaction scope</param>
-        /// <param name="isolationLevel">Transaction isolation level</param>
-        /// <param name="timeout">Transaction  timeout as milliseconds</param>
+        /// <param name="scope">事务范围</param>
+        /// <param name="isolationLevel">事务隔离级别</param>
+        /// <param name="timeout">事务超时(以毫秒为单位)</param>
         public UnitOfWorkAttribute(TransactionScopeOption scope, IsolationLevel isolationLevel, int timeout)
             : this()
         {
@@ -188,11 +186,11 @@ namespace Riven.Uow
         }
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
         /// </summary>
-        /// <param name="scope">Transaction scope</param>
+        /// <param name="scope">事务范围</param>
         /// <param name="isTransactional"/>
-        /// <param name="timeout">Transaction  timeout as milliseconds</param>
+        /// <param name="timeout">事务超时(以毫秒为单位)</param>
         public UnitOfWorkAttribute(TransactionScopeOption scope, bool isTransactional, int timeout)
             : this(scope, null, isTransactional, timeout)
         {
@@ -201,12 +199,12 @@ namespace Riven.Uow
 
 
         /// <summary>
-        /// Creates a new <see cref="UnitOfWorkAttribute"/> object.
+        /// 创建一个新的<see cref="UnitOfWorkAttribute"/> 对象.
         /// </summary>
-        /// <param name="scope">Transaction scope</param>
-        /// <param name="isolationLevel">Transaction isolation level</param>
+        /// <param name="scope">事务范围</param>
+        /// <param name="isolationLevel">事务隔离级别</param>
         /// <param name="isTransactional"/>
-        /// <param name="timeout">Transaction  timeout as milliseconds</param>
+        /// <param name="timeout">事务超时(以毫秒为单位)</param>
         public UnitOfWorkAttribute(TransactionScopeOption scope, IsolationLevel? isolationLevel, bool isTransactional, int timeout)
         {
             Scope = scope;
