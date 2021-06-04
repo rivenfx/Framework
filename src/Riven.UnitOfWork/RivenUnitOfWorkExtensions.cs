@@ -22,6 +22,9 @@ namespace Riven
         {
             Check.NotNull(services, nameof(services));
 
+            // 空的工作单元实现
+            services.TryAddTransient<IUnitOfWork, NullUnitOfWork>();
+
             // 工作单元管理器和工作单元提供者
             services.TryAddTransient<IUnitOfWorkManager, DefaultUnitOfWorkManager>();
             services.TryAddTransient<ICurrentUnitOfWorkProvider, AsyncLocalCurrentUnitOfWorkProvider>();
@@ -32,6 +35,10 @@ namespace Riven
             // 连接字符串获取器和存储器
             services.TryAddTransient<IConnectionStringResolver, DefaultConnectionStringResolver>();
             services.TryAddSingleton<IConnectionStringStorage, DefaultConnectionStringStore>();
+
+            // 默认连接字符串名称提供者
+            services
+                .AddRivenCurrentConnectionStringNameProvider<DefaultCurrentConnectionStringNameProvider>();
 
             // 工作单元租户名称提供者
             services.AddRivenMultiTenancyProvider<UowMultiTenancyProvider>();
