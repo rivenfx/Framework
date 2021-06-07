@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace Riven.Localization
             if (_cultureInfo == null)
             {
                 languageInfo = this._localizationManager.LanguageManager.GetEnabledLanguages()
-                    .FirstOrDefault(o => o.Culture == this._localizationManager.CurrentLanguage);
+                    .FirstOrDefault(o => o.Culture == this._localizationManager.CurrentCulture);
 
             }
             else
@@ -57,7 +57,7 @@ namespace Riven.Localization
 
             if (_cultureInfo == null)
             {
-                val = _localizationManager.L(name, arguments);
+                val = _localizationManager.DL(name, arguments);
             }
             else
             {

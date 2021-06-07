@@ -10,9 +10,9 @@ namespace Riven.Localization
     public interface ILocalizationManager
     {
         /// <summary>
-        /// 当前使用的语言
+        /// 当前使用的Culture
         /// </summary>
-        string CurrentLanguage { get; }
+        string CurrentCulture { get; }
 
         /// <summary>
         /// 语言信息管理器
@@ -34,6 +34,6 @@ namespace Riven.Localization
         /// <param name="languageKey">文本键值</param>
         /// <param name="args">参数</param>
         /// <returns>本地化结果</returns>
-        string L(string languageKey, params object[] args);
+        string DL(string languageKey, params object[] args);
     }
 }
