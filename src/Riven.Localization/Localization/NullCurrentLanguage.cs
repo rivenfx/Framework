@@ -8,7 +8,7 @@ namespace Riven.Localization
     {
         public LanguageInfo GetCurrentLanguage()
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }
