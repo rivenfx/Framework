@@ -14,10 +14,11 @@ namespace Riven
         /// </summary>
         /// <typeparam name="TDestination"></typeparam>
         /// <param name="source"></param>
+        /// <param name="config"></param>
         /// <returns></returns>
-        public static TDestination MapTo<TDestination>(this object source)
+        public static TDestination MapTo<TDestination>(this object source, TypeAdapterConfig config = null)
         {
-            return source.Adapt<TDestination>();
+            return source.Adapt<TDestination>(config);
         }
 
         /// <summary>
@@ -27,10 +28,11 @@ namespace Riven
         /// <typeparam name="TDestination"></typeparam>
         /// <param name="source"></param>
         /// <param name="destination"></param>
+        /// <param name="config"></param>
         /// <returns></returns>
-        public static TDestination MapTo<TDestination>(this object source, TDestination destination)
+        public static TDestination MapTo<TDestination>(this object source, TDestination destination, TypeAdapterConfig config = null)
         {
-            return source.Adapt(destination);
+            return source.Adapt(destination, config);
         }
 
         /// <summary>
