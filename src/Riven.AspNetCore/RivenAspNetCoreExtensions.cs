@@ -27,7 +27,7 @@ namespace Riven
         public static IServiceCollection AddRivenAspNetCore(this IServiceCollection services, Action<RivenAspNetCoreOptions> configurationAction = null)
         {
             services.AddOptions<RivenAspNetCoreOptions>();
-            
+
             services.Configure(configurationAction);
 
             services.TryAddSingleton<IRequestActionResultWrapperFactory, DefaultRequestActionResultWrapperFactory>();
@@ -51,13 +51,6 @@ namespace Riven
                 options.Filters.AddService<RequestActionFilter>();
             });
 
-            services.AddTransient<RequestResultFilter>();
-            services.Configure<MvcOptions>((options) =>
-            {
-                options.Filters.AddService<RequestResultFilter>();
-            });
-
-            
             return services;
         }
 
