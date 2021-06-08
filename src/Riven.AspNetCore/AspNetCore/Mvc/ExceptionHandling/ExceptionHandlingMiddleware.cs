@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -67,13 +67,23 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                     && requestActionInfo.IsObjectResult
                     )
                 {
-                    await HandleAndWrapException(context, ex, aspNetCoreOptions);
-                    aspNetCoreOptions.TriggerHandledException(this, ex);
+                    await HandleAndWrapException(
+                        context,
+                        ex,
+                        aspNetCoreOptions
+                        );
 
-                    if (wrapResultAttribute.LogError)
+                    if (ex is IHasLogLevel hasLogLevel)
+                    {
+                        logger.Log(hasLogLevel.LogLevel, ex, ex.Message);
+                    }
+                    else if (wrapResultAttribute.LogError)
                     {
                         logger.LogError(ex, ex.Message);
                     }
+
+                    aspNetCoreOptions.TriggerHandledException(this, ex);
+
                     return;
                 }
 
