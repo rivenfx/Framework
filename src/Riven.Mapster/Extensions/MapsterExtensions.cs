@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace Riven
+namespace Riven.Extensions
 {
     public static class MapsterExtensions
     {
