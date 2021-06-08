@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
@@ -6,17 +6,17 @@ using System.Text;
 namespace Riven.Exceptions
 {
     [Serializable]
-    public class UserFriendlyException : Exception
+    public class UserFriendlyException : Exception, IUserFriendlyException
     {
         /// <summary>
         /// Additional information about the exception.
         /// </summary>
-        public string Details { get; private set; }
+        public virtual string Details { get; protected set; }
 
         /// <summary>
         /// An arbitrary error code.
         /// </summary>
-        public int? Code { get; set; }
+        public virtual int? Code { get; set; }
 
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Riven.Exceptions
         /// </summary>
         public UserFriendlyException()
         {
-            
+
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Riven.Exceptions
         public UserFriendlyException(string message, Exception innerException)
             : base(message, innerException)
         {
-            
+
         }
 
         /// <summary>

@@ -128,7 +128,7 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
             {
                 return (int)HttpStatusCode.Unauthorized;
             }
-            else if (exception is UserFriendlyException userFriendlyException)
+            else if (exception is IUserFriendlyException userFriendlyException)
             {
                 if (userFriendlyException.Code.HasValue)
                 {
@@ -148,7 +148,7 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
         /// <returns></returns>
         protected virtual ErrorInfo CreateErrorInfo(HttpContext httpContext, Exception exception, RivenAspNetCoreOptions aspNetCoreOptions)
         {
-            if (exception is UserFriendlyException userFriendlyException)
+            if (exception is IUserFriendlyException userFriendlyException)
             {
                 return new ErrorInfo(userFriendlyException.Message, userFriendlyException.Details);
             }
