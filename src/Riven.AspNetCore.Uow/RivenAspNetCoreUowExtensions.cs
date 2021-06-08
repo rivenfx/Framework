@@ -1,15 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Linq;
 using Riven.AspNetCore.Mvc.Uow;
-using Riven.AspNetCore.FilterHandlers;
-using Riven.AspNetCore.Mvc.ExceptionHandling;
-using Microsoft.AspNetCore.Mvc;
-using Riven.AspNetCore.Mvc.Results;
-using Riven.AspNetCore.Mvc.Validation;
 using Riven.Uow;
 using Microsoft.AspNetCore.Builder;
 

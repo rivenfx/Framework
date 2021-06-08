@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc.Filters;
-using Riven.AspNetCore.FilterHandlers;
 using Riven.AspNetCore.Models;
 using Riven.AspNetCore.Mvc.Extensions;
 using Riven.Reflection;
