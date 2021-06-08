@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using Mapster;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace Riven
         {
             Check.NotNull(assembly, nameof(assembly));
 
-            TypeAdapterConfig.GlobalSettings.Scan(assembly);
+            TypeAdapterConfig.GlobalSettings.RegisterObjectMapper(assembly);
         }
 
         /// <summary>
