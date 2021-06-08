@@ -6,14 +6,16 @@ using System.Text;
 namespace Riven.Exceptions
 {
     [Serializable]
-    public class AuthorizationException : Exception
+    public class AuthorizationException : Exception, IAuthorizationException
     {
+        public int? Code { get; set; }
+
         /// <summary>
         /// Creates a new <see cref="AuthorizationException"/> object.
         /// </summary>
         public AuthorizationException()
         {
-            
+
         }
 
         /// <summary>
@@ -32,7 +34,7 @@ namespace Riven.Exceptions
         public AuthorizationException(string message)
             : base(message)
         {
-           
+
         }
 
         /// <summary>
@@ -43,7 +45,7 @@ namespace Riven.Exceptions
         public AuthorizationException(string message, Exception innerException)
             : base(message, innerException)
         {
-           
+
         }
     }
 }

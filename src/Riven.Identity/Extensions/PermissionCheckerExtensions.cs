@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Riven.Exceptions;
+using System.Net;
 
 namespace Riven.Extensions
 {
@@ -35,7 +36,10 @@ namespace Riven.Extensions
             {
                 errorMessageStringBuilder.AppendLine(stringLocalizer[permission]);
             }
-            throw new AuthorizationException(errorMessageStringBuilder.ToString());
+            throw new AuthorizationException(errorMessageStringBuilder.ToString())
+            {
+                Code = (int)HttpStatusCode.Forbidden
+            };
         }
 
 
@@ -64,7 +68,10 @@ namespace Riven.Extensions
             {
                 errorMessageStringBuilder.AppendLine(stringLocalizer[permission]);
             }
-            throw new AuthorizationException(errorMessageStringBuilder.ToString());
+            throw new AuthorizationException(errorMessageStringBuilder.ToString())
+            {
+                Code = (int)HttpStatusCode.Forbidden
+            };
         }
     }
 }

@@ -80,7 +80,12 @@ namespace Riven.Authorization
                         }
 
                         // TODO: 本地化异常
-                        throw new AuthorizationException(stringLocalizer["NotLoggedIn"]);
+                        throw new AuthorizationException(
+                            stringLocalizer["NotLoggedIn"]
+                            )
+                        {
+                            Code = (int)HttpStatusCode.Forbidden
+                        };
                     }
 
                     var permissionChecker = serviceProvider.GetRequiredService<IPermissionChecker>();

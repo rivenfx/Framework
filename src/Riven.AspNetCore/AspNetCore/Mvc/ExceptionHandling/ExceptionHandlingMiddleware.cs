@@ -47,9 +47,13 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                 }
 
                 // 认证鉴权异常
-                if (ex is AuthorizationException && context.IsAjax())
+                if (ex is IAuthorizationException && context.IsAjax())
                 {
-                    await HandleAndWrapException(context, ex, aspNetCoreOptions);
+                    await HandleAndWrapException(
+                        context, 
+                        ex, 
+                        aspNetCoreOptions
+                        );
                     aspNetCoreOptions.TriggerHandledException(this, ex);
 
                     logger.LogError(ex, ex.Message);
@@ -124,7 +128,7 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
         protected virtual int GetResponseStatusCode(HttpContext httpContext, Exception exception)
         {
             if (httpContext.GetAuthorizationException() != null
-               || (exception is AuthorizationException authorizationException))
+               || (exception is IAuthorizationException authorizationException))
             {
                 return (int)HttpStatusCode.Unauthorized;
             }
