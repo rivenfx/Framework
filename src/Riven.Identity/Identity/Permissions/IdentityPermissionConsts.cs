@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Riven.Identity.Permissions
 {
+    /// <summary>
+    /// 权限常量
+    /// </summary>
     public static class IdentityPermissionConsts
     {
         /// <summary>
