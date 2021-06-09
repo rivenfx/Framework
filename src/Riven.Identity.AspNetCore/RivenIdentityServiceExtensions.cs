@@ -15,7 +15,7 @@ namespace Riven
     public static class RivenIdentityServiceExtensions
     {
         /// <summary>
-        /// 添加 Riven Identity AspNetCore 服务
+        /// 添加 Riven Identity 服务
         /// </summary>
         /// <typeparam name="TUser"></typeparam>
         /// <typeparam name="TRole"></typeparam>
@@ -24,6 +24,25 @@ namespace Riven
         /// <param name="setupAction"></param>
         /// <returns></returns>
         public static IdentityBuilder AddRivenIdentity<TUser, TRole, TPermission>(this IServiceCollection services, Action<IdentityOptions> setupAction = null)
+            where TUser : class
+            where TRole : class
+            where TPermission : IdentityPermission
+        {
+            return services
+                   .AddRivenIdentityCore<TUser, TRole, TPermission>(setupAction)
+                   .AddRivenAspNetCorePermissionAuthorization();
+        }
+
+        /// <summary>
+        /// 添加 Riven Identity 核心服务
+        /// </summary>
+        /// <typeparam name="TUser"></typeparam>
+        /// <typeparam name="TRole"></typeparam>
+        /// <typeparam name="TPermission"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="setupAction"></param>
+        /// <returns></returns>
+        public static IdentityBuilder AddRivenIdentityCore<TUser, TRole, TPermission>(this IServiceCollection services, Action<IdentityOptions> setupAction = null)
             where TUser : class
             where TRole : class
             where TPermission : IdentityPermission
