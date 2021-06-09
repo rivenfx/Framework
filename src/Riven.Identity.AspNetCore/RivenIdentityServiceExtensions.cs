@@ -15,7 +15,7 @@ namespace Riven
     public static class RivenIdentityServiceExtensions
     {
         /// <summary>
-        /// 添加 Riven Identity 服务
+        /// 添加 Riven Identity ASP.NET Core 服务
         /// </summary>
         /// <typeparam name="TUser"></typeparam>
         /// <typeparam name="TRole"></typeparam>
@@ -34,7 +34,7 @@ namespace Riven
         }
 
         /// <summary>
-        /// 添加 Riven Identity 核心服务
+        /// 添加 Riven Identity ASP.NET Core 核心服务
         /// </summary>
         /// <typeparam name="TUser"></typeparam>
         /// <typeparam name="TRole"></typeparam>
