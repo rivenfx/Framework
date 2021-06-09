@@ -36,11 +36,18 @@ namespace Riven.Identity
         {
             var userId = await UserManager.GetUserIdAsync(user);
             var userName = await UserManager.GetUserNameAsync(user);
-            var id = new ClaimsIdentity("Identity.Application", // REVIEW: Used to match Application scheme
+
+            var id = new ClaimsIdentity(
+                // REVIEW: Used to match Application scheme
+                "Identity.Application", 
                 Options.ClaimsIdentity.UserNameClaimType,
-                Options.ClaimsIdentity.RoleClaimType);
+                Options.ClaimsIdentity.RoleClaimType
+                );
+
             id.AddClaim(new Claim(Options.ClaimsIdentity.UserIdClaimType, userId));
             id.AddClaim(new Claim(Options.ClaimsIdentity.UserNameClaimType, userName));
+
+
             if (UserManager.SupportsUserSecurityStamp)
             {
                 id.AddClaim(new Claim(Options.ClaimsIdentity.SecurityStampClaimType,

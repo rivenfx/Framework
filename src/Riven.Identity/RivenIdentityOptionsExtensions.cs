@@ -16,8 +16,7 @@ namespace Riven
         /// </summary>
         /// <param name="identityOptions"></param>
         /// <returns></returns>
-        public static IdentityOptions ConfigureRivenIdentity<TPermission>(this IdentityOptions identityOptions)
-             where TPermission : IdentityPermission
+        public static IdentityOptions ConfigureRivenIdentity(this IdentityOptions identityOptions)
         {
             IdentityInfo.Init(identityOptions);
             return identityOptions;

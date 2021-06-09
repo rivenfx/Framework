@@ -49,7 +49,7 @@ namespace Riven
         {
             var builder = services.AddIdentity<TUser, TRole>((options) =>
             {
-                options.ConfigureRivenIdentity<TPermission>();
+                options.ConfigureRivenIdentity();
                 setupAction?.Invoke(options);
             });
 

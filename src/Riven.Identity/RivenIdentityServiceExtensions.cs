@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Riven.Authorization;
 using Riven.Identity;
 using Riven.Identity.Permissions;
+using Riven.Identity.Roles;
 using Riven.Identity.Users;
 using Riven.Security;
 
@@ -14,6 +15,25 @@ namespace Riven
 {
     public static class RivenIdentityServiceExtensions
     {
+        /// <summary>
+        /// 添加 Riven identity 核心服务
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IdentityBuilder AddRivenIdentityCore<TPermission>(this IdentityBuilder builder)
+             where TPermission : IdentityPermission
+        {
+            IdentityInfo.PermissionType = typeof(TPermission);
+
+            builder.Services.AddRivenSecurity();
+
+            builder.Services.TryAddTransient<ICurrentUser, CurrentUser>();
+
+            builder.Services.TryAddTransient<IPermissionChecker, PermissionChecker>();
+
+            return builder;
+        }
+
 
         /// <summary>
         /// 添加权限存储器
@@ -85,24 +105,6 @@ namespace Riven
             return builder;
         }
 
-        /// <summary>
-        /// 添加 Riven identity 服务
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public static IdentityBuilder AddRivenIdentityCore<TPermission>(this IdentityBuilder builder)
-             where TPermission : IdentityPermission
-        {
-            IdentityInfo.PermissionType = typeof(TPermission);
-
-            builder.Services.AddRivenSecurity();
-
-            builder.Services.TryAddTransient<ICurrentUser, CurrentUser>();
-
-            builder.Services.TryAddTransient<IPermissionChecker, PermissionChecker>();
-
-            return builder;
-        }
 
         /// <summary>
         /// 添加权限初始化器
@@ -140,6 +142,25 @@ namespace Riven
                 });
 
             return builder;
+        }
+
+
+        /// <summary>
+        /// 添加 Rievn 实现的 UserClaimsPrincipalFactory
+        /// </summary>
+        /// <typeparam name="TUser"></typeparam>
+        /// <typeparam name="TRole"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IdentityBuilder AddRivenClaimsPrincipalFactory<TUser, TRole, TKey>(this IdentityBuilder builder)
+            where TUser : User<TKey>
+            where TRole : Role<TKey>
+            where TKey : IEquatable<TKey>
+        {
+            return builder.AddClaimsPrincipalFactory<
+                IdentityUserClaimsPrincipalFactory<TUser, TRole, TKey>
+                >();
         }
     }
 }
