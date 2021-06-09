@@ -49,7 +49,11 @@ namespace Riven.Authorization
 
 
             var permissionAttributes = routeEndpoint?.Metadata?
-                .GetOrderedMetadata<PermissionAuthorizeAttribute>()?.ToList();
+                .GetOrderedMetadata<Attribute>()
+                ?.Select(o => o as IPermissionAuthorizeAttribute)
+                ?.Where(o => o != null)
+                ?.ToList()
+                ;
 
             if (permissionAttributes == null || !permissionAttributes.Any())
             {
