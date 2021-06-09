@@ -19,9 +19,6 @@ namespace Riven.Authorization
             {
                 _permissions = value;
             }
-            //{
-            //    throw new Exception($"{nameof(PermissionAuthorizeAttribute.Permissions)} XX does not support the 'set'.");
-            //}
         }
 
         public virtual bool RequireAll { get; set; }
