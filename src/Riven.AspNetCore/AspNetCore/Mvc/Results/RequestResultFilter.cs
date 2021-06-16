@@ -75,7 +75,15 @@ namespace Riven.AspNetCore.Mvc.Results
             var methodInfo = context.HandlerMethod.MethodInfo;
 
             var wrapResultAttribute = ReflectionHelper
-                 .GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<WrapResultAttribute>(methodInfo);
+               .GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<WrapResultAttribute>(methodInfo);
+
+            if (wrapResultAttribute == null)
+            {
+                wrapResultAttribute = context.HttpContext.RequestServices
+                    .GetRequiredService<IOptions<RivenAspNetCoreOptions>>()
+                    .Value
+                    .DefaultWrapResultAttribute;
+            }
 
             if (!wrapResultAttribute.WrapOnSuccess)
             {
