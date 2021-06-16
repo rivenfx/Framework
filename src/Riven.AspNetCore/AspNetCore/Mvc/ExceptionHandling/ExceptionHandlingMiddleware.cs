@@ -91,7 +91,7 @@ namespace Riven.AspNetCore.Mvc.ExceptionHandling
                     return;
                 }
 
-                throw ex;
+                throw;
             }
 
         }

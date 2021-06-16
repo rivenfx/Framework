@@ -110,7 +110,7 @@ namespace Riven.Authorization
                 {
                     logger.LogError(ex, ex.Message);
                     httpContextAccessor.HttpContext.SetAuthorizationException(ex);
-                    throw ex;
+                    throw;
                 }
 
             }
