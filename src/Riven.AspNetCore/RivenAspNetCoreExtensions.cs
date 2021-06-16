@@ -10,6 +10,7 @@ using Riven.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Riven.AspNetCore.Mvc.Request;
 using Riven.AspNetCore.Mvc.Results.Wrapping;
+using Riven.AspNetCore.Mvc.Results;
 
 namespace Riven
 {
@@ -47,6 +48,14 @@ namespace Riven
             {
                 options.Filters.AddService<RequestActionFilter>();
             });
+
+            services.AddTransient<RequestResultFilter>();
+            services.Configure<MvcOptions>((options) =>
+            {
+                options.Filters.AddService<RequestResultFilter>();
+            });
+
+
 
             return services;
         }
