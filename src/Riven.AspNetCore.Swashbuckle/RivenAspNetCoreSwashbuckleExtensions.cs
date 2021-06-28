@@ -28,7 +28,11 @@ namespace Riven
             });
 
             // DynamicWebApi 
-            services.AddDynamicWebApi(dynamicWebApiConfigurationAction);
+            services.AddDynamicWebApi((options) =>
+            {
+                options.UseRivenDefault();
+                dynamicWebApiConfigurationAction?.Invoke(options);
+            });
 
             return services;
         }
