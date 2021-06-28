@@ -18,6 +18,11 @@ namespace Riven.Extensions
         /// <returns></returns>
         public static TDestination MapTo<TDestination>(this object source, TypeAdapterConfig config = null)
         {
+            if (config == null)
+            {
+                return source.Adapt<TDestination>();
+            }
+
             return source.Adapt<TDestination>(config);
         }
 
@@ -32,6 +37,11 @@ namespace Riven.Extensions
         /// <returns></returns>
         public static TDestination MapTo<TDestination>(this object source, TDestination destination, TypeAdapterConfig config = null)
         {
+            if (config == null)
+            {
+                return source.Adapt(destination);
+            }
+
             return source.Adapt(destination, config);
         }
 
