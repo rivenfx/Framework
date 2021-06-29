@@ -18,7 +18,6 @@ namespace Microsoft.AspNetCore.Builder
         public static IApplicationBuilder UseStaticFilesWithBaseHref(this IApplicationBuilder app,string baseHref)
         {
             // 默认的静态文件
-            // 默认的静态文件
             app.UseStaticFiles();
 
             // basehref 不等于 / 时需要映射 wwwroot 到 basehref 地址
