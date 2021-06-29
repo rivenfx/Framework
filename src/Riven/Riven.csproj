@@ -24,6 +24,7 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="Nito.AsyncEx" Version="5.0.0" />
+    <PackageReference Include="Riven.Modular" Version="0.0.8" />
   </ItemGroup>
 
 </Project>

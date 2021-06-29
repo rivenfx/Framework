@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Riven.Modular" Version="0.0.8" />
+    <ProjectReference Include="..\Riven\Riven.csproj" />
   </ItemGroup>
 
 </Project>
