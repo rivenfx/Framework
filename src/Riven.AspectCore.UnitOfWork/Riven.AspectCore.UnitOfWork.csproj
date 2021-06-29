@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+  <Import Project="..\..\version.props" />
+  <Import Project="..\..\repository_info.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Riven</RootNamespace>
+
+    <PackageId>Riven.AspectCore.UnitOfWork</PackageId>
+    <Description>Riven.AspectCore.UnitOfWork</Description>
+    <AssemblyName>Riven.AspectCore.UnitOfWork</AssemblyName>
+
+    <PackageTags>riven;framework;application framework;domain driven design;aspectcore;aop;unitofwork;uow</PackageTags>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riven.AspectCore\Riven.AspectCore.csproj" />
+    <ProjectReference Include="..\Riven.UnitOfWork\Riven.UnitOfWork.csproj" />
+  </ItemGroup>
+
+</Project>
