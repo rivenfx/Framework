@@ -30,20 +30,25 @@ namespace Riven
     public interface IRivenDbContext
     {
         /// <summary>
-        /// 实例本身
+        /// 依赖注入容器
         /// </summary>
-        IRivenDbContext Self { get; }
+        IServiceProvider ServiceProvider { get; }
 
+        /// <summary>
+        /// 日志
+        /// </summary>
+        ILogger Logger { get; }
+
+        /// <summary>
+        /// Guid 生成器
+        /// </summary>
+        IGuidGenerator GuidGenerator { get; }
 
         /// <summary>
         /// 是否审计自动设置租户名称
         /// </summary>
         bool AuditSuppressAutoSetTenantName { get; }
 
-        /// <summary>
-        /// 依赖注入容器
-        /// </summary>
-        IServiceProvider ServiceProvider { get; }
 
         /// <summary>
         /// 获取当前用户Id
@@ -51,52 +56,31 @@ namespace Riven
         /// <returns></returns>
         string CurrentUserId { get; }
 
+        /// <summary>
+        /// 获取当前租户名称
+        /// </summary>
+        string CurrentTenantName { get; }
+
+        /// <summary>
+        /// 当前工作单元提供者
+        /// </summary>
+        ICurrentUnitOfWorkProvider CurrentUnitOfWorkProvider { get; }
+
+
+        #region EFCore DbContext 独有方法
 
         /// <summary>
         /// 将实例转换为EntityEntry
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        EntityEntry ConvertToEntry(object obj);
-
-
-        /// <summary>
-        /// 获取当前租户名称
-        /// </summary>
-        string CurrentTenantName => this.GetT<IMultiTenancyProvider>()?.CurrentTenantNameOrNull();
-
-        /// <summary>
-        /// 日志
-        /// </summary>
-        ILogger Logger => this.GetT<ILogger>();
-
-        /// <summary>
-        /// Guid 生成器
-        /// </summary>
-        IGuidGenerator GuidGenerator => this.GetT<IGuidGenerator>();
-
-        /// <summary>
-        /// 当前工作单元提供者
-        /// </summary>
-        ICurrentUnitOfWorkProvider CurrentUnitOfWorkProvider =>
-           this.GetT<ICurrentUnitOfWorkProvider>();
-
-
-        /// <summary>
-        /// 获取服务实例
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <returns></returns>
-        TService GetT<TService>()
-           where TService : class
+        EntityEntry ConvertToEntry(object obj)
         {
-            if (this.ServiceProvider == null)
-            {
-                return default(TService);
-            }
-
-            return this.ServiceProvider.GetRequiredService<TService>();
+            return (this as DbContext)?.Entry(obj);
         }
+
+        #endregion
+
 
         #region Filter
 
@@ -106,8 +90,8 @@ namespace Riven
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="modelBuilder"></param>
         /// <param name="entityType"></param>
-        void ConfigureGlobalFilters<TEntity>(ModelBuilder modelBuilder)
-           where TEntity : class
+        public virtual void ConfigureGlobalFilters<TEntity>(ModelBuilder modelBuilder)
+                where TEntity : class
         {
             if (ServiceProvider == null)
             {
@@ -152,7 +136,7 @@ namespace Riven
         /// 应用审计
         /// </summary>
         /// <param name="changeTracker"></param>
-        void ApplyAudit(ChangeTracker changeTracker)
+        public virtual void ApplyAudit(ChangeTracker changeTracker)
         {
             if (ServiceProvider == null || !changeTracker.HasChanges())
             {
@@ -188,7 +172,7 @@ namespace Riven
         /// </summary>
         /// <param name="entry"></param>
         /// <param name="userId"></param>
-        void ApplyAuditForAddedEntity(EntityEntry entry, string userId)
+        public virtual void ApplyAuditForAddedEntity(EntityEntry entry, string userId)
         {
             if (ServiceProvider == null)
             {
@@ -207,7 +191,7 @@ namespace Riven
         /// </summary>
         /// <param name="entry"></param>
         /// <param name="userId"></param>
-        void ApplyAuditForModifiedEntity(EntityEntry entry, string userId)
+        public virtual void ApplyAuditForModifiedEntity(EntityEntry entry, string userId)
         {
             if (ServiceProvider == null)
             {
@@ -227,7 +211,7 @@ namespace Riven
         /// </summary>
         /// <param name="entry"></param>
         /// <param name="userId"></param>
-        void ApplyAuditForDeletedEntity(EntityEntry entry, string userId)
+        public virtual void ApplyAuditForDeletedEntity(EntityEntry entry, string userId)
         {
             if (ServiceProvider == null)
             {
@@ -248,7 +232,7 @@ namespace Riven
         /// 检查或设置Id
         /// </summary>
         /// <param name="entry"></param>
-        void CheckAndSetId(EntityEntry entry)
+        public virtual void CheckAndSetId(EntityEntry entry)
         {
             if (ServiceProvider == null)
             {
@@ -273,7 +257,7 @@ namespace Riven
         /// 检查或设置租户名称属性 - 必填
         /// </summary>
         /// <param name="entityAsObj"></param>
-        void CheckAndSetMustHaveTenantNameProperty(object entityAsObj)
+        public virtual void CheckAndSetMustHaveTenantNameProperty(object entityAsObj)
         {
             if (ServiceProvider == null)
             {
@@ -315,7 +299,7 @@ namespace Riven
         /// 检查或设置租户名称属性 - 非必填
         /// </summary>
         /// <param name="entityAsObj"></param>
-        void CheckAndSetMayHaveTenantNameProperty(object entityAsObj)
+        public virtual void CheckAndSetMayHaveTenantNameProperty(object entityAsObj)
         {
             if (ServiceProvider == null)
             {
@@ -349,7 +333,7 @@ namespace Riven
         /// </summary>
         /// <param name="entityAsObj"></param>
         /// <param name="userId"></param>
-        void SetCreationAuditProperties(object entityAsObj, string userId)
+        public virtual void SetCreationAuditProperties(object entityAsObj, string userId)
         {
             if (ServiceProvider == null)
             {
@@ -368,7 +352,7 @@ namespace Riven
         /// </summary>
         /// <param name="entityAsObj"></param>
         /// <param name="userId"></param>
-        void SetModificationAuditProperties(object entityAsObj, string userId)
+        public virtual void SetModificationAuditProperties(object entityAsObj, string userId)
         {
             if (ServiceProvider == null)
             {
@@ -386,7 +370,7 @@ namespace Riven
         /// 软删除
         /// </summary>
         /// <param name="entry"></param>
-        void CancelDeletionForSoftDelete(EntityEntry entry)
+        public virtual void CancelDeletionForSoftDelete(EntityEntry entry)
         {
             if (ServiceProvider == null)
             {
@@ -409,7 +393,7 @@ namespace Riven
         /// </summary>
         /// <param name="entityAsObj"></param>
         /// <param name="userId"></param>
-        void SetDeletionAuditProperties(object entityAsObj, string userId)
+        public virtual void SetDeletionAuditProperties(object entityAsObj, string userId)
         {
             if (ServiceProvider == null)
             {
@@ -470,7 +454,7 @@ namespace Riven
         /// </summary>
         /// <param name="entry"></param>
         /// <returns></returns>
-        bool IsHardDeleteEntity(EntityEntry entry)
+        public virtual bool IsHardDeleteEntity(EntityEntry entry)
         {
             if (CurrentUnitOfWorkProvider?.Current?.Items == null)
             {
