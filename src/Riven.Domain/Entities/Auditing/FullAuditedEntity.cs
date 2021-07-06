@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Riven.Entities.Auditing
 {
@@ -26,6 +26,7 @@ namespace Riven.Entities.Auditing
         /// <summary>
         /// Which user deleted this entity?
         /// </summary>
+        [System.ComponentModel.DataAnnotations.StringLength(128)]
         public virtual string Deleter { get; set; }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using Riven.Timing;
+using Riven.Timing;
 using System;
 
 namespace Riven.Entities.Auditing
@@ -27,6 +27,7 @@ namespace Riven.Entities.Auditing
         /// <summary>
         /// Creator of this entity.
         /// </summary>
+        [System.ComponentModel.DataAnnotations.StringLength(128)]
         public virtual string Creator { get; set; }
 
         /// <summary>
