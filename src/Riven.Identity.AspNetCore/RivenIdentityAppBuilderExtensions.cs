@@ -23,11 +23,9 @@ namespace Riven
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseRivenAuthentication(this IApplicationBuilder app, [NotNull] string schema = "Bearer")
+        public static IApplicationBuilder UseRivenAuthentication(this IApplicationBuilder app)
         {
-            Check.NotNullOrWhiteSpace(schema, nameof(schema));
-
-            return app.UseMiddleware<RivenAuthenticationMiddleware>(schema);
+            return app.UseMiddleware<RivenAuthenticationMiddleware>();
         }
     }
 }
