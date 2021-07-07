@@ -12,12 +12,12 @@ namespace Riven.Middlewares
     /// <summary>
     /// Jwt Authentication Middleware
     /// </summary>
-    public class JwtAuthenticationMiddleware
+    public class RivenAuthenticationMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly string _schema;
 
-        public JwtAuthenticationMiddleware(RequestDelegate next, string schema)
+        public RivenAuthenticationMiddleware(RequestDelegate next, string schema)
         {
             this._next = next;
             this._schema = schema;
