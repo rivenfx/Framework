@@ -19,15 +19,15 @@ namespace Riven
         }
 
         /// <summary>
-        /// Use jwt authentication
+        /// Use riven authentication middleware
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseJwtAuthentication(this IApplicationBuilder app, [NotNull] string schema = "Bearer")
+        public static IApplicationBuilder UseRivenAuthentication(this IApplicationBuilder app, [NotNull] string schema = "Bearer")
         {
             Check.NotNullOrWhiteSpace(schema, nameof(schema));
 
-            return app.UseMiddleware<JwtAuthenticationMiddleware>(schema);
+            return app.UseMiddleware<RivenAuthenticationMiddleware>(schema);
         }
     }
 }
