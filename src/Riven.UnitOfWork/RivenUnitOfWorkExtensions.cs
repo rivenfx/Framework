@@ -29,6 +29,9 @@ namespace Riven
             services.TryAddTransient<IUnitOfWorkManager, DefaultUnitOfWorkManager>();
             services.TryAddTransient<ICurrentUnitOfWorkProvider, AsyncLocalCurrentUnitOfWorkProvider>();
 
+            // 工作单元工作者
+            services.TryAddTransient<IUnitOfWorker, DefaultUnitOfWorker>();
+
             // 工作单元事务提供者
             services.TryAddTransient<IActiveTransactionProvider, NullActiveTransactionProvider>();
 
