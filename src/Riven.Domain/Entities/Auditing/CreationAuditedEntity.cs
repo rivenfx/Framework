@@ -7,7 +7,7 @@ namespace Riven.Entities.Auditing
     /// A shortcut of <see cref="CreationAuditedEntity{TPrimaryKey}"/> for most used primary key type (<see cref="long"/>).
     /// </summary>
     [Serializable]
-    public abstract class CreationAuditedEntity : CreationAuditedEntity<long>, IEntity
+    public abstract class CreationAuditedEntity : CreationAuditedEntity<long>
     {
 
     }

@@ -8,13 +8,20 @@ namespace Riven.Entities
     /// 实体接口
     /// </summary>
     /// <typeparam name="TPrimaryKey">主键类型</typeparam>
-    public interface IEntity<TPrimaryKey>
+    public interface IEntity<TPrimaryKey> : IEntity
     {
         /// <summary>
         /// Id
         /// </summary>
         TPrimaryKey Id { get; set; }
 
+    }
+
+    /// <summary>
+    /// 实体接口
+    /// </summary>
+    public interface IEntity
+    {
         /// <summary>
         /// 是否为临时对象
         /// </summary>
@@ -27,13 +34,5 @@ namespace Riven.Entities
         /// <param name="obj"></param>
         /// <returns></returns>
         bool EntityEquals(object obj);
-    }
-
-    /// <summary>
-    /// 实体接口,主键为long
-    /// </summary>
-    public interface IEntity : IEntity<long>
-    {
-
     }
 }
