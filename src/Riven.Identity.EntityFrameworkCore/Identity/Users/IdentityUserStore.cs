@@ -186,7 +186,7 @@ namespace Riven.Identity.Users
             }
 
             Context.Attach(user);
-            user.ConcurrencyStamp = Guid.NewGuid().ToString();
+            user.ConcurrencyStamp = Guid.NewGuid().ToString("N");
             Context.Update(user);
             try
             {

@@ -44,7 +44,7 @@ namespace Riven.Identity.Permissions
 
             if (string.IsNullOrWhiteSpace(permission.Id))
             {
-                permission.Id = Guid.NewGuid().ToString("N").Replace("-", string.Empty);
+                permission.Id = Guid.NewGuid().ToString("N");
             }
 
             await Context.AddAsync(permission);
@@ -64,7 +64,7 @@ namespace Riven.Identity.Permissions
             {
                 if (string.IsNullOrWhiteSpace(item.Id))
                 {
-                    item.Id = Guid.NewGuid().ToString("N").Replace("-", string.Empty);
+                    item.Id = Guid.NewGuid().ToString("N");
                 }
             }
 

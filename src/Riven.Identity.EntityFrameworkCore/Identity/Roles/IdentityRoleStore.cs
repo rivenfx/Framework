@@ -142,7 +142,7 @@ namespace Riven.Identity.Roles
                 throw new ArgumentNullException(nameof(role));
             }
             Context.Attach(role);
-            role.ConcurrencyStamp = Guid.NewGuid().ToString();
+            role.ConcurrencyStamp = Guid.NewGuid().ToString("N");
             Context.Update(role);
             try
             {
